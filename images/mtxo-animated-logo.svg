@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250">
+  <style>
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes glow {
+      0% { filter: drop-shadow(0 0 3px rgba(0, 184, 148, 0.3)); }
+      50% { filter: drop-shadow(0 0 8px rgba(0, 184, 148, 0.6)); }
+      100% { filter: drop-shadow(0 0 3px rgba(0, 184, 148, 0.3)); }
+    }
+    
+    @keyframes dash {
+      to { stroke-dashoffset: 0; }
+    }
+    
+    .hex-outer {
+      fill: rgba(0, 184, 148, 0.1);
+      stroke: #00b894;
+      stroke-width: 2;
+      animation: glow 3s infinite ease-in-out;
+    }
+    
+    .hex-inner {
+      fill: rgba(0, 184, 148, 0.15);
+      stroke: #00b894;
+      stroke-width: 1;
+      animation: float 5s infinite ease-in-out;
+    }
+    
+    .atom-orbit {
+      fill: none;
+      stroke: #00b894;
+      stroke-width: 1.5;
+      stroke-dasharray: 15, 5;
+      transform-origin: center;
+      animation: spin 20s linear infinite;
+    }
+    
+    .atom-orbit-2 {
+      animation-direction: reverse;
+      animation-duration: 15s;
+    }
+    
+    .atom-orbit-3 {
+      animation-duration: 25s;
+    }
+    
+    .electron {
+      fill: #00b894;
+      animation: glow 2s infinite ease-in-out;
+    }
+    
+    .core-lines {
+      fill: none;
+      stroke: #00b894;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      animation: dash 3s ease-in-out forwards infinite;
+    }
+    
+    .text-mtxo {
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      font-size: 32px;
+      fill: #2d3436;
+    }
+    
+    .text-labs {
+      font-family: 'Arial', sans-serif;
+      font-size: 18px;
+      fill: #00b894;
+    }
+  </style>
+  
+  <!-- Hexagon Background -->
+  <polygon class="hex-outer" points="125,30 210,72.5 210,157.5 125,200 40,157.5 40,72.5" />
+  <polygon class="hex-inner" points="125,60 180,87.5 180,142.5 125,170 70,142.5 70,87.5" />
+  
+  <!-- Atom Orbits -->
+  <ellipse class="atom-orbit atom-orbit-1" cx="125" cy="125" rx="90" ry="45" />
+  <ellipse class="atom-orbit atom-orbit-2" cx="125" cy="125" rx="45" ry="90" />
+  <ellipse class="atom-orbit atom-orbit-3" cx="125" cy="125" rx="70" ry="70" />
+  
+  <!-- Electrons -->
+  <circle class="electron" cx="215" cy="125" r="4" />
+  <circle class="electron" cx="125" cy="35" r="4" />
+  <circle class="electron" cx="35" cy="125" r="4" />
+  <circle class="electron" cx="125" cy="215" r="4" />
+  <circle class="electron" cx="195" cy="155" r="3" />
+  <circle class="electron" cx="55" cy="95" r="3" />
+  
+  <!-- Core Design -->
+  <g>
+    <path class="core-lines" d="M110,110 L140,110 L140,140 L110,140 Z" />
+    <path class="core-lines" d="M125,95 L125,155" />
+    <path class="core-lines" d="M95,125 L155,125" />
+    <path class="core-lines" d="M110,110 L140,140" />
+    <path class="core-lines" d="M110,140 L140,110" />
+  </g>
+  
+  <!-- Text -->
+  <text class="text-mtxo" x="125" y="220" text-anchor="middle">MTXO</text>
+  <text class="text-labs" x="125" y="240" text-anchor="middle">LABS</text>
+</svg>

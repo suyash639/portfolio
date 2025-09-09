@@ -1,0 +1,16 @@
+{
+  "name": "Suyash Tiwari - AI Engineer Portfolio",
+  "short_name": "Suyash Tiwari",
+  "description": "AI Engineer and Full Stack Developer passionate about impactful AI & software solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff7a00",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
