@@ -1,270 +1,909 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suyash Tiwari | AI Engineer & Full Stack Developer</title>
-    <meta name="description" content="Portfolio of Suyash Tiwari, AI Engineer and Full Stack Developer specializing in AI solutions and web development.">
+    <title>Suyash Tiwari | AI Systems & Infrastructure Engineer</title>
+    <meta name="description" content="Portfolio of Suyash Tiwari — AI Systems Engineer specializing in Autonomous Multi-Agent Orchestration, High-Throughput Inference Optimization, RAG Architectures, and Resilient AI Data Pipelines.">
+    <meta name="keywords" content="Suyash Tiwari, AI Engineer, Multi-Agent Systems, Arbiter, InferOpt, Neptunus Power, LangChain, FastAPI, LLaMA, AI Infrastructure">
+    <meta name="author" content="Suyash Tiwari">
+    <meta property="og:title" content="Suyash Tiwari | AI Systems & Infrastructure Engineer">
+    <meta property="og:description" content="Cinematic exploration of production AI systems, multi-agent architectures, inference optimization, and resilient data pipelines.">
+    <meta property="og:type" content="website">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     
-    <!-- Fonts -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
-    
-    <!-- Preload JS -->
-    <link rel="preload" href="js/main.js" as="script">
-    <link rel="preload" href="js/animations.js" as="script">
-    <link rel="preload" href="js/physics.js" as="script">
 </head>
-<body>
-    <!-- Cursor Effects -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-circle"></div>
-    
-    <!-- Background Effects -->
-    <div class="background-container">
-        <canvas id="background-canvas"></canvas>
+<body class="dark-mode">
+    <!-- Top Narrative Progress HUD Bar -->
+    <div id="scroll-progress-bar" aria-hidden="true"></div>
+
+    <!-- Fluid Contextual Cursor Engine -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-circle" id="cursor-circle">
+        <span class="cursor-tag" id="cursor-tag"></span>
     </div>
-    
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">ST</div>
-            <nav class="nav">
+    <div class="cursor-glow" id="cursor-glow"></div>
+
+    <!-- Ambient WebGL & Computational Grid Background -->
+    <div class="background-container" aria-hidden="true">
+        <canvas id="background-canvas"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="vignette-overlay"></div>
+    </div>
+
+    <!-- Floating HUD Header -->
+    <header class="header" id="main-header">
+        <div class="container header-container">
+            <a href="#hero" class="logo" aria-label="Suyash Tiwari Home">
+                <span class="logo-symbol">◈</span>
+                <span class="logo-text">SUYASH<span class="logo-accent">.AI</span></span>
+            </a>
+
+            <!-- Desktop HUD Navigation -->
+            <nav class="nav" aria-label="Main Navigation">
                 <ul class="nav-list">
-                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-                    <li class="nav-item"><a href="#projects" class="nav-link">Projects</a></li>
-                    <li class="nav-item"><a href="#mtxo" class="nav-link">MTXO Labs</a></li>
-                    <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
-                    <li class="nav-item"><a href="#experience" class="nav-link">Experience</a></li>
-                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                    <li class="nav-item"><a href="#philosophy" class="nav-link"><span class="nav-idx">01</span>Philosophy</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link"><span class="nav-idx">02</span>Profile</a></li>
+                    <li class="nav-item"><a href="#experience" class="nav-link"><span class="nav-idx">03</span>Experience</a></li>
+                    <li class="nav-item"><a href="#flagship" class="nav-link"><span class="nav-idx">04</span>Flagship</a></li>
+                    <li class="nav-item"><a href="#systems" class="nav-link"><span class="nav-idx">05</span>Systems</a></li>
+                    <li class="nav-item"><a href="#capabilities" class="nav-link"><span class="nav-idx">06</span>Radar</a></li>
+                    <li class="nav-item"><a href="#skills" class="nav-link"><span class="nav-idx">07</span>Physics</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link"><span class="nav-idx">08</span>Terminal</a></li>
                 </ul>
             </nav>
-            <button class="theme-toggle" aria-label="Toggle dark mode">
-                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
-        </div>
-    </header>
-    
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1 class="hero-name">Suyash Tiwari</h1>
-            <h2 class="hero-title">AI Engineer & <span class="accent">Full Stack Developer</span></h2>
-            <p class="hero-subtitle">Building the future with artificial intelligence, one line of code at a time. Currently revolutionizing education at MTXO Labs.</p>
-            <div class="hero-cta">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <div class="telemetry-badge" title="System Ready">
+                    <span class="pulse-dot"></span>
+                    <span class="telemetry-text">SYSTEM ONLINE</span>
+                </div>
+
+                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle visual theme">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="12" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                <!-- Mobile Navigation Trigger -->
+                <button class="mobile-nav-toggle" id="mobile-nav-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
             </div>
         </div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-card">
-                <div class="about-content">
-                    <div class="about-header">
-                        <h3 class="about-name">Suyash Tiwari</h3>
-                        <div class="about-title">AI Engineer & Full Stack Developer</div>
+
+        <!-- Mobile Drawer -->
+        <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+            <ul class="mobile-nav-list">
+                <li><a href="#philosophy" class="mobile-nav-link"><span class="nav-idx">01</span> Philosophy</a></li>
+                <li><a href="#about" class="mobile-nav-link"><span class="nav-idx">02</span> Profile</a></li>
+                <li><a href="#experience" class="mobile-nav-link"><span class="nav-idx">03</span> Professional Journey</a></li>
+                <li><a href="#flagship" class="mobile-nav-link"><span class="nav-idx">04</span> Flagship Projects</a></li>
+                <li><a href="#systems" class="mobile-nav-link"><span class="nav-idx">05</span> Production Systems</a></li>
+                <li><a href="#capabilities" class="mobile-nav-link"><span class="nav-idx">06</span> Engineering Radar</a></li>
+                <li><a href="#skills" class="mobile-nav-link"><span class="nav-idx">07</span> Physics Playground</a></li>
+                <li><a href="#contact" class="mobile-nav-link"><span class="nav-idx">08</span> Contact Terminal</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- 01. CINEMATIC HERO OPENING SCENE -->
+        <section id="hero" class="hero-section">
+            <div class="container hero-container">
+                <div class="hero-hud-header" data-reveal>
+                    <div class="status-indicator">
+                        <span class="live-dot"></span>
+                        <span class="status-text">AI ENGINEER & SYSTEMS ARCHITECT</span>
                     </div>
-                    <p class="about-text">
-                        I'm <span class="accent">Suyash Tiwari</span>, an AI Engineer and Full Stack Developer passionate about creating impactful AI & software solutions. My internships at Netsmartz (AI Intern) and NASA ATX provided hands-on experience with <span class="tech-highlight">LangChain</span>, <span class="tech-highlight">FastAPI</span>, <span class="tech-highlight">LLaMA</span>, multi-agent systems, and advanced AI pipelines. Currently building MTXO Labs, an AI-powered edtech startup revolutionizing personalized learning.
+                    <div class="system-coord">LOCATION: INDIA // AVAILABLE WORLDWIDE</div>
+                </div>
+
+                <div class="hero-content">
+                    <h1 class="hero-name" data-reveal>
+                        <span class="glitch-text" data-text="Suyash Tiwari">Suyash Tiwari</span>
+                    </h1>
+
+                    <div class="hero-title-wrapper" data-reveal>
+                        <h2 class="hero-title">
+                            Architecting <span class="accent-gradient">Autonomous AI Agents</span>, <br>
+                            High-Throughput Inference & Resilient Systems.
+                        </h2>
+                    </div>
+
+                    <p class="hero-subtitle" data-reveal>
+                        Bridging rigorous distributed systems engineering with state-of-the-art LLM orchestration, 
+                        deterministic tool execution, hybrid RAG pipelines, and sub-100ms model routing.
                     </p>
-                    <div class="about-achievements">
-                        <div class="achievement">
-                            <div class="achievement-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 20h9"></path>
-                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                                </svg>
-                            </div>
-                            <div class="achievement-content">
-                                <h3 class="achievement-title">500+</h3>
-                                <p class="achievement-text">DSA Problems Solved</p>
-                            </div>
+
+                    <!-- Real telemetry strip -->
+                    <div class="hero-metrics-strip" data-reveal>
+                        <div class="metric-block">
+                            <div class="metric-val">100%</div>
+                            <div class="metric-label">Benchmark Eval (45/45 Tests)</div>
                         </div>
-                        <div class="achievement">
-                            <div class="achievement-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                </svg>
-                            </div>
-                            <div class="achievement-content">
-                                <h3 class="achievement-title">15+</h3>
-                                <p class="achievement-text">Projects Completed</p>
-                            </div>
+                        <div class="metric-divider"></div>
+                        <div class="metric-block">
+                            <div class="metric-val">500+</div>
+                            <div class="metric-label">Algorithmic DSA Solved</div>
                         </div>
-                        <div class="achievement">
-                            <div class="achievement-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                                </svg>
-                            </div>
-                            <div class="achievement-content">
-                                <h3 class="achievement-title">2</h3>
-                                <p class="achievement-text">Internships Completed</p>
-                            </div>
+                        <div class="metric-divider"></div>
+                        <div class="metric-block">
+                            <div class="metric-val">15+</div>
+                            <div class="metric-label">Production & Research Systems</div>
+                        </div>
+                        <div class="metric-divider"></div>
+                        <div class="metric-block">
+                            <div class="metric-val">&lt;100ms</div>
+                            <div class="metric-label">Inference Routing Latency</div>
                         </div>
                     </div>
-                    <div class="about-links">
-                        <a href="https://drive.google.com/file/d/1IOuQdRMY-4gP3WRSckKMMjX7fr_J9vDj/view?usp=drive_link" class="btn btn-primary resume-btn" target="_blank" rel="noopener noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            Download Resume
+
+                    <!-- Magnetic Action Buttons -->
+                    <div class="hero-actions" data-reveal>
+                        <a href="#flagship" class="btn btn-primary magnetic-btn" data-cursor="link">
+                            <span class="btn-glow"></span>
+                            <span class="btn-content">
+                                <span>Explore Flagship Systems</span>
+                                <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </span>
                         </a>
-                        <div class="social-links-container">
-                            <a href="https://github.com/suyash639" class="social-link github" target="_blank" rel="noopener noreferrer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                                </svg>
-                                GitHub
-                            </a>
-                            <a href="https://www.linkedin.com/in/suyash-tiwari-25aba6290/" class="social-link linkedin" target="_blank" rel="noopener noreferrer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                    <rect x="2" y="9" width="4" height="12"></rect>
-                                    <circle cx="4" cy="4" r="2"></circle>
-                                </svg>
-                                LinkedIn
-                            </a>
-                            <a href="https://leetcode.com/u/so_yeah_sh_alt/" class="social-link leetcode" target="_blank" rel="noopener noreferrer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                    <path d="M2 17l10 5 10-5"></path>
-                                    <path d="M2 12l10 5 10-5"></path>
-                                </svg>
-                                LeetCode
-                            </a>
-                        </div>
+                        <a href="#philosophy" class="btn btn-secondary magnetic-btn" data-cursor="link">
+                            <span class="btn-content">
+                                <span>System Philosophy</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+                            </span>
                         </a>
-                        <a href="https://linkedin.com/in/suyashtiwari" class="social-link linkedin" target="_blank" rel="noopener noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="mailto:suyashtiwari8853@gmail.com" class="social-link email">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                            <span>Email</span>
+                        <a href="#contact" class="btn btn-tertiary magnetic-btn" data-cursor="link">
+                            <span class="btn-content">
+                                <span>Direct Dispatch</span>
+                            </span>
                         </a>
                     </div>
                 </div>
+
+                <!-- Scroll Indicator -->
+                <div class="hero-scroll-indicator" data-reveal>
+                    <div class="mouse-icon">
+                        <div class="wheel"></div>
+                    </div>
+                    <span class="scroll-label">SCROLL TO INITIALIZE NARRATIVE</span>
+                </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="project-card" data-project="vscode-debug-agent">
-                    <div class="project-thumbnail">
-                        <div class="project-thumbnail-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
-                            </svg>
+        </section>
+
+        <!-- 02. SYSTEM PHILOSOPHY NARRATIVE -->
+        <section id="philosophy" class="philosophy-section">
+            <div class="container">
+                <div class="section-meta" data-reveal>
+                    <span class="meta-number">01</span>
+                    <span class="meta-title">ENGINEERING PHILOSOPHY</span>
+                    <div class="meta-line"></div>
+                </div>
+
+                <div class="philosophy-intro" data-reveal>
+                    <h2 class="philosophy-headline">
+                        Modern AI systems must transcend passive completion. <br>
+                        <span class="accent-gradient">They must reason, act, and survive in production.</span>
+                    </h2>
+                    <p class="philosophy-subtext">
+                        A prompt is not an architecture. Transforming generative models into mission-critical digital products demands deterministic safeguards, multi-agent consensus, rigorous evaluation, and ultra-low latency infrastructure.
+                    </p>
+                </div>
+
+                <!-- Progressive Evolution Cards -->
+                <div class="philosophy-grid">
+                    <div class="philosophy-card" data-step="01" data-reveal>
+                        <div class="card-step-badge">PILLAR 01</div>
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <h3 class="card-title">AI Should Reason</h3>
+                        <p class="card-desc">
+                            Beyond naive generation, systems require structured decomposition, multi-step tree-of-thought verification, stateful graph memory, and explicit consensus loops.
+                        </p>
+                        <div class="card-tag">Graph State Machines & Intent Decoders</div>
+                    </div>
+
+                    <div class="philosophy-card" data-step="02" data-reveal>
+                        <div class="card-step-badge">PILLAR 02</div>
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path><path d="M10 7v6l4 2"></path></svg>
+                        </div>
+                        <h3 class="card-title">AI Should Retrieve</h3>
+                        <p class="card-desc">
+                            Grounding output with hybrid sparse-dense vector search, contextual chunking, re-ranking algorithms, and cryptographically verified provenance citations.
+                        </p>
+                        <div class="card-tag">ChromaDB • Hybrid RAG • Citation Graphs</div>
+                    </div>
+
+                    <div class="philosophy-card" data-step="03" data-reveal>
+                        <div class="card-step-badge">PILLAR 03</div>
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                        </div>
+                        <h3 class="card-title">AI Should Use Tools</h3>
+                        <p class="card-desc">
+                            Deterministic interaction via strict Pydantic schemas, Model Context Protocol (MCP) integrations, parameter sandboxing, and idempotent API execution.
+                        </p>
+                        <div class="card-tag">MCP Protocols • Deterministic Tools</div>
+                    </div>
+
+                    <div class="philosophy-card" data-step="04" data-reveal>
+                        <div class="card-step-badge">PILLAR 04</div>
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                        <h3 class="card-title">AI Should Act</h3>
+                        <p class="card-desc">
+                            Autonomous multi-agent taskforces orchestrating specialist roles (Book QA, Notes Desk, Market Analysis) with human-in-the-loop validation checkpoints.
+                        </p>
+                        <div class="card-tag">Multi-Agent Taskforces • Specialist Desks</div>
+                    </div>
+
+                    <div class="philosophy-card" data-step="05" data-reveal>
+                        <div class="card-step-badge">PILLAR 05</div>
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <h3 class="card-title">AI Should Be Evaluated</h3>
+                        <p class="card-desc">
+                            Continuous regression suites, prompt injection boundary testing, schema compliance checks, and deterministic offline benchmark suites ensuring zero regressions.
+                        </p>
+                        <div class="card-tag">Pytest • 100% Eval Suites • Injection Guards</div>
+                    </div>
+
+                    <div class="philosophy-card" data-step="06" data-reveal>
+                        <div class="card-step-badge">PILLAR 06</div>
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        </div>
+                        <h3 class="card-title">AI Should Work in Production</h3>
+                        <p class="card-desc">
+                            Hardened with circuit breakers, exponential jitter backoff, PII redaction gateways, P50/P95 telemetry observability, and dynamic inference cache reuse.
+                        </p>
+                        <div class="card-tag">Circuit Breakers • Telemetry • Sub-100ms</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. WHO I AM / PROFILE -->
+        <section id="about" class="about-section">
+            <div class="container">
+                <div class="section-meta" data-reveal>
+                    <span class="meta-number">02</span>
+                    <span class="meta-title">ENGINEER PROFILE</span>
+                    <div class="meta-line"></div>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-main-card" data-reveal>
+                        <div class="card-header-bar">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="terminal-title">suyash_tiwari_profile.sys</span>
+                        </div>
+
+                        <div class="about-content-inner">
+                            <div class="profile-header">
+                                <div class="profile-avatar">
+                                    <div class="avatar-glow"></div>
+                                    <span class="avatar-initials">ST</span>
+                                </div>
+                                <div class="profile-titles">
+                                    <h3 class="profile-name">Suyash Tiwari</h3>
+                                    <div class="profile-role">AI Systems Engineer & Full Stack Developer</div>
+                                    <div class="profile-location">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                        <span>India • Available Worldwide</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="about-text-block">
+                                <p class="lead-bio">
+                                    I am an <span class="text-accent">AI Engineer and Systems Developer</span> focused on building resilient autonomous multi-agent orchestration engines, high-throughput LLM inference infrastructure, and mission-critical AI backend pipelines.
+                                </p>
+                                <p class="secondary-bio">
+                                    My background spans intensive AI engineering at <strong class="text-white">NASA ATX</strong> (astronaut machine learning simulations in Florida, USA) and <strong class="text-white">Netsmartz</strong> (enterprise LangChain NLP and RAG pipelines in Chandigarh, India), alongside industrial telemetry and systems reliability engineering at <strong class="text-white">Neptunus Power</strong>.
+                                </p>
+                            </div>
+
+                            <!-- Verified Achievements -->
+                            <div class="achievements-row">
+                                <div class="achievement-item">
+                                    <div class="achieve-num">500+</div>
+                                    <div class="achieve-lbl">DSA Problems Solved</div>
+                                    <div class="achieve-sub">LeetCode & Competitive Algorithmic Mastery</div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achieve-num">15+</div>
+                                    <div class="achieve-lbl">Systems Engineered</div>
+                                    <div class="achieve-sub">Agentic Frameworks, APIs & Full-Stack Apps</div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achieve-num">3</div>
+                                    <div class="achieve-lbl">Engineering Organizations</div>
+                                    <div class="achieve-sub">NASA ATX, Netsmartz, Neptunus Power</div>
+                                </div>
+                            </div>
+
+                            <!-- Action & Social Links -->
+                            <div class="about-action-bar">
+                                <a href="https://drive.google.com/file/d/1zQOKpLPPiqf-0QjIViL9AksmDLmCG1So/view" class="btn btn-primary resume-btn" data-cursor="link" target="_blank" rel="noopener noreferrer">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                    <span>Download Resume (PDF)</span>
+                                </a>
+
+                                <div class="social-pills">
+                                    <a href="https://github.com/suyash639" class="social-pill" data-cursor="link" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                                        <span>GitHub</span>
+                                    </a>
+                                    <a href="https://www.linkedin.com/in/suyash-tiwari-25aba6290/" class="social-pill" data-cursor="link" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                        <span>LinkedIn</span>
+                                    </a>
+                                    <a href="https://leetcode.com/u/so_yeah_sh_alt/" class="social-pill" data-cursor="link" target="_blank" rel="noopener noreferrer" title="LeetCode Profile">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                                        <span>LeetCode</span>
+                                    </a>
+                                    <a href="mailto:suyashtiwari8853@gmail.com" class="social-pill" data-cursor="link" title="Email Suyash">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                        <span>Email</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-content">
+                </div>
+            </div>
+        </section>
+
+        <!-- 04. PROFESSIONAL EXPERIENCE JOURNEY -->
+        <section id="experience" class="experience-section">
+            <div class="container">
+                <div class="section-meta" data-reveal>
+                    <span class="meta-number">03</span>
+                    <span class="meta-title">PROFESSIONAL JOURNEY</span>
+                    <div class="meta-line"></div>
+                </div>
+
+                <div class="experience-header" data-reveal>
+                    <h2 class="section-heading">Real-World Engineering Experience</h2>
+                    <p class="section-subheading">A track record of engineering scalable, mission-critical systems across industrial telemetry, enterprise NLP, and aerospace ML research.</p>
+                </div>
+
+                <div class="timeline-container">
+                    <div class="timeline-spine"></div>
+
+                    <!-- Experience 01: NEPTUNUS POWER -->
+                    <div class="timeline-card-wrapper" data-reveal>
+                        <div class="timeline-node">
+                            <span class="node-pulse"></span>
+                        </div>
+                        <div class="timeline-card featured-org">
+                            <div class="timeline-card-header">
+                                <div class="org-badge">REAL-WORLD ENGINEERING EXPERIENCE</div>
+                                <div class="org-period">2025 – Present</div>
+                            </div>
+                            <h3 class="org-title">Neptunus Power</h3>
+                            <div class="org-role">Engineering Experience // Industrial Telemetry & Systems Reliability</div>
+                            
+                            <div class="org-chapter-phases">
+                                <div class="org-phase-item">
+                                    <div class="phase-subhead">ENGINEERING CONTRIBUTIONS</div>
+                                    <p class="phase-body">
+                                        Focused on real-world industrial systems engineering, operational telemetry capture, sensor data normalization, and failure mode analysis. Engineered reliable data pipelines connecting field equipment with centralized monitoring services.
+                                    </p>
+                                </div>
+                                <div class="org-phase-item">
+                                    <div class="phase-subhead">TECHNICAL IMPACT</div>
+                                    <p class="phase-body">
+                                        Implemented fault-tolerant edge-to-cloud data ingestion and telemetry processing workflows designed for high-availability industrial environments.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="org-tags">
+                                <span class="tech-tag">Industrial Telemetry</span>
+                                <span class="tech-tag">Systems Reliability</span>
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Data Infrastructure</span>
+                                <span class="tech-tag">Edge Computing</span>
+                                <span class="tech-tag">Fault-Tolerant Pipelines</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience 02: NASA ATX -->
+                    <div class="timeline-card-wrapper" data-reveal>
+                        <div class="timeline-node">
+                            <span class="node-pulse"></span>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="timeline-card-header">
+                                <div class="org-badge">RESEARCH TRAINEESHIP</div>
+                                <div class="org-period">Summer 2025</div>
+                            </div>
+                            <h3 class="org-title">NASA ATX</h3>
+                            <div class="org-role">Summer Trainee // Florida, USA</div>
+                            
+                            <div class="org-chapter-phases">
+                                <div class="org-phase-item">
+                                    <div class="phase-subhead">ENGINEERING CONTRIBUTIONS</div>
+                                    <p class="phase-body">
+                                        Developed AI-based astronaut training simulations and machine learning models for space mission planning at Florida, USA. Implemented advanced neural networks for predictive analytics in mission-critical aerospace environments.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="org-tags">
+                                <span class="tech-tag">TensorFlow</span>
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Computer Vision</span>
+                                <span class="tech-tag">Neural Networks</span>
+                                <span class="tech-tag">Aerospace ML</span>
+                                <span class="tech-tag">Florida, USA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience 03: NETSMARTZ -->
+                    <div class="timeline-card-wrapper" data-reveal>
+                        <div class="timeline-node">
+                            <span class="node-pulse"></span>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="timeline-card-header">
+                                <div class="org-badge">ENTERPRISE INTERNSHIP</div>
+                                <div class="org-period">2025</div>
+                            </div>
+                            <h3 class="org-title">Netsmartz</h3>
+                            <div class="org-role">AI Intern // Chandigarh, INDIA</div>
+                            
+                            <div class="org-chapter-phases">
+                                <div class="org-phase-item">
+                                    <div class="phase-subhead">ENGINEERING CONTRIBUTIONS</div>
+                                    <p class="phase-body">
+                                        Built enterprise NLP solutions using LangChain and FastAPI at Chandigarh, INDIA. Designed and implemented RAG pipelines for knowledge extraction and document processing systems that improved information retrieval by 40%.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="org-tags">
+                                <span class="tech-tag">LangChain</span>
+                                <span class="tech-tag">FastAPI</span>
+                                <span class="tech-tag">RAG</span>
+                                <span class="tech-tag">NLP</span>
+                                <span class="tech-tag">+40% Retrieval Efficiency</span>
+                                <span class="tech-tag">Chandigarh, INDIA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. FLAGSHIP FEATURED PROJECTS (DEEP CHAPTER STORYTELLING) -->
+        <section id="flagship" class="flagship-section">
+            <div class="container">
+                <div class="section-meta" data-reveal>
+                    <span class="meta-number">04</span>
+                    <span class="meta-title">FLAGSHIP SYSTEMS ARCHITECTURE</span>
+                    <div class="meta-line"></div>
+                </div>
+
+                <div class="flagship-header" data-reveal>
+                    <h2 class="section-heading">Deep-Dive Chapter Case Studies</h2>
+                    <p class="section-subheading">Engineering case studies with progressive reveals, interactive topologies, and verified real-world architectures.</p>
+                </div>
+
+                <!-- CHAPTER 01: ARBITER -->
+                <article class="chapter-card" id="chapter-arbiter" data-reveal>
+                    <div class="chapter-header-strip">
+                        <div class="chapter-num">CHAPTER 01</div>
+                        <div class="chapter-type">DETERMINISTIC MULTI-AGENT ORCHESTRATION</div>
+                        <div class="chapter-status">45/45 EVALS PASSED (100.0%)</div>
+                    </div>
+
+                    <div class="chapter-body">
+                        <div class="chapter-narrative">
+                            <h3 class="chapter-title">Arbiter</h3>
+                            <h4 class="chapter-tagline">Deterministic Multi-Agent Financial Operations Orchestration Console</h4>
+
+                            <div class="story-phase">
+                                <div class="phase-title">01 // THE CORE CHALLENGE</div>
+                                <p class="phase-text">
+                                    Generative LLMs in financial operations introduce severe risks: hallucinations of monetary figures, prompt injection vulnerabilities, client data leakage, and non-deterministic tool executions that fail regulatory audits.
+                                </p>
+                            </div>
+
+                            <div class="story-phase">
+                                <div class="phase-title">02 // ARCHITECTURAL SOLUTION</div>
+                                <p class="phase-text">
+                                    Built an 8-tier multi-agent orchestrator featuring 6 domain specialist desks (Book QA, KYC Profile, Notes Desk, Market Desk, Compliance, Orchestrator), 24 registered deterministic tools with strict Pydantic schemas, client-scoped data isolation, and automated PII redaction.
+                                </p>
+                            </div>
+
+                            <div class="story-phase">
+                                <div class="phase-title">03 // RELIABILITY & BENCHMARKS</div>
+                                <p class="phase-text">
+                                    Engineered circuit breakers with exponential backoff & full jitter, alongside an offline benchmark evaluation suite achieving <strong class="text-white">100.0% accuracy across 45 test cases</strong> (Routing, Factual, Citation, Safety Refusal, and Schema Compliance).
+                                </p>
+                            </div>
+
+                            <div class="chapter-tech-row">
+                                <span class="tech-tag">React 19</span>
+                                <span class="tech-tag">TypeScript</span>
+                                <span class="tech-tag">FastAPI</span>
+                                <span class="tech-tag">6 Specialist Desks</span>
+                                <span class="tech-tag">24 Verified Tools</span>
+                                <span class="tech-tag">Circuit Breakers</span>
+                                <span class="tech-tag">Pytest (390+ Tests)</span>
+                            </div>
+
+                            <div class="chapter-action-bar">
+                                <button class="btn btn-primary open-modal-btn" data-project="arbiter" data-cursor="link">
+                                    <span>Deep System Breakdown</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Architecture Visualizer for Arbiter -->
+                        <div class="chapter-visualizer">
+                            <div class="viz-header">
+                                <span class="viz-title">INTERACTIVE ORCHESTRATION GRAPH</span>
+                                <span class="viz-status">LIVE TOPOLOGY // CLICK NODES</span>
+                            </div>
+                            
+                            <div class="arch-graph" id="arbiter-arch-graph">
+                                <div class="arch-node interactive-node" data-cursor="inspect" data-node="gateway" data-info="Untrusted input gateway enforcing prompt injection heuristics, token boundaries, and automated PII redaction.">
+                                    <div class="node-badge">GATEWAY</div>
+                                    <div class="node-name">Security Gateway</div>
+                                    <div class="node-sub">Injection Guard & PII Redaction</div>
+                                </div>
+                                <div class="arch-flow-arrow">▼</div>
+                                <div class="arch-node interactive-node active-node" data-cursor="inspect" data-node="orchestrator" data-info="Central intent classification router analyzing client context and delegating execution to the appropriate specialist desk.">
+                                    <div class="node-badge">ROUTER</div>
+                                    <div class="node-name">Arbiter Orchestrator</div>
+                                    <div class="node-sub">Intent Classification & Delegation</div>
+                                </div>
+                                <div class="arch-flow-arrow">▼</div>
+                                <div class="arch-desks-grid">
+                                    <div class="desk-pill interactive-node" data-cursor="inspect" data-node="book_qa" data-info="Book QA Specialist: Querying financial ledger entries, balance sheets, and transaction journals.">Book QA</div>
+                                    <div class="desk-pill interactive-node" data-cursor="inspect" data-node="kyc" data-info="KYC Profile Specialist: Accessing verified client identity records with deterministic PII masking.">KYC Profile</div>
+                                    <div class="desk-pill interactive-node" data-cursor="inspect" data-node="notes" data-info="Notes Desk Specialist: Retrieving contextual advisor notes and transaction memos with client scoping.">Notes Desk</div>
+                                    <div class="desk-pill interactive-node" data-cursor="inspect" data-node="market" data-info="Market Desk Specialist: Processing live asset tickers, market quotes, and order book metrics.">Market Desk</div>
+                                    <div class="desk-pill interactive-node" data-cursor="inspect" data-node="compliance" data-info="Compliance Specialist: Real-time regulatory guard rails enforcing refusal for out-of-scope requests.">Compliance</div>
+                                </div>
+                                <div class="arch-flow-arrow">▼</div>
+                                <div class="arch-node interactive-node" data-cursor="inspect" data-node="tools" data-info="24 registered deterministic Python tools with strict Pydantic argument schemas and client-scope validation.">
+                                    <div class="node-badge">TOOLS</div>
+                                    <div class="node-name">24 Deterministic Tools</div>
+                                    <div class="node-sub">Strict Schemas & Client Scope Isolation</div>
+                                </div>
+                                <div class="arch-flow-arrow">▼</div>
+                                <div class="arch-node interactive-node" data-cursor="inspect" data-node="reliability" data-info="Reliability Subsystem: In-memory telemetry aggregation, circuit breaker state machine, and full-jitter exponential backoff.">
+                                    <div class="node-badge">ENGINE</div>
+                                    <div class="node-name">Reliability & Telemetry</div>
+                                    <div class="node-sub">Circuit Breakers + P50/P95 Latency Traces</div>
+                                </div>
+                            </div>
+
+                            <!-- Live Telemetry Inspector Card -->
+                            <div class="node-telemetry-card" id="arbiter-telemetry-box">
+                                <div class="telemetry-box-header">
+                                    <span class="telemetry-target-name">ORCHESTRATOR TOPOLOGY INSPECTOR</span>
+                                </div>
+                                <p class="telemetry-target-desc" id="arbiter-telemetry-text">Hover or click any architecture node above to inspect its real operational boundary, tool schemas, and safety parameters.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CHAPTER 02: INFEROPT -->
+                <article class="chapter-card" id="chapter-inferopt" data-reveal>
+                    <div class="chapter-header-strip">
+                        <div class="chapter-num">CHAPTER 02</div>
+                        <div class="chapter-type">INFERENCE INFRASTRUCTURE & LATENCY OPTIMIZATION</div>
+                        <div class="chapter-status">SUB-100MS ROUTING // KV REUSE</div>
+                    </div>
+
+                    <div class="chapter-body">
+                        <div class="chapter-narrative">
+                            <h3 class="chapter-title">InferOpt</h3>
+                            <h4 class="chapter-tagline">High-Throughput LLM Dynamic Routing & Inference Engine</h4>
+
+                            <div class="story-phase">
+                                <div class="phase-title">01 // THE CORE CHALLENGE</div>
+                                <p class="phase-text">
+                                    Monolithic LLM deployments suffer from runaway API costs, unpredictable P99 latency spikes, and severe GPU memory waste from redundant KV-cache allocations on repetitive prompt prefixes.
+                                </p>
+                            </div>
+
+                            <div class="story-phase">
+                                <div class="phase-title">02 // ARCHITECTURAL SOLUTION</div>
+                                <p class="phase-text">
+                                    Engineered an intelligent model inference gateway featuring dynamic latency/cost routing, prefix KV-cache reuse, speculative decoding coordination, and automated fallbacks across local and cloud endpoints.
+                                </p>
+                            </div>
+
+                            <div class="story-phase">
+                                <div class="phase-title">03 // ENGINEERING IMPACT</div>
+                                <p class="phase-text">
+                                    Achieves sub-100ms request routing decisions, over 40% reduction in token consumption via aggressive prompt caching, and zero-downtime model failure mitigation.
+                                </p>
+                            </div>
+
+                            <div class="chapter-tech-row">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">FastAPI</span>
+                                <span class="tech-tag">vLLM / Ollama APIs</span>
+                                <span class="tech-tag">KV Cache Reuse</span>
+                                <span class="tech-tag">Speculative Routing</span>
+                                <span class="tech-tag">Redis Caching</span>
+                            </div>
+
+                            <div class="chapter-action-bar">
+                                <button class="btn btn-primary open-modal-btn" data-project="inferopt" data-cursor="link">
+                                    <span>Deep System Breakdown</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Architecture Visualizer for InferOpt with Simulator -->
+                        <div class="chapter-visualizer">
+                            <div class="viz-header">
+                                <span class="viz-title">DYNAMIC INFERENCE ROUTING SIMULATOR</span>
+                                <span class="viz-status">LIVE DISPATCH</span>
+                            </div>
+
+                            <!-- Interactive Mode Switcher -->
+                            <div class="infer-mode-switcher">
+                                <button class="mode-btn active" data-mode="speculative" data-cursor="link">Speculative Draft (Fast)</button>
+                                <button class="mode-btn" data-mode="deep" data-cursor="link">Deep Reasoning (High-Budget)</button>
+                                <button class="mode-btn" data-mode="cached" data-cursor="link">KV-Cache Hit (Zero Latency)</button>
+                            </div>
+
+                            <div class="arch-graph" id="inferopt-arch-graph">
+                                <div class="arch-node" data-node="req">
+                                    <div class="node-badge">INCOMING</div>
+                                    <div class="node-name">Request Stream</div>
+                                    <div class="node-sub">Token Length & Priority Classifier</div>
+                                </div>
+                                <div class="arch-flow-arrow">▼</div>
+                                <div class="arch-node active-node" id="infer-router-node" data-node="router">
+                                    <div class="node-badge">DYNAMIC ROUTER</div>
+                                    <div class="node-name">Cost / Latency Optimizer</div>
+                                    <div class="node-sub" id="infer-router-status">Matching Prefix Hash // Sub-100ms Decision</div>
+                                </div>
+                                <div class="arch-flow-arrow">▼</div>
+                                <div class="infer-routes-grid">
+                                    <div class="route-box active-route" id="route-fast">
+                                        <div class="route-name">Local Speculative Draft</div>
+                                        <div class="route-metric">~35ms // P50</div>
+                                    </div>
+                                    <div class="route-box" id="route-deep">
+                                        <div class="route-name">Cloud Deep Reasoning</div>
+                                        <div class="route-metric">High-Budget Fallback</div>
+                                    </div>
+                                </div>
+                                <div class="arch-flow-arrow">▼</div>
+                                <div class="arch-node" data-node="eval">
+                                    <div class="node-badge">EVAL & FALLBACK</div>
+                                    <div class="node-name">Realtime Output Confidence Guard</div>
+                                    <div class="node-sub">Stream Delivery & Metrics Logged</div>
+                                </div>
+                            </div>
+
+                            <div class="viz-caption" id="infer-caption-text">Dynamic dispatch active: Routing queries to local speculative draft models with prefix KV-cache reuse.</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CHAPTER 03: FINANCIAL AI DATA PIPELINE -->
+                <article class="chapter-card" id="chapter-pipeline" data-reveal>
+                    <div class="chapter-header-strip">
+                        <div class="chapter-num">CHAPTER 03</div>
+                        <div class="chapter-type">STREAMING INGESTION & AI EMBEDDING PIPELINE</div>
+                        <div class="chapter-status">RESILIENT VECTOR ETL</div>
+                    </div>
+
+                    <div class="chapter-body">
+                        <div class="chapter-narrative">
+                            <h3 class="chapter-title">Financial AI Data Pipeline</h3>
+                            <h4 class="chapter-tagline">Automated Real-time Market Ingestion & Vector Intelligence Engine</h4>
+
+                            <div class="story-phase">
+                                <div class="phase-title">01 // THE CORE CHALLENGE</div>
+                                <p class="phase-text">
+                                    High-volume unstructured financial filings, news feeds, and market transactions require real-time validation, chunking, and semantic vector indexing without data loss or duplicate embeddings.
+                                </p>
+                            </div>
+
+                            <div class="story-phase">
+                                <div class="phase-title">02 // ARCHITECTURAL SOLUTION</div>
+                                <p class="phase-text">
+                                    Designed a multi-stage streaming pipeline handling schema validation, idempotent document deduplication, semantic vector embedding generation, and ChromaDB vector indexing.
+                                </p>
+                            </div>
+
+                            <div class="story-phase">
+                                <div class="phase-title">03 // REAL-TIME INTELLIGENCE</div>
+                                <p class="phase-text">
+                                    Automated downstream anomaly detection triggers, real-time semantic query answering, and live trend aggregation with end-to-end telemetry.
+                                </p>
+                            </div>
+
+                            <div class="chapter-tech-row">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">FastAPI</span>
+                                <span class="tech-tag">ChromaDB</span>
+                                <span class="tech-tag">AWS S3 / SQS</span>
+                                <span class="tech-tag">Semantic Chunking</span>
+                                <span class="tech-tag">LLM Embeddings</span>
+                            </div>
+
+                            <div class="chapter-action-bar">
+                                <button class="btn btn-primary open-modal-btn" data-project="pipeline" data-cursor="link">
+                                    <span>Deep System Breakdown</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Architecture Visualizer for Pipeline -->
+                        <div class="chapter-visualizer">
+                            <div class="viz-header">
+                                <span class="viz-title">STREAMING VECTOR PIPELINE</span>
+                                <span class="viz-status">PACKET FLOW ACTIVE</span>
+                            </div>
+                            <div class="arch-graph" id="pipeline-arch-graph">
+                                <div class="arch-node pipeline-stage" data-cursor="inspect" data-stage="source">
+                                    <div class="node-badge">SOURCES</div>
+                                    <div class="node-name">Market Feeds & SEC Filings</div>
+                                    <div class="node-sub">Kafka / SQS / Webhook Streams</div>
+                                </div>
+                                <div class="arch-flow-arrow pipeline-pulse-arrow">▼</div>
+                                <div class="arch-node pipeline-stage" data-cursor="inspect" data-stage="processing">
+                                    <div class="node-badge">PROCESSING</div>
+                                    <div class="node-name">Validation & Deduplication</div>
+                                    <div class="node-sub">Idempotent Schema Sanity & Chunking</div>
+                                </div>
+                                <div class="arch-flow-arrow pipeline-pulse-arrow">▼</div>
+                                <div class="arch-node pipeline-stage active-node" data-cursor="inspect" data-stage="embedding">
+                                    <div class="node-badge">EMBEDDING</div>
+                                    <div class="node-name">ChromaDB Vector Store</div>
+                                    <div class="node-sub">Dense Embeddings & Metadata Graph</div>
+                                </div>
+                                <div class="arch-flow-arrow pipeline-pulse-arrow">▼</div>
+                                <div class="arch-node pipeline-stage" data-cursor="inspect" data-stage="analytics">
+                                    <div class="node-badge">AI ANALYTICS</div>
+                                    <div class="node-name">Real-time Anomaly Engine</div>
+                                    <div class="node-sub">Automated Event Triggers & Alerts</div>
+                                </div>
+                            </div>
+                            <div class="viz-caption">End-to-end resilient vector pipeline with schema enforcement and event-driven alerting.</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 06. FEATURED & SUPPORTING PRODUCTION SYSTEMS (ALL PRESERVED) -->
+        <section id="systems" class="systems-section">
+            <div class="container">
+                <div class="section-meta" data-reveal>
+                    <span class="meta-number">05</span>
+                    <span class="meta-title">PRODUCTION SYSTEMS & OPEN SOURCE</span>
+                    <div class="meta-line"></div>
+                </div>
+
+                <div class="systems-header" data-reveal>
+                    <h2 class="section-heading">Featured & Supporting Engineering Systems</h2>
+                    <p class="section-subheading">Full-stack applications, developer tooling, multi-agent frameworks, and distributed notification architectures.</p>
+                </div>
+
+                <!-- Featured Tier Grid -->
+                <div class="projects-tier-label" data-reveal>FEATURED SYSTEMS</div>
+                <div class="projects-grid featured-tier-grid">
+                    <!-- Project 01: VSCode Debug Agent -->
+                    <div class="project-card" data-project="vscode-debug-agent" data-reveal>
+                        <div class="project-card-header">
+                            <div class="project-icon-box">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0 3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path></svg>
+                            </div>
+                            <span class="project-badge">DEVTOOL</span>
+                        </div>
                         <h3 class="project-title">VSCode Debug Agent</h3>
-                        <p class="project-description">Intelligent assistant automating code debugging in VSCode.</p>
+                        <p class="project-description">
+                            Intelligent assistant that automates code debugging inside Visual Studio Code. Utilizes AI models to analyze runtime errors, inspect stack traces, and synthesize corrective code fixes.
+                        </p>
                         <div class="project-tech">
                             <span class="tech-tag">TypeScript</span>
                             <span class="tech-tag">VSCode API</span>
                             <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">AI</span>
+                            <span class="tech-tag">AI Models</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/suyash639/vscodedebug" class="project-link" target="_blank" rel="noopener noreferrer">
-                                View Project
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
+                            <a href="https://github.com/suyash639/vscodedebug" class="project-link" data-cursor="link" target="_blank" rel="noopener noreferrer">
+                                <span>View GitHub Repository</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </a>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Project 2 -->
-                <div class="project-card" data-project="email-push-system">
-                    <div class="project-thumbnail">
-                        <div class="project-thumbnail-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
+
+                    <!-- Project 02: Email & Push Notification System -->
+                    <div class="project-card" data-project="email-push-system" data-reveal>
+                        <div class="project-card-header">
+                            <div class="project-icon-box">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            </div>
+                            <span class="project-badge">INFRASTRUCTURE</span>
                         </div>
-                    </div>
-                    <div class="project-content">
                         <h3 class="project-title">Email & Push Notification System</h3>
-                        <p class="project-description">Backend service using FastAPI, AWS SES, Firebase FCM, S3, SNS & SQS.</p>
+                        <p class="project-description">
+                            High-scale backend service built with FastAPI, integrating AWS SES for email delivery, Firebase FCM for push notifications, and SQS/SNS for decoupled queueing.
+                        </p>
                         <div class="project-tech">
                             <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">AWS</span>
-                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">AWS SES/SNS/SQS/S3</span>
+                            <span class="tech-tag">Firebase FCM</span>
                             <span class="tech-tag">MongoDB</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/suyash639/notification_services" class="project-link" target="_blank" rel="noopener noreferrer">
-                                View Project
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
+                            <a href="https://github.com/suyash639/notification_services" class="project-link" data-cursor="link" target="_blank" rel="noopener noreferrer">
+                                <span>View GitHub Repository</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </a>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Project 3 -->
-                <div class="project-card" data-project="multi-agent-taskforce">
-                    <div class="project-thumbnail">
-                        <div class="project-thumbnail-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"></path>
-                                <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 0 0-10-10"></path>
-                                <path d="M8 8v5a3 3 0 0 1-6 0v-1a10 10 0 0 1 10-10"></path>
-                                <path d="M12 18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"></path>
-                            </svg>
+
+                <!-- Supporting Tier Grid -->
+                <div class="projects-tier-label supporting-tier-header" data-reveal>SUPPORTING SYSTEMS</div>
+                <div class="projects-grid supporting-tier-grid">
+                    <!-- Project 03: Multi-Agent Taskforce -->
+                    <div class="project-card" data-project="multi-agent-taskforce" data-reveal>
+                        <div class="project-card-header">
+                            <div class="project-icon-box">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"></path><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 0 0-10-10"></path><path d="M8 8v5a3 3 0 0 1-6 0v-1a10 10 0 0 1 10-10"></path><path d="M12 18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"></path></svg>
+                            </div>
+                            <span class="project-badge">AGENTIC AI</span>
                         </div>
-                    </div>
-                    <div class="project-content">
                         <h3 class="project-title">Multi-Agent Taskforce</h3>
-                        <p class="project-description">Autonomous AI agents collaborating with LLaMA, FastAPI, ChromaDB, React.</p>
+                        <p class="project-description">
+                            Collaborative multi-agent reasoning architecture where autonomous LLaMA-powered nodes decompose complex user tasks, execute tool actions, and coordinate state via ChromaDB.
+                        </p>
                         <div class="project-tech">
                             <span class="tech-tag">LLaMA</span>
                             <span class="tech-tag">FastAPI</span>
@@ -272,305 +911,346 @@
                             <span class="tech-tag">React</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-link">
-                                View Project
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
+                            <button class="project-link open-modal-btn" data-project="multi-agent-taskforce" data-cursor="link">
+                                <span>Inspect Architecture</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </button>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Project 4 -->
-                <div class="project-card" data-project="soyeahlink">
-                    <div class="project-thumbnail">
-                        <div class="project-thumbnail-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
+
+                    <!-- Project 04: SoYeahLink -->
+                    <div class="project-card" data-project="soyeahlink" data-reveal>
+                        <div class="project-card-header">
+                            <div class="project-icon-box">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            </div>
+                            <span class="project-badge">AUTOMATION</span>
                         </div>
-                    </div>
-                    <div class="project-content">
                         <h3 class="project-title">SoYeahLink</h3>
-                        <p class="project-description">AI automation tool sending personalized LinkedIn messages for users.</p>
+                        <p class="project-description">
+                            AI-driven automation pipeline for professional outreach. Analyzes profile context, generates personalized conversational copy, and tracks engagement metrics.
+                        </p>
                         <div class="project-tech">
                             <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">AI models</span>
+                            <span class="tech-tag">AI Models</span>
                             <span class="tech-tag">Automation</span>
+                            <span class="tech-tag">React</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/suyash639/soyeahlink" class="project-link" target="_blank" rel="noopener noreferrer">View Project</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- MTXO Labs Section -->
-    <section id="mtxo" class="mtxo">
-        <div class="container">
-            <div class="mtxo-card">
-                <div class="mtxo-header">
-                    <h2 class="mtxo-title">MTXO Labs</h2>
-                    <div class="mtxo-badge">Co-Founder</div>
-                </div>
-                <div class="mtxo-content">
-                    <div class="mtxo-image">
-                        <img src="images/mtxo-animated-logo.svg" alt="MTXO Labs" class="mtxo-logo animated-logo">
-                    </div>
-                    <div class="mtxo-info">
-                        <p class="mtxo-description">
-                            MTXO Labs is my AI-powered edtech startup focused on delivering personalized learning experiences. As a co-founder, I lead the technical development of our intelligent tutoring systems that adapt to each student's unique learning style and cognitive patterns.
-                        </p>
-                        <div class="mtxo-features">
-                            <div class="mtxo-feature">
-                                <div class="feature-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                    </svg>
-                                </div>
-                                <div class="feature-content">
-                                    <div class="feature-title">AI-Powered Learning Paths</div>
-                                    <div class="feature-description">Personalized curriculum that adapts in real-time to student progress</div>
-                                </div>
-                            </div>
-                            <div class="mtxo-feature">
-                                <div class="feature-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                                    </svg>
-                                </div>
-                                <div class="feature-content">
-                                    <div class="feature-title">Adaptive Question Generation</div>
-                                    <div class="feature-description">Dynamic questions that target specific knowledge gaps</div>
-                                </div>
-                            </div>
-                            <div class="mtxo-feature">
-                                <div class="feature-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
-                                        <line x1="16" y1="8" x2="2" y2="22"></line>
-                                        <line x1="17.5" y1="15" x2="9" y2="15"></line>
-                                    </svg>
-                                </div>
-                                <div class="feature-content">
-                                    <div class="feature-title">Personalized Feedback</div>
-                                    <div class="feature-description">Contextual insights that guide students to deeper understanding</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mtxo-actions">
-                            <a href="https://www.mtxolabs.com" class="btn btn-primary mtxo-cta" target="_blank" rel="noopener noreferrer">Visit MTXO Labs</a>
-                            <a href="https://www.linkedin.com/company/mtxolabs/" class="btn btn-secondary mtxo-linkedin" target="_blank" rel="noopener noreferrer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                    <rect x="2" y="9" width="4" height="12"></rect>
-                                    <circle cx="4" cy="4" r="2"></circle>
-                                </svg>
-                                LinkedIn
+                            <a href="https://github.com/suyash639/soyeahlink" class="project-link" data-cursor="link" target="_blank" rel="noopener noreferrer">
+                                <span>View GitHub Repository</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Skills</h2>
-            <div class="skills-interactive-controls">
-                <div class="skills-filter">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="ai">AI</button>
-                    <button class="filter-btn" data-filter="language">Languages</button>
-                    <button class="filter-btn" data-filter="frontend">Frontend</button>
-                    <button class="filter-btn" data-filter="backend">Backend</button>
-                    <button class="filter-btn" data-filter="database">Database</button>
-                    <button class="filter-btn" data-filter="cloud">Cloud</button>
+        </section>
+
+        <!-- 07. TECHNICAL CAPABILITIES & ENGINEERING RADAR -->
+        <section id="capabilities" class="capabilities-section">
+            <div class="container">
+                <div class="section-meta" data-reveal>
+                    <span class="meta-number">06</span>
+                    <span class="meta-title">ENGINEERING CAPABILITIES RADAR</span>
+                    <div class="meta-line"></div>
                 </div>
-                <div class="skills-actions">
-                    <button class="action-btn" id="skills-shuffle">Shuffle</button>
-                    <button class="action-btn" id="skills-explode">Explode</button>
-                    <button class="action-btn" id="skills-group">Group</button>
+
+                <div class="capabilities-header" data-reveal>
+                    <h2 class="section-heading">Systems & Infrastructure Stack</h2>
+                    <p class="section-subheading">Organized by core engineering disciplines with technologies serving as verified evidence of capability.</p>
                 </div>
-            </div>
-            <div class="skills-container">
-                <!-- Skills will be dynamically generated with JavaScript -->
-            </div>
-            <div class="skills-playground">
-                <p>Click and drag skills to interact with them!</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Experience Section -->
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title">Professional Journey</h2>
-            <div class="journey-intro">
-                <div class="journey-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 20h9"></path>
-                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                    </svg>
-                </div>
-                <p class="journey-text">My path as a developer has been defined by continuous learning and impactful contributions across diverse technologies.</p>
-            </div>
-            <div class="timeline">
-                <div class="timeline-line"></div>
-                
-                <!-- Experience 1 -->
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">Summer 2025</div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3 class="timeline-title">NASA ATX</h3>
-                            <div class="timeline-badge">Summer Trainee</div>
+
+                <div class="capabilities-grid">
+                    <!-- Domain 1 -->
+                    <div class="capability-box" data-reveal>
+                        <div class="cap-header">
+                            <div class="cap-icon">01</div>
+                            <h3 class="cap-title">LLM Systems & Multi-Agent AI</h3>
                         </div>
-                        <p class="timeline-description">Developed AI-based astronaut training simulations and machine learning solutions for space mission planning at <strong>Florida, USA</strong>. Implemented advanced neural networks for predictive analytics in mission-critical systems.</p>
-                        <div class="timeline-tech">
-                            <span class="tech-tag">TensorFlow</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Computer Vision</span>
-                            <span class="tech-tag">Florida, USA</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Experience 2 -->
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">2025</div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3 class="timeline-title">Netsmartz</h3>
-                            <div class="timeline-badge">AI Intern</div>
-                        </div>
-                        <p class="timeline-description">Built enterprise NLP solutions using LangChain and FastAPI at <strong>Chandigarh, INDIA</strong>. Designed and implemented RAG pipelines for knowledge extraction and document processing systems that improved information retrieval by 40%.</p>
-                        <div class="timeline-tech">
+                        <p class="cap-desc">Autonomous multi-agent orchestration, state machines, task decomposition, agent delegation graphs, prompt engineering & injection safeguards.</p>
+                        <div class="cap-evidence">
                             <span class="tech-tag">LangChain</span>
-                            <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">RAG</span>
-                            <span class="tech-tag">NLP</span>
-                            <span class="tech-tag">Chandigarh, INDIA</span>
+                            <span class="tech-tag">LLaMA</span>
+                            <span class="tech-tag">Multi-Agent Desks</span>
+                            <span class="tech-tag">Model Context Protocol</span>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Experience 3 -->
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">Present</div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3 class="timeline-title">MTXO Labs</h3>
-                            <div class="timeline-badge highlight">Co-Founder</div>
+
+                    <!-- Domain 2 -->
+                    <div class="capability-box" data-reveal>
+                        <div class="cap-header">
+                            <div class="cap-icon">02</div>
+                            <h3 class="cap-title">RAG & Semantic Retrieval</h3>
                         </div>
-                        <p class="timeline-description">Leading the technical development of AI-powered educational technology solutions. Architecting intelligent tutoring systems that adapt to individual learning styles and provide personalized educational experiences.</p>
-                        <div class="timeline-tech">
-                            <span class="tech-tag">LLMs</span>
-                            <span class="tech-tag">React</span>
+                        <p class="cap-desc">Hybrid sparse-dense retrieval, semantic chunking strategies, re-ranking algorithms, citation graph extraction, and vector index tuning.</p>
+                        <div class="cap-evidence">
+                            <span class="tech-tag">ChromaDB</span>
+                            <span class="tech-tag">Hybrid RAG</span>
+                            <span class="tech-tag">Embedding Pipelines</span>
+                            <span class="tech-tag">Vector Search</span>
+                        </div>
+                    </div>
+
+                    <!-- Domain 3 -->
+                    <div class="capability-box" data-reveal>
+                        <div class="cap-header">
+                            <div class="cap-icon">03</div>
+                            <h3 class="cap-title">Inference & Optimization</h3>
+                        </div>
+                        <p class="cap-desc">Dynamic latency/cost model routing, prefix KV-cache reuse, batching optimization, speculative decoding coordination, and fallback management.</p>
+                        <div class="cap-evidence">
+                            <span class="tech-tag">vLLM / Ollama</span>
+                            <span class="tech-tag">KV Cache Reuse</span>
+                            <span class="tech-tag">Sub-100ms Routing</span>
+                            <span class="tech-tag">Speculative Dispatch</span>
+                        </div>
+                    </div>
+
+                    <!-- Domain 4 -->
+                    <div class="capability-box" data-reveal>
+                        <div class="cap-header">
+                            <div class="cap-icon">04</div>
+                            <h3 class="cap-title">Backend & Distributed Systems</h3>
+                        </div>
+                        <p class="cap-desc">High-concurrency async services, decoupled event queues, strict Pydantic schemas, resilient REST APIs, and database modeling.</p>
+                        <div class="cap-evidence">
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">Python</span>
                             <span class="tech-tag">Node.js</span>
                             <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Redis</span>
+                            <span class="tech-tag">SQL</span>
                         </div>
-                        <a href="https://www.mtxolabs.com" class="timeline-link" target="_blank" rel="noopener noreferrer">Visit MTXO Labs</a>
+                    </div>
+
+                    <!-- Domain 5 -->
+                    <div class="capability-box" data-reveal>
+                        <div class="cap-header">
+                            <div class="cap-icon">05</div>
+                            <h3 class="cap-title">Reliability, Evals & Observability</h3>
+                        </div>
+                        <p class="cap-desc">Circuit breaker patterns, exponential jitter retry engines, offline benchmark runners, P50/P95 latency percentiles, and request traces.</p>
+                        <div class="cap-evidence">
+                            <span class="tech-tag">Pytest (390+ Tests)</span>
+                            <span class="tech-tag">Circuit Breakers</span>
+                            <span class="tech-tag">Telemetry Traces</span>
+                            <span class="tech-tag">100% Eval Suites</span>
+                        </div>
+                    </div>
+
+                    <!-- Domain 6 -->
+                    <div class="capability-box" data-reveal>
+                        <div class="cap-header">
+                            <div class="cap-icon">06</div>
+                            <h3 class="cap-title">Cloud, Frontend & Tooling</h3>
+                        </div>
+                        <p class="cap-desc">Modern responsive web frontends, AWS infrastructure, containerization, and custom developer tools / IDE extensions.</p>
+                        <div class="cap-evidence">
+                            <span class="tech-tag">React 19 / TypeScript</span>
+                            <span class="tech-tag">AWS (SES/SNS/SQS/S3)</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">VSCode API</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Contact</h2>
-            <div class="contact-container">
-                <form class="contact-form" id="contact-form">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" required class="form-control" placeholder="Your Name">
-                        <label for="name" class="form-label">Your Name</label>
+        </section>
+
+        <!-- 08. INTERACTIVE PHYSICS SKILLS PLAYGROUND (MATTER.JS + THREE.JS) -->
+        <section id="skills" class="skills-section">
+            <div class="container">
+                <div class="section-meta" data-reveal>
+                    <span class="meta-number">07</span>
+                    <span class="meta-title">PHYSICS PLAYGROUND</span>
+                    <div class="meta-line"></div>
+                </div>
+
+                <div class="skills-header" data-reveal>
+                    <h2 class="section-heading">Interactive Physics Skill Bubbles</h2>
+                    <p class="section-subheading">Matter.js rigid-body physics simulation. Drag, collide, group, or explode skill nodes in real time.</p>
+                </div>
+
+                <div class="skills-interactive-controls" data-reveal>
+                    <div class="skills-filter">
+                        <button class="filter-btn active" data-filter="all" data-cursor="link">All (30)</button>
+                        <button class="filter-btn" data-filter="ai" data-cursor="link">AI / ML</button>
+                        <button class="filter-btn" data-filter="language" data-cursor="link">Languages</button>
+                        <button class="filter-btn" data-filter="backend" data-cursor="link">Backend</button>
+                        <button class="filter-btn" data-filter="frontend" data-cursor="link">Frontend</button>
+                        <button class="filter-btn" data-filter="database" data-cursor="link">Database</button>
+                        <button class="filter-btn" data-filter="cloud" data-cursor="link">Cloud / DevOps</button>
                     </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" required class="form-control" placeholder="Your Email">
-                        <label for="email" class="form-label">Your Email</label>
+
+                    <div class="skills-actions">
+                        <button class="action-btn" id="skills-shuffle" data-cursor="link">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+                            <span>Shuffle (S)</span>
+                        </button>
+                        <button class="action-btn" id="skills-explode" data-cursor="link">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            <span>Explode (Space)</span>
+                        </button>
+                        <button class="action-btn" id="skills-group" data-cursor="link">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            <span>Group (G)</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <textarea id="message" name="message" required class="form-control" placeholder="Your Message" rows="5"></textarea>
-                        <label for="message" class="form-label">Your Message</label>
+                </div>
+
+                <div class="skills-container-wrapper" data-reveal data-cursor="drag">
+                    <div class="skills-container" id="matter-skills-container">
+                        <!-- Skill bubbles dynamically injected and controlled via Matter.js -->
                     </div>
-                    <button type="submit" class="btn btn-primary submit-btn">
-                        <span class="btn-text">Send Message</span>
-                        <span class="btn-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
-                        </span>
-                    </button>
-                </form>
-                <div class="contact-alternatives">
-                    <p class="alternatives-text">Or reach me directly via:</p>
-                    <div class="contact-buttons">
-                        <a href="mailto:suyashtiwari8853@gmail.com" class="contact-btn email-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                            Email
-                        </a>
-                        <a href="https://wa.me/919335729924" class="contact-btn whatsapp-btn" target="_blank" rel="noopener noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                            </svg>
-                            WhatsApp
-                        </a>
+                    <div class="skills-playground-hint">
+                        <span class="hint-pulse"></span>
+                        <span>Drag with mouse • Double click to pulse • Keyboard shortcuts: [Space] Explode, [S] Shuffle, [G] Group</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
+        </section>
+
+        <!-- 09. CONTACT TERMINAL & DIRECT DISPATCH -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <div class="section-meta" data-reveal>
+                    <span class="meta-number">08</span>
+                    <span class="meta-title">INITIALIZE CONTACT</span>
+                    <div class="meta-line"></div>
+                </div>
+
+                <div class="contact-header" data-reveal>
+                    <h2 class="section-heading">Let's Build Intelligent Systems</h2>
+                    <p class="section-subheading">Available for high-impact AI Engineering, Agentic Systems Architecture, and Infrastructure roles.</p>
+                </div>
+
+                <div class="contact-grid">
+                    <!-- Form Console -->
+                    <div class="contact-card" data-reveal>
+                        <div class="card-header-bar">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="terminal-title">dispatch_console.sh</span>
+                        </div>
+
+                        <form class="contact-form" id="contact-form">
+                            <div class="form-group">
+                                <label for="name" class="form-label">IDENTIFIER / NAME</label>
+                                <input type="text" id="name" name="name" required class="form-control" placeholder="e.g. Alex Mercer">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">RETURN ADDRESS / EMAIL</label>
+                                <input type="email" id="email" name="email" required class="form-control" placeholder="e.g. alex@company.ai">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message" class="form-label">TRANSMISSION PAYLOAD / MESSAGE</label>
+                                <textarea id="message" name="message" required class="form-control" placeholder="Describe the AI system, architecture requirement, or collaboration..." rows="4"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary submit-btn magnetic-btn" data-cursor="link">
+                                <span class="btn-text">Transmit Transmission</span>
+                                <span class="btn-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Direct Reach Alternatives -->
+                    <div class="contact-sidebar" data-reveal>
+                        <div class="direct-channels-card">
+                            <h3 class="channels-title">Direct Communication Channels</h3>
+                            <p class="channels-sub">Fastest response times via WhatsApp, direct email, and LinkedIn.</p>
+
+                            <div class="direct-channels-list">
+                                <a href="mailto:suyashtiwari8853@gmail.com" class="direct-channel-item" data-cursor="link">
+                                    <div class="channel-icon email-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                    </div>
+                                    <div class="channel-info">
+                                        <div class="channel-name">Primary Email</div>
+                                        <div class="channel-val">suyashtiwari8853@gmail.com</div>
+                                    </div>
+                                </a>
+
+                                <a href="https://wa.me/919335729924" class="direct-channel-item" data-cursor="link" target="_blank" rel="noopener noreferrer">
+                                    <div class="channel-icon whatsapp-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                    </div>
+                                    <div class="channel-info">
+                                        <div class="channel-name">WhatsApp Direct</div>
+                                        <div class="channel-val">+91 93357 29924</div>
+                                    </div>
+                                </a>
+
+                                <a href="https://www.linkedin.com/in/suyash-tiwari-25aba6290/" class="direct-channel-item" data-cursor="link" target="_blank" rel="noopener noreferrer">
+                                    <div class="channel-icon linkedin-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                    </div>
+                                    <div class="channel-info">
+                                        <div class="channel-name">LinkedIn</div>
+                                        <div class="channel-val">in/suyash-tiwari-25aba6290</div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="timezone-card">
+                                <div class="tz-label">CURRENT LOCAL TIME (IST)</div>
+                                <div class="tz-clock" id="live-ist-clock">--:--:-- IST (UTC+5:30)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p class="footer-copyright">© 2025 Suyash Tiwari. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="https://github.com/suyash639" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <a href="https://www.linkedin.com/in/suyash-tiwari-25aba6290/" class="footer-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                    <a href="https://leetcode.com/u/so_yeah_sh_alt/" class="footer-link" target="_blank" rel="noopener noreferrer">LeetCode</a>
-                    <a href="mailto:suyashtiwari8853@gmail.com" class="footer-link">Email</a>
+        <div class="container footer-container">
+            <div class="footer-left">
+                <div class="footer-logo">◈ SUYASH TIWARI</div>
+                <p class="footer-tagline">AI Systems & Infrastructure Engineering. Engineered with modern WebGL, GSAP, and Matter.js.</p>
+            </div>
+
+            <div class="footer-right">
+                <div class="footer-nav-links">
+                    <a href="#hero" data-cursor="link">Top</a>
+                    <a href="#about" data-cursor="link">Profile</a>
+                    <a href="#experience" data-cursor="link">Experience</a>
+                    <a href="#flagship" data-cursor="link">Flagship</a>
+                    <a href="#systems" data-cursor="link">Systems</a>
+                    <a href="#contact" data-cursor="link">Contact</a>
+                </div>
+                <div class="footer-copyright">
+                    © 2025–2026 Suyash Tiwari. All rights reserved.
                 </div>
             </div>
         </div>
     </footer>
-    
-    <!-- Project Modal -->
-    <div class="modal" id="project-modal">
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Close modal">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
+
+    <!-- Universal Project Deep-Dive Modal -->
+    <div class="modal" id="project-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-terminal-title">
+        <div class="modal-backdrop"></div>
+        <div class="modal-dialog">
+            <div class="modal-header-bar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="terminal-title" id="modal-terminal-title">system_spec.md</span>
+                <button class="modal-close" aria-label="Close modal dialog" data-cursor="link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
             <div class="modal-body"></div>
         </div>
     </div>
-    
-    <!-- Scripts -->
+
+    <!-- Scripts (Lenis, GSAP, ScrollTrigger, Three.js, Matter.js, Local Modular JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>

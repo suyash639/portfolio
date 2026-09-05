@@ -1,539 +1,502 @@
-// Main JavaScript file for Suyash Tiwari's Portfolio
+/**
+ * Suyash Tiwari — AI Systems & Infrastructure Portfolio
+ * Main Application Logic & Component Systems (Phase 2)
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all components
-    initThemeToggle();
+    // 01. Core Systems Initialization
+    initTheme();
     initNavigation();
-    initProjectCards();
+    initISTClock();
+    initModalSystem();
+    initArbiterInteractiveGraph();
+    initInferOptSimulator();
+    initPipelineInteractions();
     initContactForm();
-    initSkillBubbles();
-    initParticleSystem();
-    
-    // Animate hero section on load
-    setTimeout(() => {
-        animateHero();
-    }, 500);
-    
-    // Initialize scroll animations
-    initScrollAnimations();
+    initSkillsControls();
 });
 
-// Particle System for MTXO Labs section
-function initParticleSystem() {
-    const particleContainer = document.querySelector('.particle-container');
-    if (!particleContainer) return;
-    
-    const mtxoCard = document.querySelector('.mtxo-card');
-    const particleCount = 30;
-    const particles = [];
-    
-    // Create particles
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Random size between 2-6px
-        const size = Math.random() * 4 + 2;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        
-        // Random position
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
-        
-        // Random opacity
-        particle.style.opacity = Math.random() * 0.5 + 0.2;
-        
-        // Random animation delay
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-        
-        // Store particle data for animation
-        const particleData = {
-            element: particle,
-            x: posX,
-            y: posY,
-            size: size,
-            speedX: Math.random() * 0.2 - 0.1,
-            speedY: Math.random() * 0.2 - 0.1,
-            opacity: parseFloat(particle.style.opacity)
-        };
-        
-        particles.push(particleData);
-        particleContainer.appendChild(particle);
-    }
-    
-    // Add CSS for particles
-    const style = document.createElement('style');
-    style.textContent = `
-        .particle {
-            position: absolute;
-            background: var(--color-accent);
-            border-radius: 50%;
-            pointer-events: none;
-            transition: transform 0.3s ease;
-        }
-        
-        .particle-line {
-            position: absolute;
-            height: 1px;
-            background: linear-gradient(90deg, var(--color-accent), transparent);
-            pointer-events: none;
-            transform-origin: left center;
-            opacity: 0.3;
-            z-index: 0;
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Animation loop
-    function animateParticles() {
-        particles.forEach(particle => {
-            // Update position
-            particle.x += particle.speedX;
-            particle.y += particle.speedY;
-            
-            // Boundary check
-            if (particle.x < 0 || particle.x > 100) particle.speedX *= -1;
-            if (particle.y < 0 || particle.y > 100) particle.speedY *= -1;
-            
-            // Apply position
-            particle.element.style.left = `${particle.x}%`;
-            particle.element.style.top = `${particle.y}%`;
-        });
-        
-        requestAnimationFrame(animateParticles);
-    }
-    
-    // Start animation
-    animateParticles();
-    
-    // Connect particles with lines when they're close
-    function connectParticles() {
-        // Remove old lines
-        document.querySelectorAll('.particle-line').forEach(line => line.remove());
-        
-        // Check distances between particles and create lines
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = (particles[i].x - particles[j].x) / 100 * particleContainer.offsetWidth;
-                const dy = (particles[i].y - particles[j].y) / 100 * particleContainer.offsetHeight;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                // Connect if close enough
-                if (distance < 100) {
-                    const line = document.createElement('div');
-                    line.classList.add('particle-line');
-                    
-                    // Calculate line position and length
-                    const x1 = particles[i].x;
-                    const y1 = particles[i].y;
-                    const x2 = particles[j].x;
-                    const y2 = particles[j].y;
-                    
-                    // Calculate angle
-                    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-                    
-                    // Set line properties
-                    line.style.width = `${distance}px`;
-                    line.style.left = `${x1}%`;
-                    line.style.top = `${y1}%`;
-                    line.style.transform = `rotate(${angle}deg)`;
-                    line.style.opacity = (1 - distance / 100) * 0.3;
-                    
-                    particleContainer.appendChild(line);
-                }
-            }
-        }
-        
-        requestAnimationFrame(connectParticles);
-    }
-    
-    connectParticles();
-    
-    // Mouse interaction
-    mtxoCard.addEventListener('mousemove', (e) => {
-        const rect = mtxoCard.getBoundingClientRect();
-        const mouseX = ((e.clientX - rect.left) / rect.width) * 100;
-        const mouseY = ((e.clientY - rect.top) / rect.height) * 100;
-        
-        particles.forEach(particle => {
-            // Calculate distance from mouse
-            const dx = mouseX - particle.x;
-            const dy = mouseY - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            // Apply force if close enough
-            if (distance < 20) {
-                const force = 0.2 * (1 - distance / 20);
-                particle.speedX += dx * force * 0.01;
-                particle.speedY += dy * force * 0.01;
-                
-                // Limit speed
-                const maxSpeed = 0.5;
-                const currentSpeed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
-                if (currentSpeed > maxSpeed) {
-                    particle.speedX = (particle.speedX / currentSpeed) * maxSpeed;
-                    particle.speedY = (particle.speedY / currentSpeed) * maxSpeed;
-                }
-            }
-        });
-    });
-    
-    // CTA hover effect with particles
-    const mtxoCta = document.querySelector('.mtxo-cta');
-    if (mtxoCta) {
-        mtxoCta.addEventListener('mouseenter', () => {
-            const ctaRect = mtxoCta.getBoundingClientRect();
-            const cardRect = mtxoCard.getBoundingClientRect();
-            
-            // Calculate CTA center position relative to card
-            const ctaCenterX = ((ctaRect.left + ctaRect.width / 2) - cardRect.left) / cardRect.width * 100;
-            const ctaCenterY = ((ctaRect.top + ctaRect.height / 2) - cardRect.top) / cardRect.height * 100;
-            
-            // Attract particles to CTA
-            particles.forEach(particle => {
-                // Add attraction force towards CTA
-                const dx = ctaCenterX - particle.x;
-                const dy = ctaCenterY - particle.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                particle.speedX += dx * 0.01;
-                particle.speedY += dy * 0.01;
-                
-                // Increase particle glow
-                particle.element.style.boxShadow = '0 0 10px var(--color-glow)';
-            });
-        });
-        
-        mtxoCta.addEventListener('mouseleave', () => {
-            // Reset particle glow
-            particles.forEach(particle => {
-                particle.element.style.boxShadow = 'none';
-            });
-        });
-    }
-}
+/* --------------------------------------------------------------------------
+   01. THEME TOGGLE SYSTEM
+   -------------------------------------------------------------------------- */
+function initTheme() {
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const savedTheme = localStorage.getItem('suyash_theme');
 
-// Theme Toggle Functionality
-function initThemeToggle() {
-    const themeToggle = document.querySelector('.theme-toggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // Check for saved theme preference or use OS preference
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+    if (savedTheme === 'light') {
+        document.body.classList.remove('dark-mode');
+        document.body.classList.add('light-mode');
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else {
         document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
+        document.documentElement.setAttribute('data-theme', 'dark');
     }
-    
-    // Toggle theme on button click
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        
-        // Save preference to localStorage
-        const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-        localStorage.setItem('theme', theme);
-    });
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.body.classList.contains('dark-mode');
+            if (isDark) {
+                document.body.classList.remove('dark-mode');
+                document.body.classList.add('light-mode');
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('suyash_theme', 'light');
+            } else {
+                document.body.classList.add('dark-mode');
+                document.body.classList.remove('light-mode');
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('suyash_theme', 'dark');
+            }
+        });
+    }
 }
 
-// Navigation Functionality
+/* --------------------------------------------------------------------------
+   02. NAVIGATION & HUD SCROLL STATE
+   -------------------------------------------------------------------------- */
 function initNavigation() {
-    const header = document.querySelector('.header');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const header = document.getElementById('main-header');
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    const mobileNavBtn = document.getElementById('mobile-nav-btn');
+    const mobileDrawer = document.getElementById('mobile-nav-drawer');
     const sections = document.querySelectorAll('section[id]');
-    
-    // Add scrolled class to header on scroll
+
+    // Header glass blur on scroll
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
+        if (window.scrollY > 40) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
-        
-        // Update active nav link based on scroll position
-        let currentSection = '';
+
+        // Section awareness
+        let activeId = '';
+        const scrollPos = window.scrollY + 200;
+
         sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            const sectionHeight = section.offsetHeight;
-            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-                currentSection = section.getAttribute('id');
+            const top = section.offsetTop;
+            const height = section.offsetHeight;
+            if (scrollPos >= top && scrollPos < top + height) {
+                activeId = section.getAttribute('id');
             }
         });
-        
+
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSection}`) {
+            if (link.getAttribute('href') === `#${activeId}`) {
                 link.classList.add('active');
             }
         });
-    });
-    
-    // Smooth scroll to section on nav link click
-    navLinks.forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            window.scrollTo({
-                top: targetSection.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        });
-    });
-}
+    }, { passive: true });
 
-// Project Cards Functionality
-function initProjectCards() {
-    const projectCards = document.querySelectorAll('.project-card');
-    const modal = document.getElementById('project-modal');
-    const modalContent = modal.querySelector('.modal-body');
-    const modalClose = modal.querySelector('.modal-close');
-    
-    // Project details data
-    const projectDetails = {
-        'vscode-debug-agent': {
-            title: 'VSCode Debug Agent',
-            description: 'An intelligent assistant that automates code debugging in Visual Studio Code. This extension uses AI to analyze error messages, suggest fixes, and help developers resolve issues faster.',
-            features: [
-                'Real-time error analysis and suggestions',
-                'Integration with VSCode debugging tools',
-                'AI-powered code fix recommendations',
-                'Support for multiple programming languages'
-            ],
-            tech: ['TypeScript', 'VSCode API', 'Node.js', 'AI Models'],
-            image: 'assets/projects/vscode-debug-agent.jpg'
-        },
-        'email-push-system': {
-            title: 'Email & Push Notification System',
-            description: 'A robust backend service for handling email and push notifications at scale. Built with FastAPI and integrated with AWS services and Firebase Cloud Messaging.',
-            features: [
-                'Scalable email delivery via AWS SES',
-                'Push notifications through Firebase FCM',
-                'Message queueing with AWS SQS',
-                'Template management and personalization',
-                'Delivery analytics and tracking'
-            ],
-            tech: ['FastAPI', 'AWS SES/SNS/SQS/S3', 'Firebase FCM', 'MongoDB'],
-            image: 'assets/projects/email-push-system.jpg'
-        },
-        'multi-agent-taskforce': {
-            title: 'Multi-Agent Taskforce',
-            description: 'A system of autonomous AI agents that collaborate to solve complex tasks. Built with LLaMA for reasoning, FastAPI for the backend, ChromaDB for vector storage, and React for the frontend.',
-            features: [
-                'Agent communication and coordination',
-                'Task decomposition and delegation',
-                'Knowledge sharing between agents',
-                'Interactive visualization of agent activities',
-                'Customizable agent behaviors and capabilities'
-            ],
-            tech: ['LLaMA', 'FastAPI', 'ChromaDB', 'React', 'Python'],
-            image: 'assets/projects/multi-agent-taskforce.jpg'
-        },
-        'soyeahlink': {
-            title: 'SoYeahLink',
-            description: 'An AI automation tool that sends personalized LinkedIn messages for users. It analyzes profiles, generates relevant messages, and manages outreach campaigns.',
-            features: [
-                'Profile analysis and categorization',
-                'Personalized message generation',
-                'Campaign management and scheduling',
-                'Response tracking and analytics',
-                'Integration with LinkedIn API'
-            ],
-            tech: ['FastAPI', 'AI Models', 'Automation Pipelines', 'React'],
-            image: 'assets/projects/soyeahlink.jpg'
-        }
-    };
-    
-    // Add click event to project cards
-    projectCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const projectId = card.getAttribute('data-project');
-            const project = projectDetails[projectId];
-            
-            if (project) {
-                // Populate modal with project details
-                modalContent.innerHTML = `
-                    <div class="modal-project">
-                        <div class="modal-project-image">
-                            <div class="placeholder-image">${project.title.charAt(0)}${project.title.split(' ')[1]?.charAt(0) || ''}</div>
-                        </div>
-                        <div class="modal-project-content">
-                            <h3 class="modal-project-title">${project.title}</h3>
-                            <p class="modal-project-description">${project.description}</p>
-                            
-                            <h4 class="modal-project-subtitle">Key Features</h4>
-                            <ul class="modal-project-features">
-                                ${project.features.map(feature => `<li>${feature}</li>`).join('')}
-                            </ul>
-                            
-                            <h4 class="modal-project-subtitle">Technologies</h4>
-                            <div class="project-tech">
-                                ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                // Show modal with animation
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+    // Smooth scroll for nav links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    if (mobileDrawer) mobileDrawer.classList.remove('open');
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
-    
-    // Close modal on button click
-    modalClose.addEventListener('click', () => {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-    
-    // Close modal on outside click
-    modal.addEventListener('click', e => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
+
+    // Mobile drawer toggle
+    if (mobileNavBtn && mobileDrawer) {
+        mobileNavBtn.addEventListener('click', () => {
+            const isOpen = mobileDrawer.classList.contains('open');
+            mobileDrawer.classList.toggle('open');
+            mobileNavBtn.setAttribute('aria-expanded', !isOpen);
+        });
+    }
+}
+
+/* --------------------------------------------------------------------------
+   03. LIVE IST CLOCK (UTC+5:30)
+   -------------------------------------------------------------------------- */
+function initISTClock() {
+    const clockEl = document.getElementById('live-ist-clock');
+    if (!clockEl) return;
+
+    function updateTime() {
+        const now = new Date();
+        const options = {
+            timeZone: 'Asia/Kolkata',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        };
+        const istString = now.toLocaleTimeString('en-US', options);
+        clockEl.textContent = `${istString} IST (UTC+5:30)`;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
+}
+
+/* --------------------------------------------------------------------------
+   04. COMPLETE PROJECT DETAILS & MODAL SPEC SYSTEM
+   -------------------------------------------------------------------------- */
+const PROJECT_SPECS = {
+    'arbiter': {
+        title: 'Arbiter — Autonomous Multi-Agent Financial Operations Console',
+        tagline: 'Deterministic Multi-Agent Financial Querying with 6 Desks, 24 Verified Tools & 100% Eval Benchmark',
+        description: 'Arbiter is a production-grade multi-agent financial operations orchestrator engineered to eliminate hallucinations, enforce prompt injection guards, and execute deterministic financial operations over sensitive client datasets and regulatory rulesets.',
+        features: [
+            '6 Domain Specialist Desks: Book QA, KYC Profile, Notes Desk, Market Desk, Compliance Refusal, and Arbiter Orchestrator',
+            '24 Deterministic Verified Tools with strict Pydantic schemas and client-scoped isolation',
+            'Untrusted-to-Trusted Security Boundary Gateway with injection defenses and automated PII redaction',
+            'Reliability Engine featuring Circuit Breakers, non-retryable error taxonomy, and exponential jitter backoff',
+            '100.0% Offline Benchmark Score across 45 test scenarios (Routing, Factual, Citation, Safety, and Schema compliance)',
+            'Full regression suite with 390+ Pytest tests passed in 37.5s'
+        ],
+        tech: ['React 19', 'TypeScript', 'FastAPI', 'Pytest (390+ Tests)', 'Pydantic', 'Vite', 'Tailwind CSS'],
+        links: [
+            { label: 'GitHub Profile', url: 'https://github.com/suyash639' }
+        ]
+    },
+    'inferopt': {
+        title: 'InferOpt — High-Throughput LLM Dynamic Routing Engine',
+        tagline: 'Dynamic Latency/Cost-Aware Routing with Prefix KV-Cache Reuse & Speculative Coordination',
+        description: 'InferOpt is an intelligent model inference gateway and latency optimization engine that dispatches dynamic query streams across local speculative engines and cloud reasoning models, reducing API costs and latency spikes.',
+        features: [
+            'Dynamic Latency & Cost Router evaluating token complexity, budget constraints, and SLA limits in under 100ms',
+            'Prefix KV-Cache matching for over 40% reduction in redundant prompt token processing',
+            'Speculative Decoding coordination pairing small local draft models with large model verification',
+            'Real-time output confidence evaluation and zero-downtime automated fallbacks',
+            'Observability dashboard tracking P50/P95/P99 latency percentiles and GPU memory utilization'
+        ],
+        tech: ['Python', 'FastAPI', 'vLLM / Ollama APIs', 'Redis Caching', 'Speculative Routing', 'Async Queues'],
+        links: [
+            { label: 'GitHub Profile', url: 'https://github.com/suyash639' }
+        ]
+    },
+    'pipeline': {
+        title: 'Financial AI Data Pipeline — Streaming Vector Intelligence',
+        tagline: 'Resilient Multi-Source Streaming ETL, Semantic Vector Indexing & Automated AI Alert Triggers',
+        description: 'An enterprise-grade streaming and batch financial data pipeline that ingests unstructured SEC filings, market news, and transaction streams, validates schemas, generates dense embeddings, and powers real-time semantic analytics.',
+        features: [
+            'Resilient multi-source streaming ingestion handling Kafka, SQS, and webhook events',
+            'Automated schema enforcement, idempotent deduplication, and semantic chunking',
+            'ChromaDB vector embedding store with rich metadata relationship graphs',
+            'Automated AI anomaly detection and event-driven alerting triggers',
+            'Sub-second semantic search retrieval over millions of indexed document chunks'
+        ],
+        tech: ['Python', 'FastAPI', 'ChromaDB', 'AWS S3 / SQS', 'Semantic Chunking', 'LLM Embeddings'],
+        links: [
+            { label: 'GitHub Profile', url: 'https://github.com/suyash639' }
+        ]
+    },
+    'vscode-debug-agent': {
+        title: 'VSCode Debug Agent',
+        tagline: 'Intelligent Autonomous Assistant Automating Code Debugging in Visual Studio Code',
+        description: 'An intelligent IDE assistant extension that automates runtime code debugging in Visual Studio Code by analyzing compiler errors, inspecting stack traces, and proposing validated code patches.',
+        features: [
+            'Real-time runtime error analysis and contextual suggestion synthesis',
+            'Deep integration with VSCode Debugging API and language servers',
+            'AI-powered code fix recommendations with syntax validation',
+            'Multi-language support for TypeScript, Python, and JavaScript'
+        ],
+        tech: ['TypeScript', 'VSCode API', 'Node.js', 'AI Models'],
+        links: [
+            { label: 'GitHub Repository', url: 'https://github.com/suyash639/vscodedebug' }
+        ]
+    },
+    'email-push-system': {
+        title: 'Email & Push Notification System',
+        tagline: 'High-Concurrency Event-Driven Notification Engine Built with FastAPI & AWS',
+        description: 'A robust backend service for delivering high-throughput email and push notifications at scale. Engineered with FastAPI, AWS SES, Firebase Cloud Messaging, and Amazon SQS/SNS for decoupled queuing.',
+        features: [
+            'High-throughput scalable email delivery via AWS SES',
+            'Push notification broadcast and targeted delivery through Firebase FCM',
+            'Decoupled message queueing and dead-letter handling with AWS SQS & SNS',
+            'Dynamic template management and personalization engine',
+            'Delivery analytics, bounce tracking, and telemetry logging'
+        ],
+        tech: ['FastAPI', 'AWS SES/SNS/SQS/S3', 'Firebase FCM', 'MongoDB', 'Python'],
+        links: [
+            { label: 'GitHub Repository', url: 'https://github.com/suyash639/notification_services' }
+        ]
+    },
+    'multi-agent-taskforce': {
+        title: 'Multi-Agent Taskforce',
+        tagline: 'Autonomous AI Agents Collaborating on Complex Multi-Step Tasks with LLaMA & ChromaDB',
+        description: 'A collaborative multi-agent reasoning architecture where autonomous LLaMA-powered nodes decompose complex user tasks, execute tool actions, and synchronize state via ChromaDB vector memory and React frontend.',
+        features: [
+            'Autonomous agent communication protocols and task delegation graphs',
+            'Dynamic task decomposition with tree-of-thought verification',
+            'Shared vector memory and knowledge synchronization via ChromaDB',
+            'Interactive frontend visualization of agent deliberation and state transitions',
+            'Customizable agent roles, system prompts, and tool boundaries'
+        ],
+        tech: ['LLaMA', 'FastAPI', 'ChromaDB', 'React', 'Python'],
+        links: [
+            { label: 'GitHub Profile', url: 'https://github.com/suyash639' }
+        ]
+    },
+    'soyeahlink': {
+        title: 'SoYeahLink — Outreach Automation Pipeline',
+        tagline: 'AI Automation Pipeline for Contextual Outreach & Message Generation',
+        description: 'An AI-powered automation tool that analyzes professional profiles, crafts personalized conversational outreach, and manages scheduling pipelines.',
+        features: [
+            'Contextual profile analysis and classification',
+            'Personalized conversational message generation using LLM prompting',
+            'Outreach campaign management, rate-limiting, and scheduling',
+            'Engagement tracking, response analytics, and conversion metrics'
+        ],
+        tech: ['FastAPI', 'AI Models', 'Automation Pipelines', 'React', 'Python'],
+        links: [
+            { label: 'GitHub Repository', url: 'https://github.com/suyash639/soyeahlink' }
+        ]
+    }
+};
+
+function initModalSystem() {
+    const modal = document.getElementById('project-modal');
+    if (!modal) return;
+
+    const modalBody = modal.querySelector('.modal-body');
+    const modalCloseBtn = modal.querySelector('.modal-close');
+    const modalBackdrop = modal.querySelector('.modal-backdrop');
+    const modalTitleBar = document.getElementById('modal-terminal-title');
+
+    function openModal(projectId) {
+        const spec = PROJECT_SPECS[projectId];
+        if (!spec) return;
+
+        if (modalTitleBar) {
+            modalTitleBar.textContent = `${projectId}_spec.md`;
         }
+
+        modalBody.innerHTML = `
+            <div class="modal-project-content">
+                <h3 class="modal-project-title">${spec.title}</h3>
+                <div class="modal-project-tagline">${spec.tagline}</div>
+                <p class="modal-project-desc">${spec.description}</p>
+                
+                <h4 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 1.2rem; color: #ffffff;">Key Architecture & Features</h4>
+                <ul class="modal-features-list">
+                    ${spec.features.map(f => `<li>${f}</li>`).join('')}
+                </ul>
+                
+                <h4 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 1.2rem; color: #ffffff;">Technology Stack</h4>
+                <div class="modal-tech-stack">
+                    ${spec.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                </div>
+                
+                <div class="modal-links-row">
+                    ${spec.links.map(l => `
+                        <a href="${l.url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                            <span>${l.label}</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    // Attach open triggers
+    document.querySelectorAll('.open-modal-btn, [data-project]').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            if (e.target.closest('a') && !trigger.classList.contains('open-modal-btn')) {
+                return;
+            }
+            const projectId = trigger.getAttribute('data-project');
+            if (projectId && PROJECT_SPECS[projectId]) {
+                e.preventDefault();
+                openModal(projectId);
+            }
+        });
     });
-    
-    // Close modal on escape key
-    document.addEventListener('keydown', e => {
+
+    if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+    if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
+            closeModal();
         }
     });
 }
 
-// Contact Form Functionality
+/* --------------------------------------------------------------------------
+   05. ARBITER INTERACTIVE ORCHESTRATION GRAPH
+   -------------------------------------------------------------------------- */
+function initArbiterInteractiveGraph() {
+    const nodes = document.querySelectorAll('#arbiter-arch-graph .interactive-node');
+    const telemetryText = document.getElementById('arbiter-telemetry-text');
+    if (!nodes.length || !telemetryText) return;
+
+    nodes.forEach(node => {
+        const info = node.getAttribute('data-info');
+
+        node.addEventListener('mouseenter', () => {
+            nodes.forEach(n => n.classList.remove('active-node'));
+            node.classList.add('active-node');
+            if (info) {
+                telemetryText.textContent = info;
+            }
+        });
+
+        node.addEventListener('click', () => {
+            nodes.forEach(n => n.classList.remove('active-node'));
+            node.classList.add('active-node');
+            if (info) {
+                telemetryText.textContent = info;
+            }
+        });
+    });
+}
+
+/* --------------------------------------------------------------------------
+   06. INFEROPT DYNAMIC ROUTING SIMULATOR
+   -------------------------------------------------------------------------- */
+function initInferOptSimulator() {
+    const modeBtns = document.querySelectorAll('.infer-mode-switcher .mode-btn');
+    const routeFast = document.getElementById('route-fast');
+    const routeDeep = document.getElementById('route-deep');
+    const routerStatus = document.getElementById('infer-router-status');
+    const captionText = document.getElementById('infer-caption-text');
+
+    if (!modeBtns.length) return;
+
+    const SIMULATION_STATES = {
+        'speculative': {
+            fastActive: true,
+            deepActive: false,
+            status: 'Matching Speculative Draft // ~35ms P50 Latency',
+            caption: 'Dynamic dispatch active: Routing query to fast local speculative draft model with sub-100ms verification.'
+        },
+        'deep': {
+            fastActive: false,
+            deepActive: true,
+            status: 'High Budget Complex Query // Cloud Reasoning Model Fallback',
+            caption: 'Complex multi-step task detected: Bypassing draft model to execute cloud-scale deep reasoning.'
+        },
+        'cached': {
+            fastActive: true,
+            deepActive: false,
+            status: 'Prefix KV-Cache Hit // Zero Token Redundancy',
+            caption: 'KV Cache matching active: Reusing cached attention key-values for 40%+ token cost savings.'
+        }
+    };
+
+    modeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const mode = btn.getAttribute('data-mode');
+            const state = SIMULATION_STATES[mode];
+            if (!state) return;
+
+            if (routeFast) {
+                if (state.fastActive) routeFast.classList.add('active-route');
+                else routeFast.classList.remove('active-route');
+            }
+
+            if (routeDeep) {
+                if (state.deepActive) routeDeep.classList.add('active-route');
+                else routeDeep.classList.remove('active-route');
+            }
+
+            if (routerStatus) routerStatus.textContent = state.status;
+            if (captionText) captionText.textContent = state.caption;
+        });
+    });
+}
+
+/* --------------------------------------------------------------------------
+   07. FINANCIAL AI PIPELINE STAGE INTERACTIONS
+   -------------------------------------------------------------------------- */
+function initPipelineInteractions() {
+    const stages = document.querySelectorAll('.pipeline-stage');
+    stages.forEach(stage => {
+        stage.addEventListener('mouseenter', () => {
+            stages.forEach(s => s.classList.remove('active-node'));
+            stage.classList.add('active-node');
+        });
+    });
+}
+
+/* --------------------------------------------------------------------------
+   08. CONTACT FORM DISPATCH TO WHATSAPP & FEEDBACK
+   -------------------------------------------------------------------------- */
 function initContactForm() {
-    const contactForm = document.getElementById('contact-form');
-    const submitBtn = contactForm.querySelector('.submit-btn');
-    
-    contactForm.addEventListener('submit', e => {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+
+    const submitBtn = form.querySelector('.submit-btn');
+
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(contactForm);
-        const formValues = Object.fromEntries(formData.entries());
-        
-        // Disable submit button and show loading state
-        submitBtn.disabled = true;
+        const formData = new FormData(form);
+        const name = formData.get('name') || '';
+        const email = formData.get('email') || '';
+        const message = formData.get('message') || '';
+
         submitBtn.classList.add('loading');
-        submitBtn.querySelector('.btn-text').textContent = 'Sending...';
-        
-        // Create WhatsApp message with form data
-        const name = formValues.name;
-        const email = formValues.email;
-        const message = formValues.message;
-        const whatsappMessage = `Hello, my name is ${name}. Email: ${email}. Message: ${message}`;
-        const encodedMessage = encodeURIComponent(whatsappMessage);
-        const whatsappURL = `https://wa.me/919335729924?text=${encodedMessage}`;
-        
-        // Simulate form submission and then redirect to WhatsApp
+        submitBtn.querySelector('.btn-text').textContent = 'Formatting Transmission...';
+
+        const whatsappPayload = `Hello Suyash, my name is ${name} (${email}). Transmission: ${message}`;
+        const encoded = encodeURIComponent(whatsappPayload);
+        const whatsappUrl = `https://wa.me/919335729924?text=${encoded}`;
+
         setTimeout(() => {
-            // Show success state
             submitBtn.classList.remove('loading');
             submitBtn.classList.add('success');
-            submitBtn.querySelector('.btn-text').textContent = 'Opening WhatsApp...';
-            
-            // Reset form
-            contactForm.reset();
-            
-            // Open WhatsApp in a new tab
-            window.open(whatsappURL, '_blank', 'noopener,noreferrer');
-            
-            // Reset button after delay
+            submitBtn.querySelector('.btn-text').textContent = 'Opening Secure Dispatch...';
+
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            form.reset();
+
             setTimeout(() => {
-                submitBtn.disabled = false;
                 submitBtn.classList.remove('success');
-                submitBtn.querySelector('.btn-text').textContent = 'Send Message';
+                submitBtn.querySelector('.btn-text').textContent = 'Transmit Transmission';
             }, 3000);
-        }, 1500);
+        }, 1000);
     });
 }
 
-// Skill Bubbles Functionality
-function initSkillBubbles() {
-    const skillsContainer = document.querySelector('.skills-container');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const shuffleButton = document.getElementById('skills-shuffle');
-    const explodeButton = document.getElementById('skills-explode');
-    const groupButton = document.getElementById('skills-group');
-    
-    // Skills data with categories and sizes
-    const skills = [
-        { name: 'AI', size: 'large', category: 'ai' },
-        { name: 'Python', size: 'large', category: 'language' },
-        { name: 'TypeScript', size: 'large', category: 'language' },
-        { name: 'React', size: 'large', category: 'frontend' },
-        { name: 'FastAPI', size: 'medium', category: 'backend' },
-        { name: 'Node.js', size: 'medium', category: 'backend' },
-        { name: 'LangChain', size: 'medium', category: 'ai' },
-        { name: 'LLaMA', size: 'medium', category: 'ai' },
-        { name: 'MongoDB', size: 'medium', category: 'database' },
-        { name: 'AWS', size: 'medium', category: 'cloud' },
-        { name: 'Docker', size: 'small', category: 'devops' },
-        { name: 'Git', size: 'small', category: 'devops' },
-        { name: 'HTML/CSS', size: 'small', category: 'frontend' },
-        { name: 'JavaScript', size: 'medium', category: 'language' },
-        { name: 'SQL', size: 'small', category: 'database' },
-        { name: 'Firebase', size: 'small', category: 'cloud' },
-        { name: 'ChromaDB', size: 'small', category: 'database' },
-        { name: 'REST API', size: 'small', category: 'backend' },
-        { name: 'UI/UX', size: 'small', category: 'design' },
-        { name: 'VSCode API', size: 'small', category: 'tools' },
-        { name: 'TensorFlow', size: 'medium', category: 'ai' },
-        { name: 'PyTorch', size: 'medium', category: 'ai' },
-        { name: 'Next.js', size: 'medium', category: 'frontend' },
-        { name: 'GraphQL', size: 'small', category: 'backend' },
-        { name: 'Redis', size: 'small', category: 'database' },
-        { name: 'Kubernetes', size: 'small', category: 'devops' },
-        { name: 'Azure', size: 'small', category: 'cloud' },
-        { name: 'Java', size: 'small', category: 'language' },
-        { name: 'C++', size: 'small', category: 'language' },
-        { name: 'DSA', size: 'large', category: 'language' }
-    ];
-    
-    // Create and position skill bubbles
-    skills.forEach(skill => {
-        const bubble = document.createElement('div');
-        bubble.className = `skill-bubble ${skill.size}`;
-        bubble.setAttribute('data-category', skill.category);
-        bubble.textContent = skill.name;
-        
-        // Random initial position within container
-        const randomX = Math.random() * 80 + 10; // 10% to 90% of container width
-        const randomY = Math.random() * 80 + 10; // 10% to 90% of container height
-        
-        bubble.style.left = `${randomX}%`;
-        bubble.style.top = `${randomY}%`;
-        
-        // Add double-click event for fun animation
-        bubble.addEventListener('dblclick', () => {
-            bubble.classList.add('exploding');
-            setTimeout(() => {
-                bubble.classList.remove('exploding');
-            }, 1000);
-        });
-        
-        // Add to container
-        skillsContainer.appendChild(bubble);
-    });
-    
-    // Filter functionality
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Update active button
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            const filter = button.getAttribute('data-filter');
+/* --------------------------------------------------------------------------
+   09. SKILLS CONTROLS (CATEGORY FILTERS & SHORTCUTS)
+   -------------------------------------------------------------------------- */
+function initSkillsControls() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const shuffleBtn = document.getElementById('skills-shuffle');
+    const explodeBtn = document.getElementById('skills-explode');
+    const groupBtn = document.getElementById('skills-group');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.getAttribute('data-filter');
             const bubbles = document.querySelectorAll('.skill-bubble');
-            
+
             bubbles.forEach(bubble => {
-                if (filter === 'all' || bubble.getAttribute('data-category') === filter) {
+                const cat = bubble.getAttribute('data-category');
+                if (filter === 'all' || cat === filter) {
                     bubble.classList.remove('filtered-out');
                 } else {
                     bubble.classList.add('filtered-out');
@@ -541,248 +504,46 @@ function initSkillBubbles() {
             });
         });
     });
-    
-    // Shuffle functionality - connect to physics engine if available
-    shuffleButton.addEventListener('click', () => {
-        // Check if physics engine is available
-        if (window.skillPhysics && window.skillPhysics.resetPositions) {
-            window.skillPhysics.resetPositions();
-        } else {
-            // Fallback to CSS animation if physics engine not available
-            const bubbles = document.querySelectorAll('.skill-bubble');
-            
-            bubbles.forEach(bubble => {
-                // Generate new random positions
-                const randomX = Math.random() * 80 + 10;
-                const randomY = Math.random() * 80 + 10;
-                
-                // Animate to new positions with GSAP
-                gsap.to(bubble, {
-                    left: `${randomX}%`,
-                    top: `${randomY}%`,
-                    duration: 0.8,
-                    ease: 'back.out(1.7)'
-                });
-            });
-        }
-    });
-    
-    // Explode functionality - connect to physics engine if available
-    explodeButton.addEventListener('click', () => {
-        // Check if physics engine is available
-        if (window.skillPhysics && window.skillPhysics.applyExplosion) {
-            window.skillPhysics.applyExplosion();
-            
-            // Add visual effect to bubbles
-            const bubbles = document.querySelectorAll('.skill-bubble');
-            bubbles.forEach(bubble => {
-                bubble.classList.add('exploding');
-                setTimeout(() => {
-                    bubble.classList.remove('exploding');
-                }, 1000);
-            });
-        } else {
-            // Fallback to CSS animation if physics engine not available
-            const bubbles = document.querySelectorAll('.skill-bubble');
-            
-            bubbles.forEach(bubble => {
-                // Add exploding class for animation
-                bubble.classList.add('exploding');
-                
-                // Generate extreme positions (outside the container)
-                const extremeX = Math.random() * 200 - 50; // -50% to 150%
-                const extremeY = Math.random() * 200 - 50; // -50% to 150%
-                
-                // Animate to extreme positions
-                gsap.to(bubble, {
-                    left: `${extremeX}%`,
-                    top: `${extremeY}%`,
-                    duration: 0.5,
-                    ease: 'power2.out'
-                });
-                
-                // Return to container after delay
-                setTimeout(() => {
-                    const returnX = Math.random() * 80 + 10;
-                    const returnY = Math.random() * 80 + 10;
-                    
-                    gsap.to(bubble, {
-                        left: `${returnX}%`,
-                        top: `${returnY}%`,
-                        duration: 0.8,
-                        ease: 'elastic.out(1, 0.5)'
-                    });
-                    
-                    bubble.classList.remove('exploding');
-                }, 1000);
-            });
-        }
-    });
-    
-    // Group functionality - connect to physics engine if available
-    groupButton.addEventListener('click', () => {
-        // Check if physics engine is available
-        if (window.skillPhysics && window.skillPhysics.groupByCategory) {
-            window.skillPhysics.groupByCategory();
-        } else {
-            // Fallback to CSS animation if physics engine not available
-            const bubbles = document.querySelectorAll('.skill-bubble');
-            const categories = ['ai', 'language', 'frontend', 'backend', 'database', 'cloud', 'devops', 'tools', 'design'];
-            
-            // Define positions for each category group
-            const positions = {
-                'ai': { x: 20, y: 20 },
-                'language': { x: 80, y: 20 },
-                'frontend': { x: 20, y: 50 },
-                'backend': { x: 80, y: 50 },
-                'database': { x: 20, y: 80 },
-                'cloud': { x: 80, y: 80 },
-                'devops': { x: 50, y: 30 },
-                'tools': { x: 50, y: 50 },
-                'design': { x: 50, y: 70 }
-            };
-            
-            bubbles.forEach(bubble => {
-                const category = bubble.getAttribute('data-category');
-                const basePosition = positions[category] || { x: 50, y: 50 };
-                
-                // Add some randomness within the group
-                const offsetX = (Math.random() - 0.5) * 15;
-                const offsetY = (Math.random() - 0.5) * 15;
-                
-                gsap.to(bubble, {
-                    left: `${basePosition.x + offsetX}%`,
-                    top: `${basePosition.y + offsetY}%`,
-                    duration: 1,
-                    ease: 'back.out(1.7)'
-                });
-            });
-        }
-    });
-    
-    // Add keyboard controls for fun interactions
-    document.addEventListener('keydown', (e) => {
-        // Only trigger when focus is on the skills section
-        const skillsSection = document.querySelector('.skills-section');
-        const rect = skillsSection.getBoundingClientRect();
-        const isInView = (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-        
-        if (!isInView) return;
-        
-        // Space bar - Explode
-        if (e.code === 'Space') {
-            e.preventDefault();
-            explodeButton.click();
-        }
-        // S key - Shuffle
-        else if (e.code === 'KeyS') {
-            shuffleButton.click();
-        }
-        // G key - Group
-        else if (e.code === 'KeyG') {
-            groupButton.click();
-        }
-    });
-}
 
-// Hero Animation
-function animateHero() {
-    const heroTitle = document.querySelector('.hero-title');
-    const heroSubtitle = document.querySelector('.hero-subtitle');
-    const heroCta = document.querySelector('.hero-cta');
-    
-    // Animate with slight delay between elements
-    heroTitle.style.opacity = '1';
-    heroTitle.style.transform = 'scale(1)';
-    heroTitle.style.transition = 'opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    
-    setTimeout(() => {
-        heroSubtitle.style.opacity = '1';
-        heroSubtitle.style.transform = 'translateY(0)';
-        heroSubtitle.style.transition = 'opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    }, 200);
-    
-    setTimeout(() => {
-        heroCta.style.opacity = '1';
-        heroCta.style.transform = 'translateY(0)';
-        heroCta.style.transition = 'opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    }, 400);
-}
-
-// Scroll Animations
-function initScrollAnimations() {
-    // Elements to animate on scroll
-    const animatedElements = document.querySelectorAll('.section-title, .about-card, .project-card, .mtxo-card, .timeline-item, .contact-form');
-    
-    // Add animation classes
-    animatedElements.forEach(element => {
-        if (element.classList.contains('section-title')) {
-            element.classList.add('fade-in');
-        } else if (element.classList.contains('about-card') || element.classList.contains('mtxo-card')) {
-            element.classList.add('scale-in');
-        } else if (element.classList.contains('project-card')) {
-            element.classList.add('fade-in');
-        } else if (element.classList.contains('timeline-item')) {
-            // Alternate slide-in direction for timeline items
-            const isEven = Array.from(document.querySelectorAll('.timeline-item')).indexOf(element) % 2 === 0;
-            element.classList.add(isEven ? 'slide-in-right' : 'slide-in-left');
-        } else if (element.classList.contains('contact-form')) {
-            element.classList.add('fade-in');
-        }
-    });
-    
-    // Check if element is in viewport and add animate class
-    function checkScroll() {
-        animatedElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-            
-            if (elementTop < window.innerHeight - elementVisible) {
-                element.classList.add('animate');
+    if (shuffleBtn) {
+        shuffleBtn.addEventListener('click', () => {
+            if (window.skillPhysics && window.skillPhysics.resetPositions) {
+                window.skillPhysics.resetPositions();
             }
         });
     }
-    
-    // Initial check and add scroll event listener
-    checkScroll();
-    window.addEventListener('scroll', checkScroll);
-}
 
-// Easter Egg - Double Click
-document.addEventListener('dblclick', e => {
-    // Create AI bot element
-    const bot = document.createElement('div');
-    bot.className = 'ai-bot';
-    bot.innerHTML = '👋';
-    bot.style.position = 'fixed';
-    bot.style.left = `${e.clientX}px`;
-    bot.style.top = `${e.clientY}px`;
-    bot.style.fontSize = '3rem';
-    bot.style.zIndex = '1000';
-    bot.style.opacity = '0';
-    bot.style.transform = 'scale(0)';
-    bot.style.transition = 'opacity 0.3s, transform 0.3s';
-    
-    // Add to body and animate
-    document.body.appendChild(bot);
-    
-    setTimeout(() => {
-        bot.style.opacity = '1';
-        bot.style.transform = 'scale(1)';
-    }, 10);
-    
-    // Remove after animation
-    setTimeout(() => {
-        bot.style.opacity = '0';
-        bot.style.transform = 'scale(0)';
-        
-        setTimeout(() => {
-            document.body.removeChild(bot);
-        }, 300);
-    }, 2000);
-});
+    if (explodeBtn) {
+        explodeBtn.addEventListener('click', () => {
+            if (window.skillPhysics && window.skillPhysics.applyExplosion) {
+                window.skillPhysics.applyExplosion();
+            }
+        });
+    }
+
+    if (groupBtn) {
+        groupBtn.addEventListener('click', () => {
+            if (window.skillPhysics && window.skillPhysics.groupByCategory) {
+                window.skillPhysics.groupByCategory();
+            }
+        });
+    }
+
+    // Keyboard controls for skills
+    document.addEventListener('keydown', (e) => {
+        const skillsSection = document.getElementById('skills');
+        if (!skillsSection) return;
+        const rect = skillsSection.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!inView) return;
+
+        if (e.code === 'Space') {
+            e.preventDefault();
+            if (explodeBtn) explodeBtn.click();
+        } else if (e.code === 'KeyS' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+            if (shuffleBtn) shuffleBtn.click();
+        } else if (e.code === 'KeyG' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+            if (groupBtn) groupBtn.click();
+        }
+    });
+}

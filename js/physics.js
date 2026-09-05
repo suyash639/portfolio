@@ -1,541 +1,358 @@
-// Physics JavaScript file for Suyash Tiwari's Portfolio
+/**
+ * Suyash Tiwari — AI Systems & Infrastructure Portfolio
+ * Three.js WebGL Ambient Neural Field & Matter.js 2D Rigid Body Physics Engine
+ * Equipped with IntersectionObserver performance guards and dynamic resize lifecycle.
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize physics effects
-    initBackgroundEffects();
-    initSkillBubblePhysics();
+    initThreeBackground();
+    initMatterSkillsEngine();
 });
 
-// Background Effects with Three.js
-function initBackgroundEffects() {
+/* --------------------------------------------------------------------------
+   01. THREE.JS WEBGL AMBIENT NEURAL FIELD
+   -------------------------------------------------------------------------- */
+function initThreeBackground() {
     const canvas = document.getElementById('background-canvas');
-    
-    if (!canvas) return;
-    
-    // Initialize Three.js scene
+    if (!canvas || !window.THREE) return;
+
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 40;
+
     const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         alpha: true,
         antialias: true
     });
-    
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    
-    // Camera position
-    camera.position.z = 30;
-    
-    // Create liquid blobs
-    const blobs = [];
-    const blobCount = 5;
-    
-    for (let i = 0; i < blobCount; i++) {
-        // Create blob geometry
-        const geometry = new THREE.SphereGeometry(Math.random() * 3 + 2, 32, 32);
-        
-        // Create blob material
-        const material = new THREE.MeshBasicMaterial({
-            color: 0xff7a00,
-            transparent: true,
-            opacity: 0.1,
-            wireframe: false
-        });
-        
-        // Create blob mesh
-        const blob = new THREE.Mesh(geometry, material);
-        
-        // Random position
-        blob.position.x = (Math.random() - 0.5) * 50;
-        blob.position.y = (Math.random() - 0.5) * 50;
-        blob.position.z = (Math.random() - 0.5) * 10;
-        
-        // Random rotation speed
-        blob.rotationSpeed = {
-            x: (Math.random() - 0.5) * 0.01,
-            y: (Math.random() - 0.5) * 0.01,
-            z: (Math.random() - 0.5) * 0.01
-        };
-        
-        // Random movement speed
-        blob.movementSpeed = {
-            x: (Math.random() - 0.5) * 0.05,
-            y: (Math.random() - 0.5) * 0.05,
-            z: (Math.random() - 0.5) * 0.02
-        };
-        
-        // Add to scene and blobs array
-        scene.add(blob);
-        blobs.push(blob);
-    }
-    
-    // Create particles
-    const particleCount = 200;
-    const particles = new THREE.BufferGeometry();
-    const particlePositions = new Float32Array(particleCount * 3);
-    const particleSizes = new Float32Array(particleCount);
-    
+
+    // Particle Points Mesh
+    const particleCount = 180;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
     for (let i = 0; i < particleCount; i++) {
         const i3 = i * 3;
-        particlePositions[i3] = (Math.random() - 0.5) * 100;
-        particlePositions[i3 + 1] = (Math.random() - 0.5) * 100;
-        particlePositions[i3 + 2] = (Math.random() - 0.5) * 50;
-        
-        particleSizes[i] = Math.random() * 0.5 + 0.1;
+        positions[i3] = (Math.random() - 0.5) * 80;
+        positions[i3 + 1] = (Math.random() - 0.5) * 80;
+        positions[i3 + 2] = (Math.random() - 0.5) * 40;
+
+        // Accent orange / cyan blend
+        const isOrange = Math.random() > 0.35;
+        if (isOrange) {
+            colors[i3] = 1.0;
+            colors[i3 + 1] = 0.48; // #ff7a00
+            colors[i3 + 2] = 0.0;
+        } else {
+            colors[i3] = 0.0;
+            colors[i3 + 1] = 0.94; // #00f0ff
+            colors[i3 + 2] = 1.0;
+        }
     }
-    
-    particles.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-    particles.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
-    
-    // Particle material
-    const particleMaterial = new THREE.PointsMaterial({
-        color: 0xff7a00,
-        size: 0.5,
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 0.65,
+        vertexColors: true,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.35,
         sizeAttenuation: true
     });
-    
-    // Create particle system
-    const particleSystem = new THREE.Points(particles, particleMaterial);
-    scene.add(particleSystem);
-    
-    // Mouse movement effect
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // Mouse Tracking
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
     let targetY = 0;
-    
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-    });
-    
-    // Handle window resize
+    let isVisible = true;
+    let animationFrameId = null;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    }, { passive: true });
+
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
-    
-    // Animation loop
+
+    // Visibility Observer to conserve GPU when tab is hidden
+    document.addEventListener('visibilitychange', () => {
+        isVisible = document.visibilityState === 'visible';
+        if (isVisible && !animationFrameId) {
+            animate();
+        }
+    });
+
+    // Animation Loop
     function animate() {
-        requestAnimationFrame(animate);
-        
-        // Smooth mouse movement
-        targetX += (mouseX - targetX) * 0.05;
-        targetY += (mouseY - targetY) * 0.05;
-        
-        // Rotate and move blobs
-        blobs.forEach(blob => {
-            // Rotate blob
-            blob.rotation.x += blob.rotationSpeed.x;
-            blob.rotation.y += blob.rotationSpeed.y;
-            blob.rotation.z += blob.rotationSpeed.z;
-            
-            // Move blob
-            blob.position.x += blob.movementSpeed.x;
-            blob.position.y += blob.movementSpeed.y;
-            blob.position.z += blob.movementSpeed.z;
-            
-            // Boundary check and reverse direction
-            if (Math.abs(blob.position.x) > 30) blob.movementSpeed.x *= -1;
-            if (Math.abs(blob.position.y) > 30) blob.movementSpeed.y *= -1;
-            if (Math.abs(blob.position.z) > 10) blob.movementSpeed.z *= -1;
-            
-            // Subtle deformation based on mouse position
-            blob.scale.x = 1 + targetX * 0.1;
-            blob.scale.y = 1 + targetY * 0.1;
-        });
-        
-        // Move particle system based on mouse
-        particleSystem.rotation.x += targetY * 0.0005;
-        particleSystem.rotation.y += targetX * 0.0005;
-        
-        // Render scene
+        if (!isVisible) {
+            animationFrameId = null;
+            return;
+        }
+
+        animationFrameId = requestAnimationFrame(animate);
+
+        targetX += (mouseX - targetX) * 0.03;
+        targetY += (mouseY - targetY) * 0.03;
+
+        particles.rotation.y += 0.0008;
+        particles.rotation.x = targetY * 0.15;
+        particles.rotation.y += targetX * 0.002;
+
         renderer.render(scene, camera);
     }
-    
-    // Start animation
     animate();
 }
 
-// Skill Bubble Physics with Matter.js
-function initSkillBubblePhysics() {
-    const skillsContainer = document.querySelector('.skills-container');
-    const skillBubbles = document.querySelectorAll('.skill-bubble');
-    
-    if (!skillsContainer || !skillBubbles.length || !window.Matter) return;
-    
-    // Get container dimensions
-    const containerRect = skillsContainer.getBoundingClientRect();
-    const containerWidth = containerRect.width;
-    const containerHeight = containerRect.height;
-    
-    // Initialize Matter.js
-    const Engine = Matter.Engine;
-    const Render = Matter.Render;
-    const World = Matter.World;
-    const Bodies = Matter.Bodies;
-    const Body = Matter.Body;
-    const Mouse = Matter.Mouse;
-    const MouseConstraint = Matter.MouseConstraint;
-    
-    // Create engine and world
-    const engine = Engine.create();
-    const world = engine.world;
-    
-    // Create renderer (hidden, we'll use DOM elements for visuals)
-    const render = Render.create({
-        element: skillsContainer,
-        engine: engine,
-        options: {
-            width: containerWidth,
-            height: containerHeight,
-            wireframes: false,
-            background: 'transparent',
-            pixelRatio: window.devicePixelRatio
-        }
-    });
-    
-    // Disable gravity
-    world.gravity.y = 0;
-    
-    // Create boundaries
-    const wallThickness = 50;
-    const walls = [
-        // Top wall
-        Bodies.rectangle(containerWidth / 2, -wallThickness / 2, containerWidth, wallThickness, { isStatic: true }),
-        // Bottom wall
-        Bodies.rectangle(containerWidth / 2, containerHeight + wallThickness / 2, containerWidth, wallThickness, { isStatic: true }),
-        // Left wall
-        Bodies.rectangle(-wallThickness / 2, containerHeight / 2, wallThickness, containerHeight, { isStatic: true }),
-        // Right wall
-        Bodies.rectangle(containerWidth + wallThickness / 2, containerHeight / 2, wallThickness, containerHeight, { isStatic: true })
+/* --------------------------------------------------------------------------
+   02. MATTER.JS RIGID-BODY SKILL PHYSICS PLAYGROUND
+   -------------------------------------------------------------------------- */
+function initMatterSkillsEngine() {
+    const container = document.getElementById('matter-skills-container');
+    if (!container || !window.Matter) return;
+
+    const SKILLS_DATA = [
+        { name: 'AI / Agents', size: 'large', category: 'ai' },
+        { name: 'Python', size: 'large', category: 'language' },
+        { name: 'FastAPI', size: 'large', category: 'backend' },
+        { name: 'TypeScript', size: 'large', category: 'language' },
+        { name: 'React 19', size: 'large', category: 'frontend' },
+        { name: 'DSA (500+)', size: 'large', category: 'language' },
+        
+        { name: 'LangChain', size: 'medium', category: 'ai' },
+        { name: 'LLaMA', size: 'medium', category: 'ai' },
+        { name: 'ChromaDB', size: 'medium', category: 'database' },
+        { name: 'PyTorch', size: 'medium', category: 'ai' },
+        { name: 'TensorFlow', size: 'medium', category: 'ai' },
+        { name: 'Node.js', size: 'medium', category: 'backend' },
+        { name: 'MongoDB', size: 'medium', category: 'database' },
+        { name: 'AWS (SES/SQS)', size: 'medium', category: 'cloud' },
+        { name: 'Redis', size: 'medium', category: 'database' },
+        { name: 'Next.js', size: 'medium', category: 'frontend' },
+        
+        { name: 'Docker', size: 'small', category: 'cloud' },
+        { name: 'Git', size: 'small', category: 'cloud' },
+        { name: 'SQL', size: 'small', category: 'database' },
+        { name: 'REST APIs', size: 'small', category: 'backend' },
+        { name: 'GraphQL', size: 'small', category: 'backend' },
+        { name: 'Firebase', size: 'small', category: 'cloud' },
+        { name: 'Kubernetes', size: 'small', category: 'cloud' },
+        { name: 'Azure', size: 'small', category: 'cloud' },
+        { name: 'VSCode API', size: 'small', category: 'cloud' },
+        { name: 'JavaScript', size: 'small', category: 'language' },
+        { name: 'C++', size: 'small', category: 'language' },
+        { name: 'Java', size: 'small', category: 'language' },
+        { name: 'HTML/CSS', size: 'small', category: 'frontend' },
+        { name: 'UI/UX', size: 'small', category: 'frontend' }
     ];
-    
+
+    const { Engine, World, Bodies, Body, Mouse, MouseConstraint } = Matter;
+
+    let width = container.clientWidth || 800;
+    let height = container.clientHeight || 480;
+
+    const engine = Engine.create({
+        gravity: { x: 0, y: 0.05 } // gentle natural gravity
+    });
+    const world = engine.world;
+
+    // Boundary Walls
+    const wallThick = 60;
+    let walls = [
+        Bodies.rectangle(width / 2, -wallThick / 2, width * 2, wallThick, { isStatic: true }),
+        Bodies.rectangle(width / 2, height + wallThick / 2, width * 2, wallThick, { isStatic: true }),
+        Bodies.rectangle(-wallThick / 2, height / 2, wallThick, height * 2, { isStatic: true }),
+        Bodies.rectangle(width + wallThick / 2, height / 2, wallThick, height * 2, { isStatic: true })
+    ];
     World.add(world, walls);
-    
-    // Create bodies for skill bubbles
+
+    // Create Bubbles & DOM Elements
     const bubbleBodies = [];
-    
-    skillBubbles.forEach(bubble => {
-        // Get bubble dimensions
-        const bubbleRect = bubble.getBoundingClientRect();
-        const bubbleWidth = bubbleRect.width;
-        const bubbleHeight = bubbleRect.height;
-        const bubbleRadius = bubbleWidth / 2;
-        
-        // Get bubble position
-        const bubbleX = parseFloat(bubble.style.left) / 100 * containerWidth;
-        const bubbleY = parseFloat(bubble.style.top) / 100 * containerHeight;
-        
-        // Create circular body with properties based on size
-        const sizeClass = bubble.classList.contains('large') ? 'large' : 
-                         bubble.classList.contains('medium') ? 'medium' : 'small';
-        
-        // Adjust physics properties based on size
-        let density, restitution, friction;
-        switch(sizeClass) {
-            case 'large':
-                density = 0.002;
-                restitution = 0.7;
-                friction = 0.01;
-                break;
-            case 'medium':
-                density = 0.001;
-                restitution = 0.8;
-                friction = 0.008;
-                break;
-            case 'small':
-                density = 0.0005;
-                restitution = 0.9;
-                friction = 0.005;
-                break;
-            default:
-                density = 0.001;
-                restitution = 0.8;
-                friction = 0.005;
-        }
-        
-        // Create circular body
-        const body = Bodies.circle(bubbleX, bubbleY, bubbleRadius, {
-            restitution: restitution,
-            friction: friction,
-            frictionAir: 0.01,
-            density: density
+
+    SKILLS_DATA.forEach(skill => {
+        const bubble = document.createElement('div');
+        bubble.className = `skill-bubble ${skill.size}`;
+        bubble.setAttribute('data-category', skill.category);
+        bubble.setAttribute('data-cursor', 'drag');
+        bubble.textContent = skill.name;
+        container.appendChild(bubble);
+
+        const radius = skill.size === 'large' ? 50 : (skill.size === 'medium' ? 40 : 32.5);
+        const startX = Math.random() * (width - 120) + 60;
+        const startY = Math.random() * (height - 120) + 60;
+
+        const body = Bodies.circle(startX, startY, radius, {
+            restitution: 0.85,
+            friction: 0.05,
+            frictionAir: 0.02,
+            density: 0.001
         });
-        
-        // Store reference to DOM element
+
         body.element = bubble;
-        
-        // Add to world and array
+        body.category = skill.category;
+        body.radius = radius;
+
         World.add(world, body);
         bubbleBodies.push(body);
-        
-        // Add click event to apply impulse
-        bubble.addEventListener('click', () => {
-            // Apply random impulse on click
-            const impulseX = (Math.random() - 0.5) * 0.05;
-            const impulseY = (Math.random() - 0.5) * 0.05;
-            Body.applyForce(body, body.position, { x: impulseX, y: impulseY });
-            
-            // Add pulse animation class
-            bubble.classList.add('pulse');
-            setTimeout(() => {
-                bubble.classList.remove('pulse');
-            }, 300);
+
+        // Double click pulse / force burst
+        bubble.addEventListener('dblclick', () => {
+            bubble.classList.add('exploding');
+            Body.applyForce(body, body.position, {
+                x: (Math.random() - 0.5) * 0.08,
+                y: (Math.random() - 0.5) * 0.08
+            });
+            setTimeout(() => bubble.classList.remove('exploding'), 800);
         });
     });
-    
-    // Add mouse control
-    const mouse = Mouse.create(render.canvas);
+
+    // Mouse Interaction Constraint
+    const mouse = Mouse.create(container);
     const mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,
         constraint: {
-            stiffness: 0.2,
-            render: {
-                visible: false
-            }
+            stiffness: 0.15,
+            render: { visible: false }
         }
     });
-    
     World.add(world, mouseConstraint);
-    
-    // Mouse hover effect - repel bubbles
-    skillsContainer.addEventListener('mousemove', e => {
-        const mouseX = e.clientX - containerRect.left;
-        const mouseY = e.clientY - containerRect.top;
-        
-        bubbleBodies.forEach(body => {
-            const dx = body.position.x - mouseX;
-            const dy = body.position.y - mouseY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            // Apply repulsion force if mouse is close
-            if (distance < 150) {
-                const force = 0.0005 * (1 - distance / 150);
-                Body.applyForce(body, body.position, {
+
+    // Container hover repulsion
+    container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+
+        bubbleBodies.forEach(b => {
+            const dx = b.position.x - mx;
+            const dy = b.position.y - my;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120 && dist > 0) {
+                const force = 0.0003 * (1 - dist / 120);
+                Body.applyForce(b, b.position, {
                     x: dx * force,
                     y: dy * force
                 });
-                
-                // Add hover effect class
-                body.element.classList.add('hover');
-            } else {
-                body.element.classList.remove('hover');
             }
         });
     });
-    
-    // Add occasional random forces for more dynamic movement
-    setInterval(() => {
-        bubbleBodies.forEach(body => {
-            if (Math.random() > 0.7) { // Only apply to some bubbles
-                const impulseX = (Math.random() - 0.5) * 0.002;
-                const impulseY = (Math.random() - 0.5) * 0.002;
-                Body.applyForce(body, body.position, { x: impulseX, y: impulseY });
-            }
+
+    // Performance Lifecycle Guard via IntersectionObserver
+    let isPhysicsActive = false;
+    let physicsFrameId = null;
+
+    function syncPhysics() {
+        if (!isPhysicsActive) {
+            physicsFrameId = null;
+            return;
+        }
+
+        Engine.update(engine, 1000 / 60);
+
+        bubbleBodies.forEach(b => {
+            const el = b.element;
+            const x = b.position.x - b.radius;
+            const y = b.position.y - b.radius;
+            el.style.transform = `translate(${x}px, ${y}px) rotate(${b.angle}rad)`;
         });
-    }, 2000);
-    
-    // Update bubble positions
-    function updateBubblePositions() {
-        bubbleBodies.forEach(body => {
-            const bubble = body.element;
-            const x = (body.position.x / containerWidth) * 100;
-            const y = (body.position.y / containerHeight) * 100;
-            
-            bubble.style.left = `${x}%`;
-            bubble.style.top = `${y}%`;
-            
-            // Apply rotation for a more dynamic feel
-            const angle = body.angle * (180 / Math.PI);
-            bubble.style.transform = `rotate(${angle}deg)`;
-        });
-        
-        requestAnimationFrame(updateBubblePositions);
+
+        physicsFrameId = requestAnimationFrame(syncPhysics);
     }
-    
-    // Run the engine and start updating positions
-    Engine.run(engine);
-    updateBubblePositions();
-    
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        // Get new container dimensions
-        const newContainerRect = skillsContainer.getBoundingClientRect();
-        const newWidth = newContainerRect.width;
-        const newHeight = newContainerRect.height;
-        
-        // Update renderer size
-        render.options.width = newWidth;
-        render.options.height = newHeight;
-        render.canvas.width = newWidth;
-        render.canvas.height = newHeight;
-        
-        // Update wall positions
-        Body.setPosition(walls[0], { x: newWidth / 2, y: -wallThickness / 2 });
-        Body.setPosition(walls[1], { x: newWidth / 2, y: newHeight + wallThickness / 2 });
-        Body.setPosition(walls[2], { x: -wallThickness / 2, y: newHeight / 2 });
-        Body.setPosition(walls[3], { x: newWidth + wallThickness / 2, y: newHeight / 2 });
-        
-        // Scale body positions
-        bubbleBodies.forEach(body => {
-            const scaleX = newWidth / containerWidth;
-            const scaleY = newHeight / containerHeight;
-            
-            Body.setPosition(body, {
-                x: body.position.x * scaleX,
-                y: body.position.y * scaleY
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!isPhysicsActive) {
+                        isPhysicsActive = true;
+                        syncPhysics();
+                    }
+                } else {
+                    isPhysicsActive = false;
+                }
             });
-        });
-        
-        // Update container dimensions
-        containerWidth = newWidth;
-        containerHeight = newHeight;
+        }, { rootMargin: '150px' });
+
+        observer.observe(container);
+    } else {
+        isPhysicsActive = true;
+        syncPhysics();
+    }
+
+    // Resize Handler
+    window.addEventListener('resize', () => {
+        const newWidth = container.clientWidth;
+        const newHeight = container.clientHeight;
+        if (!newWidth || !newHeight) return;
+
+        width = newWidth;
+        height = newHeight;
+
+        Body.setPosition(walls[0], { x: width / 2, y: -wallThick / 2 });
+        Body.setPosition(walls[1], { x: width / 2, y: height + wallThick / 2 });
+        Body.setPosition(walls[2], { x: -wallThick / 2, y: height / 2 });
+        Body.setPosition(walls[3], { x: width + wallThick / 2, y: height / 2 });
     });
-    
-    // Export functions for external control
+
+    // Exported Control Methods for UI Buttons
     window.skillPhysics = {
         applyExplosion: () => {
-            bubbleBodies.forEach(body => {
-                const forceX = (Math.random() - 0.5) * 0.1;
-                const forceY = (Math.random() - 0.5) * 0.1;
-                Body.applyForce(body, body.position, { x: forceX, y: forceY });
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            bubbleBodies.forEach(b => {
+                const dx = b.position.x - centerX;
+                const dy = b.position.y - centerY;
+                const dist = Math.max(10, Math.sqrt(dx * dx + dy * dy));
+                const forceMag = 0.04;
+
+                Body.applyForce(b, b.position, {
+                    x: (dx / dist) * forceMag,
+                    y: (dy / dist) * forceMag
+                });
+
+                b.element.classList.add('exploding');
+                setTimeout(() => b.element.classList.remove('exploding'), 800);
             });
         },
         resetPositions: () => {
-            bubbleBodies.forEach(body => {
-                const randomX = Math.random() * (containerWidth - 100) + 50;
-                const randomY = Math.random() * (containerHeight - 100) + 50;
-                Body.setPosition(body, { x: randomX, y: randomY });
-                Body.setVelocity(body, { x: 0, y: 0 });
+            bubbleBodies.forEach(b => {
+                const rx = Math.random() * (width - 140) + 70;
+                const ry = Math.random() * (height - 140) + 70;
+                Body.setPosition(b, { x: rx, y: ry });
+                Body.setVelocity(b, { x: (Math.random() - 0.5) * 4, y: (Math.random() - 0.5) * 4 });
+            });
+        },
+        groupByCategory: () => {
+            const catTargets = {
+                'ai': { x: width * 0.25, y: height * 0.3 },
+                'language': { x: width * 0.75, y: height * 0.3 },
+                'backend': { x: width * 0.25, y: height * 0.75 },
+                'frontend': { x: width * 0.75, y: height * 0.75 },
+                'database': { x: width * 0.5, y: height * 0.3 },
+                'cloud': { x: width * 0.5, y: height * 0.75 }
+            };
+
+            bubbleBodies.forEach(b => {
+                const target = catTargets[b.category] || { x: width / 2, y: height / 2 };
+                const dx = target.x - b.position.x;
+                const dy = target.y - b.position.y;
+                Body.applyForce(b, b.position, {
+                    x: dx * 0.00015,
+                    y: dy * 0.00015
+                });
             });
         }
     };
 }
-
-// Particle Effect for Scroll
-document.addEventListener('DOMContentLoaded', () => {
-    // Create canvas for particles
-    const canvas = document.createElement('canvas');
-    canvas.id = 'particle-canvas';
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.zIndex = '0';
-    document.body.appendChild(canvas);
-    
-    // Initialize canvas
-    const ctx = canvas.getContext('2d');
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    
-    // Set canvas size
-    canvas.width = width;
-    canvas.height = height;
-    
-    // Particle class
-    class Particle {
-        constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.size = Math.random() * 3 + 1;
-            this.speedX = Math.random() * 2 - 1;
-            this.speedY = Math.random() * 2 - 1;
-            this.color = `rgba(255, 122, 0, ${Math.random() * 0.2 + 0.1})`;
-        }
-        
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            
-            // Boundary check
-            if (this.x < 0 || this.x > width) this.speedX *= -1;
-            if (this.y < 0 || this.y > height) this.speedY *= -1;
-        }
-        
-        draw() {
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-    
-    // Create particles
-    const particles = [];
-    const particleCount = 50;
-    
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-    
-    // Mouse influence
-    let mouseX = 0;
-    let mouseY = 0;
-    let scrollY = 0;
-    
-    document.addEventListener('mousemove', e => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-    
-    window.addEventListener('scroll', () => {
-        scrollY = window.scrollY;
-    });
-    
-    // Animation loop
-    function animate() {
-        ctx.clearRect(0, 0, width, height);
-        
-        // Update and draw particles
-        particles.forEach(particle => {
-            // Add mouse influence
-            const dx = particle.x - mouseX;
-            const dy = particle.y - mouseY + scrollY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 100) {
-                const angle = Math.atan2(dy, dx);
-                const force = (100 - distance) / 500;
-                
-                particle.speedX += Math.cos(angle) * force;
-                particle.speedY += Math.sin(angle) * force;
-            }
-            
-            // Add scroll influence
-            particle.y += scrollY * 0.01;
-            
-            // Apply speed limits
-            particle.speedX = Math.max(-2, Math.min(2, particle.speedX));
-            particle.speedY = Math.max(-2, Math.min(2, particle.speedY));
-            
-            // Apply friction
-            particle.speedX *= 0.98;
-            particle.speedY *= 0.98;
-            
-            // Update and draw
-            particle.update();
-            particle.draw();
-        });
-        
-        requestAnimationFrame(animate);
-    }
-    
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-    });
-    
-    // Start animation
-    animate();
-});
