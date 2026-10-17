@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prefersReducedMotion) return;
 
     // Initialize Animation Systems
-    initFluidContextualCursor();
+    initCustomPhysicsCursor();
     initMagneticElements();
     initSpecularCardTilt();
     initScrollReveal();
@@ -98,97 +98,134 @@ function initNarrativeScrollProgress() {
 }
 
 /* --------------------------------------------------------------------------
-   03. FLUID CONTEXTUAL CURSOR ENGINE (INSPECT / DRAG / LINK / DEFAULT)
+   03. TARGETED CUSTOM PHYSICS CURSOR ENGINE
    -------------------------------------------------------------------------- */
-function initFluidContextualCursor() {
+function initCustomPhysicsCursor() {
+    const cursor = document.getElementById('custom-cursor');
     const dot = document.getElementById('cursor-dot');
-    const circle = document.getElementById('cursor-circle');
-    const tag = document.getElementById('cursor-tag');
-    const glow = document.getElementById('cursor-glow');
+    const label = document.getElementById('cursor-label');
 
-    if (!dot || !circle || window.matchMedia('(pointer: coarse)').matches) return;
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let circleX = mouseX;
-    let circleY = mouseY;
-    let isHovering = false;
-
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
-        dot.style.left = `${mouseX}px`;
-        dot.style.top = `${mouseY}px`;
-
-        if (glow) {
-            glow.style.left = `${mouseX}px`;
-            glow.style.top = `${mouseY}px`;
-        }
-    }, { passive: true });
-
-    // Smooth spring follower
-    function renderCursor() {
-        circleX += (mouseX - circleX) * 0.18;
-        circleY += (mouseY - circleY) * 0.18;
-
-        circle.style.left = `${circleX}px`;
-        circle.style.top = `${circleY}px`;
-
-        requestAnimationFrame(renderCursor);
+    if (!cursor || !dot || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
     }
-    renderCursor();
 
-    // Contextual Hover Delegations
-    document.addEventListener('mouseover', (e) => {
-        const target = e.target.closest('[data-cursor], a, button, .project-card, .philosophy-card, .timeline-card, .chapter-card, .arch-node, .desk-pill, .skill-bubble');
-        if (!target) {
-            resetCursor();
+    let targetX = -100;
+    let targetY = -100;
+    let currX = -100;
+    let currY = -100;
+    let isInitialized = false;
+    let isVisible = false;
+    let animationFrameId = null;
+
+    // Pointer move listener
+    function onPointerMove(e) {
+        targetX = e.clientX;
+        targetY = e.clientY;
+
+        if (!isInitialized) {
+            currX = targetX;
+            currY = targetY;
+            cursor.style.transform = `translate3d(${currX}px, ${currY}px, 0)`;
+            dot.style.opacity = '1';
+            document.documentElement.classList.add('has-custom-cursor');
+            isInitialized = true;
+            isVisible = true;
+            render();
             return;
         }
 
-        isHovering = true;
-        const cursorType = target.getAttribute('data-cursor');
+        if (!isVisible) {
+            dot.classList.remove('is-hidden');
+            isVisible = true;
+        }
 
-        if (cursorType === 'inspect') {
-            circle.className = 'cursor-circle cursor-inspect has-tag';
-            if (tag) tag.textContent = 'INSPECT';
-        } else if (cursorType === 'drag') {
-            circle.className = 'cursor-circle cursor-drag has-tag';
-            if (tag) tag.textContent = 'DRAG';
-        } else if (cursorType === 'link' || target.tagName === 'A' || target.tagName === 'BUTTON' || target.classList.contains('desk-pill')) {
-            circle.className = 'cursor-circle cursor-link';
-            if (tag) tag.textContent = '';
+        // Check if pointer is over text input or textarea
+        const targetEl = e.target && typeof e.target.closest === 'function' ? e.target : document.elementFromPoint(e.clientX, e.clientY);
+        const isInput = targetEl && typeof targetEl.closest === 'function' && targetEl.closest('input, textarea, select, [contenteditable="true"]');
+        if (isInput) {
+            dot.classList.add('is-text-input');
         } else {
-            circle.className = 'cursor-circle cursor-link';
-            if (tag) tag.textContent = '';
+            dot.classList.remove('is-text-input');
         }
-    });
-
-    document.addEventListener('mouseout', (e) => {
-        const fromTarget = e.target.closest('[data-cursor], a, button, .project-card, .philosophy-card, .timeline-card, .chapter-card, .arch-node, .desk-pill, .skill-bubble');
-        if (fromTarget && !e.relatedTarget?.closest('[data-cursor], a, button, .project-card, .philosophy-card, .timeline-card, .chapter-card, .arch-node, .desk-pill, .skill-bubble')) {
-            resetCursor();
-        }
-    });
-
-    function resetCursor() {
-        isHovering = false;
-        circle.className = 'cursor-circle';
-        if (tag) tag.textContent = '';
     }
 
-    document.addEventListener('mouseleave', () => {
-        dot.style.opacity = '0';
-        circle.style.opacity = '0';
-        if (glow) glow.style.opacity = '0';
-    });
+    // Pointer down / up for tactile press response
+    function onPointerDown(e) {
+        const targetEl = e.target && typeof e.target.closest === 'function' ? e.target : document.elementFromPoint(e.clientX, e.clientY);
+        const isInput = targetEl && typeof targetEl.closest === 'function' && targetEl.closest('input, textarea, select');
+        if (!isInput) {
+            dot.classList.add('is-pressed');
+        }
+    }
 
-    document.addEventListener('mouseenter', () => {
-        dot.style.opacity = '1';
-        circle.style.opacity = '1';
-        if (glow) glow.style.opacity = '1';
-    });
+    function onPointerUp() {
+        dot.classList.remove('is-pressed');
+    }
+
+    // Hover state management via event delegation
+    function onPointerOver(e) {
+        if (!e.target || typeof e.target.closest !== 'function') return;
+        const target = e.target.closest('[data-cursor], a, button, [role="button"], .rail-btn, .map-node, .console-nav-btn, .desk-pill');
+        if (!target) return;
+
+        const cursorAttr = target.getAttribute('data-cursor');
+        if (cursorAttr === 'inspect' || cursorAttr === 'view') {
+            dot.classList.remove('is-hover-interactive');
+            dot.classList.add('is-hover-accent');
+            if (label) {
+                label.textContent = cursorAttr === 'inspect' ? 'INSPECT' : 'VIEW';
+            }
+        } else {
+            dot.classList.remove('is-hover-accent');
+            dot.classList.add('is-hover-interactive');
+            if (label) label.textContent = '';
+        }
+    }
+
+    function onPointerOut(e) {
+        if (!e.target || typeof e.target.closest !== 'function') return;
+        const fromTarget = e.target.closest('[data-cursor], a, button, [role="button"], .rail-btn, .map-node, .console-nav-btn, .desk-pill');
+        const toTarget = e.relatedTarget && typeof e.relatedTarget.closest === 'function' ? e.relatedTarget.closest('[data-cursor], a, button, [role="button"], .rail-btn, .map-node, .console-nav-btn, .desk-pill') : null;
+        if (fromTarget && !toTarget) {
+            dot.classList.remove('is-hover-interactive', 'is-hover-accent');
+            if (label) label.textContent = '';
+        }
+    }
+
+    function onPointerLeave() {
+        isVisible = false;
+        dot.classList.add('is-hidden');
+    }
+
+    function onPointerEnter(e) {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        isVisible = true;
+        dot.classList.remove('is-hidden');
+    }
+
+    // High performance rAF loop with spring-like 0.28 damping lerp
+    function render() {
+        const dx = targetX - currX;
+        const dy = targetY - currY;
+
+        // Lerp update
+        currX += dx * 0.28;
+        currY += dy * 0.28;
+
+        cursor.style.transform = `translate3d(${currX}px, ${currY}px, 0)`;
+
+        animationFrameId = requestAnimationFrame(render);
+    }
+
+    // Bind event listeners
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
+    window.addEventListener('pointerup', onPointerUp, { passive: true });
+    document.addEventListener('mouseover', onPointerOver, { passive: true });
+    document.addEventListener('mouseout', onPointerOut, { passive: true });
+    document.addEventListener('pointerleave', onPointerLeave);
+    document.addEventListener('pointerenter', onPointerEnter);
 }
 
 /* --------------------------------------------------------------------------

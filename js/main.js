@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPipelineInteractions();
     initContactForm();
     initSkillsControls();
+    initPhilosophySystemMap();
 });
 
 /* --------------------------------------------------------------------------
@@ -546,4 +547,287 @@ function initSkillsControls() {
             if (groupBtn) groupBtn.click();
         }
     });
+}
+
+/* --------------------------------------------------------------------------
+   10. INTERACTIVE AI SYSTEM MAP & ARCHITECTURAL PILLARS (PHASE 2)
+   -------------------------------------------------------------------------- */
+function initPhilosophySystemMap() {
+    const container = document.getElementById('philosophy-system-map');
+    if (!container) return;
+
+    // Preserving all 6 original pillars with complete headings, technical descriptions, and tags
+    const pillarsData = {
+        1: {
+            num: "01",
+            title: "AI Should Reason",
+            badge: "PILLAR 01",
+            domain: "CORE COGNITIVE GRAPH",
+            desc: "Beyond naive generation, systems require structured decomposition, multi-step tree-of-thought verification, stateful graph memory, and explicit consensus loops.",
+            tag: "Graph State Machines & Intent Decoders",
+            icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`,
+            status: "NODE 01 ONLINE // REASONING ENGINE",
+            telemetry: "STABILITY: 99.98% • LATENCY: <14MS",
+            specExec: "Deterministic Graph State Decomposition",
+            specGuard: "Verified Consensus Loop & Tree-of-Thought"
+        },
+        2: {
+            num: "02",
+            title: "AI Should Retrieve",
+            badge: "PILLAR 02",
+            domain: "CONTEXTUAL GROUNDING FABRIC",
+            desc: "Grounding output with hybrid sparse-dense vector search, contextual chunking, re-ranking algorithms, and cryptographically verified provenance citations.",
+            tag: "ChromaDB • Hybrid RAG • Citation Graphs",
+            icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path><path d="M10 7v6l4 2"></path></svg>`,
+            status: "NODE 02 ONLINE // RETRIEVAL FABRIC",
+            telemetry: "RECALL@5: 98.4% • LATENCY: <18MS",
+            specExec: "Hybrid Dense/Sparse Vector Search & Re-rank",
+            specGuard: "Cryptographically Verified Citation Graphs"
+        },
+        3: {
+            num: "03",
+            title: "AI Should Use Tools",
+            badge: "PILLAR 03",
+            domain: "DETERMINISTIC INTERFACES",
+            desc: "Deterministic interaction via strict Pydantic schemas, Model Context Protocol (MCP) integrations, parameter sandboxing, and idempotent API execution.",
+            tag: "MCP Protocols • Deterministic Tools",
+            icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>`,
+            status: "NODE 03 ONLINE // MCP PROTOCOL BUS",
+            telemetry: "SCHEMA MATCH: 100% • IDEMPOTENT: TRUE",
+            specExec: "Strict Pydantic Schema Validation",
+            specGuard: "Isolated Sandboxed API Execution & Audits"
+        },
+        4: {
+            num: "04",
+            title: "AI Should Act",
+            badge: "PILLAR 04",
+            domain: "AUTONOMOUS ORCHESTRATION",
+            desc: "Autonomous multi-agent taskforces orchestrating specialist roles (Book QA, Notes Desk, Market Analysis) with human-in-the-loop validation checkpoints.",
+            tag: "Multi-Agent Taskforces • Specialist Desks",
+            icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+            status: "NODE 04 ONLINE // MULTI-AGENT SWARM",
+            telemetry: "ACTIVE AGENTS: 3 • HITL GATES: ARMED",
+            specExec: "Autonomous Multi-Agent Task Delegation",
+            specGuard: "Human-in-the-Loop Validation Checkpoints"
+        },
+        5: {
+            num: "05",
+            title: "AI Should Be Evaluated",
+            badge: "PILLAR 05",
+            domain: "CONTINUOUS BENCHMARKING",
+            desc: "Continuous regression suites, prompt injection boundary testing, schema compliance checks, and deterministic offline benchmark suites ensuring zero regressions.",
+            tag: "Pytest • 100% Eval Suites • Injection Guards",
+            icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`,
+            status: "NODE 05 ONLINE // EVALUATION TESTBENCH",
+            telemetry: "TEST PASS: 100% • INJECTION DEFENSE: 99.9%",
+            specExec: "Continuous Pytest Regression Test Suites",
+            specGuard: "Prompt Injection Boundary & Schema Compliance"
+        },
+        6: {
+            num: "06",
+            title: "AI Should Work in Production",
+            badge: "PILLAR 06",
+            domain: "HARDENED INFRASTRUCTURE",
+            desc: "Hardened with circuit breakers, exponential jitter backoff, PII redaction gateways, P50/P95 telemetry observability, and dynamic inference cache reuse.",
+            tag: "Circuit Breakers • Telemetry • Sub-100ms",
+            icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`,
+            status: "NODE 06 ONLINE // RESILIENT PRODUCTION",
+            telemetry: "P95 LATENCY: <85MS • CIRCUIT BREAKER: ARMED",
+            specExec: "Circuit Breakers & Exponential Jitter Backoff",
+            specGuard: "PII Redaction Gateways & Realtime Telemetry"
+        }
+    };
+
+    let activePillar = 1;
+    const railBtns = container.querySelectorAll('.rail-btn');
+    const mapNodes = container.querySelectorAll('.map-node');
+    const busLines = container.querySelectorAll('.bus-line');
+
+    const statusTextEl = document.getElementById('console-status-text');
+    const telemetryEl = document.getElementById('console-telemetry');
+    const badgeEl = document.getElementById('console-badge');
+    const domainEl = document.getElementById('console-domain');
+    const iconEl = document.getElementById('console-icon');
+    const titleEl = document.getElementById('console-title');
+    const descEl = document.getElementById('console-desc');
+    const tagEl = document.getElementById('console-tag');
+    const specExecEl = document.getElementById('console-spec-exec');
+    const specGuardEl = document.getElementById('console-spec-guard');
+    const currentNumEl = document.getElementById('console-current-num');
+    const prevBtn = document.getElementById('console-prev-btn');
+    const nextBtn = document.getElementById('console-next-btn');
+    const coreHub = document.getElementById('core-hub');
+
+    function updatePillar(index, smooth = true) {
+        if (!pillarsData[index]) return;
+        activePillar = index;
+        const data = pillarsData[index];
+
+        // 1. Update rail buttons
+        railBtns.forEach(btn => {
+            const btnPillar = parseInt(btn.getAttribute('data-pillar'), 10);
+            const isActive = btnPillar === index;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        // 2. Update map nodes
+        mapNodes.forEach(node => {
+            const nodePillar = parseInt(node.getAttribute('data-pillar'), 10);
+            const isActive = nodePillar === index;
+            node.classList.toggle('active', isActive);
+            node.classList.toggle('dimmed', !isActive);
+        });
+
+        // 3. Update SVG bus lines
+        busLines.forEach(line => {
+            const isTargetLine = line.classList.contains(`bus-line-${index}`);
+            line.classList.toggle('active', isTargetLine);
+        });
+
+        // 4. Update inspection console content
+        if (titleEl && descEl) {
+            if (smooth) {
+                const consoleBody = document.getElementById('console-content');
+                if (consoleBody) {
+                    consoleBody.style.transition = 'opacity 0.15s ease';
+                    consoleBody.style.opacity = '0.4';
+                    setTimeout(() => {
+                        applyContent(data);
+                        consoleBody.style.opacity = '1';
+                    }, 120);
+                } else {
+                    applyContent(data);
+                }
+            } else {
+                applyContent(data);
+            }
+        }
+    }
+
+    function applyContent(data) {
+        if (statusTextEl) statusTextEl.textContent = data.status;
+        if (telemetryEl) {
+            const parts = data.telemetry.split(' • ');
+            telemetryEl.innerHTML = `<span class="telemetry-item">${parts[0]}</span><span class="telemetry-separator">•</span><span class="telemetry-item">${parts[1]}</span>`;
+        }
+        if (badgeEl) badgeEl.textContent = data.badge;
+        if (domainEl) domainEl.textContent = data.domain;
+        if (iconEl) iconEl.innerHTML = data.icon;
+        if (titleEl) titleEl.textContent = data.title;
+        if (descEl) descEl.textContent = data.desc;
+        if (tagEl) tagEl.textContent = data.tag;
+        if (specExecEl) specExecEl.textContent = data.specExec;
+        if (specGuardEl) specGuardEl.textContent = data.specGuard;
+        if (currentNumEl) currentNumEl.textContent = data.num;
+    }
+
+    // Bind Rail Buttons
+    railBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const pillar = parseInt(btn.getAttribute('data-pillar'), 10);
+            updatePillar(pillar);
+        });
+    });
+
+    // Bind Map Nodes (Click + Hover preview)
+    mapNodes.forEach(node => {
+        node.addEventListener('click', () => {
+            const pillar = parseInt(node.getAttribute('data-pillar'), 10);
+            updatePillar(pillar);
+        });
+
+        node.addEventListener('mouseenter', () => {
+            const pillar = parseInt(node.getAttribute('data-pillar'), 10);
+            busLines.forEach(line => {
+                const isTargetLine = line.classList.contains(`bus-line-${pillar}`);
+                if (isTargetLine) {
+                    line.style.stroke = 'var(--accent-orange)';
+                    line.style.opacity = '1';
+                }
+            });
+        });
+
+        node.addEventListener('mouseleave', () => {
+            busLines.forEach(line => {
+                const isTargetLine = line.classList.contains(`bus-line-${activePillar}`);
+                if (!isTargetLine) {
+                    line.style.stroke = '';
+                    line.style.opacity = '';
+                }
+            });
+        });
+    });
+
+    // Core Hub click cycles to next
+    if (coreHub) {
+        coreHub.addEventListener('click', () => {
+            const next = activePillar >= 6 ? 1 : activePillar + 1;
+            updatePillar(next);
+        });
+    }
+
+    // Prev / Next Controls
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            const prev = activePillar <= 1 ? 6 : activePillar - 1;
+            updatePillar(prev);
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const next = activePillar >= 6 ? 1 : activePillar + 1;
+            updatePillar(next);
+        });
+    }
+
+    function updateBusLineCoordinates() {
+        const canvas = document.getElementById('system-canvas');
+        const hub = document.getElementById('core-hub');
+        const ringPath = document.getElementById('circuit-ring-path');
+        if (!canvas || !hub) return;
+
+        const canvasRect = canvas.getBoundingClientRect();
+        const hubRect = hub.getBoundingClientRect();
+        const hx = hubRect.left + hubRect.width / 2 - canvasRect.left;
+        const hy = hubRect.top + hubRect.height / 2 - canvasRect.top;
+
+        const nodeCoords = [];
+
+        mapNodes.forEach(node => {
+            const pillar = node.getAttribute('data-pillar');
+            const line = document.getElementById(`bus-line-${pillar}`);
+            const nRect = node.getBoundingClientRect();
+            const nx = nRect.left + nRect.width / 2 - canvasRect.left;
+            const ny = nRect.top + nRect.height / 2 - canvasRect.top;
+
+            if (line) {
+                line.setAttribute('x1', hx);
+                line.setAttribute('y1', hy);
+                line.setAttribute('x2', nx);
+                line.setAttribute('y2', ny);
+            }
+
+            nodeCoords.push({ pillar: parseInt(pillar, 10), x: nx, y: ny });
+        });
+
+        // Connect ring path linking 1 -> 4 -> 5 -> 6 -> 3 -> 2 -> 1
+        if (ringPath && nodeCoords.length === 6) {
+            nodeCoords.sort((a, b) => a.pillar - b.pillar);
+            const p1 = nodeCoords[0];
+            const p2 = nodeCoords[1];
+            const p3 = nodeCoords[2];
+            const p4 = nodeCoords[3];
+            const p5 = nodeCoords[4];
+            const p6 = nodeCoords[5];
+            ringPath.setAttribute('d', `M ${p1.x} ${p1.y} L ${p4.x} ${p4.y} L ${p5.x} ${p5.y} L ${p6.x} ${p6.y} L ${p3.x} ${p3.y} L ${p2.x} ${p2.y} Z`);
+        }
+    }
+
+    // Initialize with Pillar 01 and update bus line geometry
+    updatePillar(1, false);
+    updateBusLineCoordinates();
+    setTimeout(updateBusLineCoordinates, 100);
+    window.addEventListener('resize', updateBusLineCoordinates);
 }

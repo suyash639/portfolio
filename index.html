@@ -27,12 +27,12 @@
     <!-- Top Narrative Progress HUD Bar -->
     <div id="scroll-progress-bar" aria-hidden="true"></div>
 
-    <!-- Fluid Contextual Cursor Engine -->
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-circle" id="cursor-circle">
-        <span class="cursor-tag" id="cursor-tag"></span>
+    <!-- Targeted Custom Physics Cursor -->
+    <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
+        <div id="cursor-dot" class="cursor-dot">
+            <span id="cursor-label" class="cursor-label"></span>
+        </div>
     </div>
-    <div class="cursor-glow" id="cursor-glow"></div>
 
     <!-- Ambient WebGL & Computational Grid Background -->
     <div class="background-container" aria-hidden="true">
@@ -215,78 +215,233 @@
                     </p>
                 </div>
 
-                <!-- Progressive Evolution Cards -->
-                <div class="philosophy-grid">
-                    <div class="philosophy-card" data-step="01" data-reveal>
-                        <div class="card-step-badge">PILLAR 01</div>
-                        <div class="card-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                        </div>
-                        <h3 class="card-title">AI Should Reason</h3>
-                        <p class="card-desc">
-                            Beyond naive generation, systems require structured decomposition, multi-step tree-of-thought verification, stateful graph memory, and explicit consensus loops.
-                        </p>
-                        <div class="card-tag">Graph State Machines & Intent Decoders</div>
+                <!-- Interactive AI System Map: 6 Interconnected Architectural Pillars -->
+                <div class="system-map-wrapper" id="philosophy-system-map" data-reveal>
+                    <!-- System Quick-Selector Bar -->
+                    <div class="system-map-rail" role="tablist" aria-label="Engineering Pillars Navigation">
+                        <button class="rail-btn active" data-pillar="1" role="tab" aria-selected="true" id="tab-pillar-1" aria-controls="console-content">
+                            <span class="rail-num">01</span>
+                            <span class="rail-label">REASON</span>
+                            <span class="rail-dot"></span>
+                        </button>
+                        <button class="rail-btn" data-pillar="2" role="tab" aria-selected="false" id="tab-pillar-2" aria-controls="console-content">
+                            <span class="rail-num">02</span>
+                            <span class="rail-label">RETRIEVE</span>
+                            <span class="rail-dot"></span>
+                        </button>
+                        <button class="rail-btn" data-pillar="3" role="tab" aria-selected="false" id="tab-pillar-3" aria-controls="console-content">
+                            <span class="rail-num">03</span>
+                            <span class="rail-label">TOOLS</span>
+                            <span class="rail-dot"></span>
+                        </button>
+                        <button class="rail-btn" data-pillar="4" role="tab" aria-selected="false" id="tab-pillar-4" aria-controls="console-content">
+                            <span class="rail-num">04</span>
+                            <span class="rail-label">ACT</span>
+                            <span class="rail-dot"></span>
+                        </button>
+                        <button class="rail-btn" data-pillar="5" role="tab" aria-selected="false" id="tab-pillar-5" aria-controls="console-content">
+                            <span class="rail-num">05</span>
+                            <span class="rail-label">EVALUATE</span>
+                            <span class="rail-dot"></span>
+                        </button>
+                        <button class="rail-btn" data-pillar="6" role="tab" aria-selected="false" id="tab-pillar-6" aria-controls="console-content">
+                            <span class="rail-num">06</span>
+                            <span class="rail-label">PRODUCTION</span>
+                            <span class="rail-dot"></span>
+                        </button>
                     </div>
 
-                    <div class="philosophy-card" data-step="02" data-reveal>
-                        <div class="card-step-badge">PILLAR 02</div>
-                        <div class="card-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path><path d="M10 7v6l4 2"></path></svg>
-                        </div>
-                        <h3 class="card-title">AI Should Retrieve</h3>
-                        <p class="card-desc">
-                            Grounding output with hybrid sparse-dense vector search, contextual chunking, re-ranking algorithms, and cryptographically verified provenance citations.
-                        </p>
-                        <div class="card-tag">ChromaDB • Hybrid RAG • Citation Graphs</div>
-                    </div>
+                    <!-- Main System Canvas & Inspection Console Grid -->
+                    <div class="system-map-stage">
+                        <!-- Left: Interconnected Neural Constellation Diagram -->
+                        <div class="system-topology-canvas" id="system-canvas">
+                            <!-- Background Circuit Grid -->
+                            <div class="canvas-circuit-grid"></div>
 
-                    <div class="philosophy-card" data-step="03" data-reveal>
-                        <div class="card-step-badge">PILLAR 03</div>
-                        <div class="card-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-                        </div>
-                        <h3 class="card-title">AI Should Use Tools</h3>
-                        <p class="card-desc">
-                            Deterministic interaction via strict Pydantic schemas, Model Context Protocol (MCP) integrations, parameter sandboxing, and idempotent API execution.
-                        </p>
-                        <div class="card-tag">MCP Protocols • Deterministic Tools</div>
-                    </div>
+                            <!-- Interactive SVG Connection Buses -->
+                            <svg class="canvas-svg-network" id="canvas-svg-network" fill="none" aria-hidden="true">
+                                <defs>
+                                    <filter id="circuit-blur">
+                                        <feGaussianBlur stdDeviation="2" result="blur" />
+                                        <feMerge>
+                                            <feMergeNode in="blur" />
+                                            <feMergeNode in="SourceGraphic" />
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+                                
+                                <!-- Inter-Node Interconnect Ring Circuits -->
+                                <path class="circuit-ring-path" id="circuit-ring-path" d="" />
+                                
+                                <!-- Core Radial Bus Lines to Nodes (1 through 6) -->
+                                <line class="bus-line bus-line-1" id="bus-line-1" x1="0" y1="0" x2="0" y2="0" />
+                                <line class="bus-line bus-line-2" id="bus-line-2" x1="0" y1="0" x2="0" y2="0" />
+                                <line class="bus-line bus-line-3" id="bus-line-3" x1="0" y1="0" x2="0" y2="0" />
+                                <line class="bus-line bus-line-4" id="bus-line-4" x1="0" y1="0" x2="0" y2="0" />
+                                <line class="bus-line bus-line-5" id="bus-line-5" x1="0" y1="0" x2="0" y2="0" />
+                                <line class="bus-line bus-line-6" id="bus-line-6" x1="0" y1="0" x2="0" y2="0" />
+                            </svg>
 
-                    <div class="philosophy-card" data-step="04" data-reveal>
-                        <div class="card-step-badge">PILLAR 04</div>
-                        <div class="card-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        </div>
-                        <h3 class="card-title">AI Should Act</h3>
-                        <p class="card-desc">
-                            Autonomous multi-agent taskforces orchestrating specialist roles (Book QA, Notes Desk, Market Analysis) with human-in-the-loop validation checkpoints.
-                        </p>
-                        <div class="card-tag">Multi-Agent Taskforces • Specialist Desks</div>
-                    </div>
+                            <!-- Center Autonomous Core Engine -->
+                            <div class="core-hub" id="core-hub" data-cursor="inspect">
+                                <div class="core-hub-pulse"></div>
+                                <div class="core-hub-ring"></div>
+                                <div class="core-hub-center">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                                        <rect x="9" y="9" width="6" height="6"></rect>
+                                        <line x1="9" y1="1" x2="9" y2="4"></line>
+                                        <line x1="15" y1="1" x2="15" y2="4"></line>
+                                        <line x1="9" y1="20" x2="9" y2="23"></line>
+                                        <line x1="15" y1="20" x2="15" y2="23"></line>
+                                        <line x1="20" y1="9" x2="23" y2="9"></line>
+                                        <line x1="20" y1="14" x2="23" y2="14"></line>
+                                        <line x1="1" y1="9" x2="4" y2="9"></line>
+                                        <line x1="1" y1="14" x2="4" y2="14"></line>
+                                    </svg>
+                                </div>
+                                <div class="core-hub-title">AI CORE BUS</div>
+                                <div class="core-hub-sub">6 PILLARS ACTIVE</div>
+                            </div>
 
-                    <div class="philosophy-card" data-step="05" data-reveal>
-                        <div class="card-step-badge">PILLAR 05</div>
-                        <div class="card-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                        </div>
-                        <h3 class="card-title">AI Should Be Evaluated</h3>
-                        <p class="card-desc">
-                            Continuous regression suites, prompt injection boundary testing, schema compliance checks, and deterministic offline benchmark suites ensuring zero regressions.
-                        </p>
-                        <div class="card-tag">Pytest • 100% Eval Suites • Injection Guards</div>
-                    </div>
+                            <!-- 6 Peripheral Capability Nodes -->
+                            <!-- Node 01: Reason (top-left) -->
+                            <button class="map-node node-1 active" data-pillar="1" aria-label="Pillar 01: AI Should Reason" role="button">
+                                <div class="node-badge">01</div>
+                                <div class="node-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                </div>
+                                <div class="node-text">
+                                    <span class="node-name">Reason</span>
+                                    <span class="node-sub">Decomposition</span>
+                                </div>
+                            </button>
 
-                    <div class="philosophy-card" data-step="06" data-reveal>
-                        <div class="card-step-badge">PILLAR 06</div>
-                        <div class="card-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            <!-- Node 02: Retrieve (mid-left) -->
+                            <button class="map-node node-2" data-pillar="2" aria-label="Pillar 02: AI Should Retrieve" role="button">
+                                <div class="node-badge">02</div>
+                                <div class="node-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path><path d="M10 7v6l4 2"></path></svg>
+                                </div>
+                                <div class="node-text">
+                                    <span class="node-name">Retrieve</span>
+                                    <span class="node-sub">Grounding RAG</span>
+                                </div>
+                            </button>
+
+                            <!-- Node 03: Tools (bottom-left) -->
+                            <button class="map-node node-3" data-pillar="3" aria-label="Pillar 03: AI Should Use Tools" role="button">
+                                <div class="node-badge">03</div>
+                                <div class="node-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                                </div>
+                                <div class="node-text">
+                                    <span class="node-name">Tools</span>
+                                    <span class="node-sub">MCP Schemas</span>
+                                </div>
+                            </button>
+
+                            <!-- Node 04: Act (top-right) -->
+                            <button class="map-node node-4" data-pillar="4" aria-label="Pillar 04: AI Should Act" role="button">
+                                <div class="node-badge">04</div>
+                                <div class="node-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                </div>
+                                <div class="node-text">
+                                    <span class="node-name">Act</span>
+                                    <span class="node-sub">Multi-Agent</span>
+                                </div>
+                            </button>
+
+                            <!-- Node 05: Evaluate (mid-right) -->
+                            <button class="map-node node-5" data-pillar="5" aria-label="Pillar 05: AI Should Be Evaluated" role="button">
+                                <div class="node-badge">05</div>
+                                <div class="node-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                </div>
+                                <div class="node-text">
+                                    <span class="node-name">Evaluate</span>
+                                    <span class="node-sub">Continuous Eval</span>
+                                </div>
+                            </button>
+
+                            <!-- Node 06: Production (bottom-right) -->
+                            <button class="map-node node-6" data-pillar="6" aria-label="Pillar 06: AI Should Work in Production" role="button">
+                                <div class="node-badge">06</div>
+                                <div class="node-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                                </div>
+                                <div class="node-text">
+                                    <span class="node-name">Production</span>
+                                    <span class="node-sub">Hardened Infra</span>
+                                </div>
+                            </button>
                         </div>
-                        <h3 class="card-title">AI Should Work in Production</h3>
-                        <p class="card-desc">
-                            Hardened with circuit breakers, exponential jitter backoff, PII redaction gateways, P50/P95 telemetry observability, and dynamic inference cache reuse.
-                        </p>
-                        <div class="card-tag">Circuit Breakers • Telemetry • Sub-100ms</div>
+
+                        <!-- Right: Architectural Subsystem Inspection Console -->
+                        <div class="system-console" id="system-console">
+                            <div class="console-header">
+                                <div class="console-status-indicator">
+                                    <span class="status-led"></span>
+                                    <span class="status-text" id="console-status-text">NODE 01 ONLINE // REASONING ENGINE</span>
+                                </div>
+                                <div class="console-telemetry" id="console-telemetry">
+                                    <span class="telemetry-item">STABILITY: 99.98%</span>
+                                    <span class="telemetry-separator">•</span>
+                                    <span class="telemetry-item">LATENCY: &lt;14MS</span>
+                                </div>
+                            </div>
+
+                            <div class="console-body" id="console-content" role="tabpanel" aria-labelledby="tab-pillar-1">
+                                <div class="console-pillar-meta">
+                                    <span class="console-badge" id="console-badge">PILLAR 01</span>
+                                    <span class="console-domain" id="console-domain">CORE COGNITIVE GRAPH</span>
+                                </div>
+
+                                <div class="console-title-wrap">
+                                    <div class="console-icon-wrap" id="console-icon">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                    </div>
+                                    <h3 class="console-title" id="console-title">AI Should Reason</h3>
+                                </div>
+
+                                <p class="console-desc" id="console-desc">
+                                    Beyond naive generation, systems require structured decomposition, multi-step tree-of-thought verification, stateful graph memory, and explicit consensus loops.
+                                </p>
+
+                                <div class="console-tag-wrap">
+                                    <span class="console-tag-label">ARCHITECTURE PROTOCOL</span>
+                                    <div class="console-tag" id="console-tag">Graph State Machines & Intent Decoders</div>
+                                </div>
+
+                                <div class="console-specs">
+                                    <div class="spec-item">
+                                        <span class="spec-label">EXECUTION:</span>
+                                        <span class="spec-val" id="console-spec-exec">Deterministic Graph State Decomposition</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">GUARANTEE:</span>
+                                        <span class="spec-val" id="console-spec-guard">Verified Consensus Loop &amp; Tree-of-Thought</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="console-footer">
+                                <div class="console-nav-controls">
+                                    <button class="console-nav-btn prev-btn" id="console-prev-btn" aria-label="Previous pillar">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                        <span>PREV NODE</span>
+                                    </button>
+                                    <div class="console-counter">
+                                        <span id="console-current-num">01</span> / <span class="counter-total">06</span>
+                                    </div>
+                                    <button class="console-nav-btn next-btn" id="console-next-btn" aria-label="Next pillar">
+                                        <span>NEXT NODE</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -356,7 +511,7 @@
 
                             <!-- Action & Social Links -->
                             <div class="about-action-bar">
-                                <a href="https://drive.google.com/file/d/1zQOKpLPPiqf-0QjIViL9AksmDLmCG1So/view" class="btn btn-primary resume-btn" data-cursor="link" target="_blank" rel="noopener noreferrer">
+                                <a href="https://drive.google.com/file/d/1N6MDzvgihk-GvJp4wMIhsfPK0Vwfapc6/view?usp=drive_link" class="btn btn-primary resume-btn" data-cursor="link" target="_blank" rel="noopener noreferrer">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                     <span>Download Resume (PDF)</span>
                                 </a>
