@@ -10,108 +10,184 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   01. THREE.JS WEBGL AMBIENT NEURAL FIELD
+   01. HIGH-DEFINITION COMPUTATIONAL NEURAL FIELD (RETINA 2D CANVAS)
    -------------------------------------------------------------------------- */
 function initThreeBackground() {
     const canvas = document.getElementById('background-canvas');
-    if (!canvas || !window.THREE) return;
+    if (!canvas) return;
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 40;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
 
-    const renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        alpha: true,
-        antialias: true
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Particle Points Mesh
-    const particleCount = 180;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
 
-    for (let i = 0; i < particleCount; i++) {
-        const i3 = i * 3;
-        positions[i3] = (Math.random() - 0.5) * 80;
-        positions[i3 + 1] = (Math.random() - 0.5) * 80;
-        positions[i3 + 2] = (Math.random() - 0.5) * 40;
-
-        // Accent orange / cyan blend
-        const isOrange = Math.random() > 0.35;
-        if (isOrange) {
-            colors[i3] = 1.0;
-            colors[i3 + 1] = 0.48; // #ff7a00
-            colors[i3 + 2] = 0.0;
-        } else {
-            colors[i3] = 0.0;
-            colors[i3 + 1] = 0.94; // #00f0ff
-            colors[i3 + 2] = 1.0;
-        }
+    function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    resize();
 
-    const material = new THREE.PointsMaterial({
-        size: 0.65,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.35,
-        sizeAttenuation: true
-    });
+    // Node Points Collection (Restrained density, curated tonal palette)
+    const nodeCount = 65;
+    const nodes = [];
+    const colors = [
+        'rgba(255, 122, 0, 0.45)',  // Amber
+        'rgba(0, 240, 255, 0.38)',  // Cyan
+        'rgba(212, 220, 232, 0.30)' // Silver
+    ];
 
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
+    for (let i = 0; i < nodeCount; i++) {
+        nodes.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.32,
+            vy: (Math.random() - 0.5) * 0.32,
+            radius: (Math.random() * 1.4 + 1.2),
+            color: colors[Math.floor(Math.random() * colors.length)],
+            originalRadius: (Math.random() * 1.4 + 1.2)
+        });
+    }
 
-    // Mouse Tracking
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let targetMouseX = -9999;
+    let targetMouseY = -9999;
+    let scrollY = window.scrollY;
     let isVisible = true;
     let animationFrameId = null;
 
     window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+    }, { passive: true });
+
+    window.addEventListener('scroll', () => {
+        scrollY = window.scrollY;
     }, { passive: true });
 
     window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        resize();
+        if (prefersReducedMotion) draw();
     });
 
-    // Visibility Observer to conserve GPU when tab is hidden
     document.addEventListener('visibilitychange', () => {
         isVisible = document.visibilityState === 'visible';
-        if (isVisible && !animationFrameId) {
+        if (isVisible && !animationFrameId && !prefersReducedMotion) {
             animate();
         }
     });
 
-    // Animation Loop
+    const maxDistance = 140;
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.scale(dpr, dpr);
+
+        const scrollOffset = (scrollY * 0.04) % height;
+
+        // Draw Interconnecting Computational Hairline Vectors
+        for (let i = 0; i < nodeCount; i++) {
+            const p1 = nodes[i];
+            const y1 = (p1.y - scrollOffset + height) % height;
+
+            for (let j = i + 1; j < nodeCount; j++) {
+                const p2 = nodes[j];
+                const y2 = (p2.y - scrollOffset + height) % height;
+
+                const dx = p1.x - p2.x;
+                const dy = y1 - y2;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < maxDistance) {
+                    const alpha = (1 - dist / maxDistance) * 0.12;
+                    ctx.strokeStyle = `rgba(100, 130, 165, ${alpha.toFixed(3)})`;
+                    ctx.lineWidth = 0.8;
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, y1);
+                    ctx.lineTo(p2.x, y2);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Draw Perfectly Smooth, Anti-Aliased Circular Micro-Nodes
+        for (let i = 0; i < nodeCount; i++) {
+            const p = nodes[i];
+            const currentY = (p.y - scrollOffset + height) % height;
+
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, currentY, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Subtle luminous aura on prominent nodes
+            if (p.radius > 2.0) {
+                ctx.fillStyle = p.color.replace(/[\d\.]+\)$/, '0.08)');
+                ctx.beginPath();
+                ctx.arc(p.x, currentY, p.radius * 3.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        ctx.restore();
+    }
+
     function animate() {
         if (!isVisible) {
             animationFrameId = null;
             return;
         }
 
+        if (prefersReducedMotion) {
+            draw();
+            return;
+        }
+
         animationFrameId = requestAnimationFrame(animate);
 
-        targetX += (mouseX - targetX) * 0.03;
-        targetY += (mouseY - targetY) * 0.03;
+        // Smooth mouse position damping
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
 
-        particles.rotation.y += 0.0008;
-        particles.rotation.x = targetY * 0.15;
-        particles.rotation.y += targetX * 0.002;
+        // Update Node Physics with Delicate Ambient Drift
+        for (let i = 0; i < nodeCount; i++) {
+            const p = nodes[i];
 
-        renderer.render(scene, camera);
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Soft screen boundary wrapping
+            if (p.x < 0) p.x = width;
+            else if (p.x > width) p.x = 0;
+
+            if (p.y < 0) p.y = height;
+            else if (p.y > height) p.y = 0;
+
+            // Restrained cursor magnetic response
+            const dx = p.x - mouseX;
+            const dy = p.y - mouseY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120 && dist > 0) {
+                const force = (120 - dist) / 120 * 0.4;
+                p.x += (dx / dist) * force;
+                p.y += (dy / dist) * force;
+            }
+        }
+
+        draw();
     }
+
     animate();
 }
 

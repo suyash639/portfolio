@@ -163,20 +163,42 @@ function initCustomPhysicsCursor() {
     }
 
     // Hover state management via event delegation
+    const INTERACTIVE_SELECTOR = '[data-cursor], a, button, [role="button"], .rail-btn, .map-node, .console-nav-btn, .desk-pill, .journey-nav-tab, .stage-btn, .chapter-nav-btn, .social-pill, .interactive-node, .ppo-highlight-card, .vessel-rig, .rocket-rig, .space-pillar-card, .scene-canvas';
+
     function onPointerOver(e) {
         if (!e.target || typeof e.target.closest !== 'function') return;
-        const target = e.target.closest('[data-cursor], a, button, [role="button"], .rail-btn, .map-node, .console-nav-btn, .desk-pill');
+        const target = e.target.closest(INTERACTIVE_SELECTOR);
         if (!target) return;
 
-        const cursorAttr = target.getAttribute('data-cursor');
-        if (cursorAttr === 'inspect' || cursorAttr === 'view') {
-            dot.classList.remove('is-hover-interactive');
-            dot.classList.add('is-hover-accent');
-            if (label) {
-                label.textContent = cursorAttr === 'inspect' ? 'INSPECT' : 'VIEW';
-            }
+        const cursorAttr = (target.getAttribute('data-cursor') || '').toLowerCase().trim();
+        const customLabel = target.getAttribute('data-cursor-label');
+
+        // Reset previous states
+        dot.classList.remove('is-hover-interactive', 'is-hover-accent', 'is-hover-inspect', 'is-hover-view', 'is-hover-read', 'is-hover-open', 'is-hover-drag', 'has-label');
+
+        if (cursorAttr === 'inspect' || cursorAttr === 'explore') {
+            dot.classList.add('is-hover-inspect', 'has-label');
+            if (label) label.textContent = customLabel || (cursorAttr === 'explore' ? 'EXPLORE' : 'INSPECT');
+        } else if (cursorAttr === 'view') {
+            dot.classList.add('is-hover-view', 'has-label');
+            if (label) label.textContent = customLabel || 'VIEW';
+        } else if (cursorAttr === 'read') {
+            dot.classList.add('is-hover-read', 'has-label');
+            if (label) label.textContent = customLabel || 'READ';
+        } else if (cursorAttr === 'open') {
+            dot.classList.add('is-hover-open', 'has-label');
+            if (label) label.textContent = customLabel || 'OPEN';
+        } else if (cursorAttr === 'drag') {
+            dot.classList.add('is-hover-drag', 'has-label');
+            if (label) label.textContent = customLabel || 'DRAG';
+        } else if (customLabel) {
+            dot.classList.add('is-hover-inspect', 'has-label');
+            if (label) label.textContent = customLabel;
+        } else if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {
+            dot.classList.add('is-hover-open', 'has-label');
+            if (label) label.textContent = 'OPEN';
         } else {
-            dot.classList.remove('is-hover-accent');
+            // Standard clickable interactive element: intentional smooth orange outline expansion
             dot.classList.add('is-hover-interactive');
             if (label) label.textContent = '';
         }
@@ -184,10 +206,10 @@ function initCustomPhysicsCursor() {
 
     function onPointerOut(e) {
         if (!e.target || typeof e.target.closest !== 'function') return;
-        const fromTarget = e.target.closest('[data-cursor], a, button, [role="button"], .rail-btn, .map-node, .console-nav-btn, .desk-pill');
-        const toTarget = e.relatedTarget && typeof e.relatedTarget.closest === 'function' ? e.relatedTarget.closest('[data-cursor], a, button, [role="button"], .rail-btn, .map-node, .console-nav-btn, .desk-pill') : null;
+        const fromTarget = e.target.closest(INTERACTIVE_SELECTOR);
+        const toTarget = e.relatedTarget && typeof e.relatedTarget.closest === 'function' ? e.relatedTarget.closest(INTERACTIVE_SELECTOR) : null;
         if (fromTarget && !toTarget) {
-            dot.classList.remove('is-hover-interactive', 'is-hover-accent');
+            dot.classList.remove('is-hover-interactive', 'is-hover-accent', 'is-hover-inspect', 'is-hover-view', 'is-hover-read', 'is-hover-open', 'is-hover-drag', 'has-label');
             if (label) label.textContent = '';
         }
     }
@@ -232,7 +254,7 @@ function initCustomPhysicsCursor() {
    04. MAGNETIC BUTTON & ELEMENT PHYSICS
    -------------------------------------------------------------------------- */
 function initMagneticElements() {
-    const magneticElements = document.querySelectorAll('.magnetic-btn, .nav-link, .social-pill, .modal-close');
+    const magneticElements = document.querySelectorAll('.magnetic-btn, .nav-link, .social-pill, .modal-close, .stage-btn');
     if (!window.gsap) return;
 
     magneticElements.forEach(el => {
@@ -264,7 +286,7 @@ function initMagneticElements() {
    05. SPECULAR GLARE & 3D CARD PERSPECTIVE TILT
    -------------------------------------------------------------------------- */
 function initSpecularCardTilt() {
-    const cards = document.querySelectorAll('.philosophy-card, .about-main-card, .project-card, .capability-box, .timeline-card, .chapter-card');
+    const cards = document.querySelectorAll('.philosophy-card, .about-main-card, .project-card, .capability-box, .timeline-card, .chapter-card, .space-pillar-card, .ppo-highlight-card, .stage-metric-box');
     if (!window.gsap) return;
 
     cards.forEach(card => {
@@ -329,6 +351,30 @@ function initScrollReveal() {
                 }
             }
         );
+    });
+
+    // Deliberate architectural entry sequence for Philosophy 6-pillar system
+    initPhilosophyScrollSequence();
+}
+
+function initPhilosophyScrollSequence() {
+    const stage = document.getElementById('philosophy-system-map');
+    const nodes = document.querySelectorAll('#philosophy-system-map .map-node');
+    const busLines = document.querySelectorAll('#philosophy-system-map .bus-line');
+    const hub = document.getElementById('core-hub');
+
+    if (!stage || !nodes.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    ScrollTrigger.create({
+        trigger: stage,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+            if (hub) gsap.fromTo(hub, { scale: 0.88, opacity: 0.8 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' });
+            if (nodes.length) gsap.fromTo(nodes, { scale: 0.94 }, { scale: 1, duration: 0.4, stagger: 0.04, ease: 'power2.out' });
+            if (busLines.length) gsap.fromTo(busLines, { opacity: 0.3 }, { opacity: 1, duration: 0.35, stagger: 0.03, ease: 'power2.out' });
+        }
     });
 }
 

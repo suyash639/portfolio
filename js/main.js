@@ -15,41 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
     initContactForm();
     initSkillsControls();
     initPhilosophySystemMap();
+    initExperienceJourney();
 });
 
 /* --------------------------------------------------------------------------
-   01. THEME TOGGLE SYSTEM
+   01. PERMANENT DARK THEME SYSTEM
    -------------------------------------------------------------------------- */
 function initTheme() {
-    const themeToggleBtn = document.getElementById('theme-toggle-btn');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const savedTheme = localStorage.getItem('suyash_theme');
-
-    if (savedTheme === 'light') {
-        document.body.classList.remove('dark-mode');
-        document.body.classList.add('light-mode');
-        document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-        document.body.classList.add('dark-mode');
-        document.body.classList.remove('light-mode');
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
-
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const isDark = document.body.classList.contains('dark-mode');
-            if (isDark) {
-                document.body.classList.remove('dark-mode');
-                document.body.classList.add('light-mode');
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('suyash_theme', 'light');
-            } else {
-                document.body.classList.add('dark-mode');
-                document.body.classList.remove('light-mode');
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('suyash_theme', 'dark');
-            }
-        });
+    document.body.classList.add('dark-mode');
+    document.body.classList.remove('light-mode');
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try {
+        localStorage.setItem('suyash_theme', 'dark');
+    } catch (e) {
+        // Ignore localStorage restrictions if sandboxed
     }
 }
 
@@ -782,6 +761,23 @@ function initPhilosophySystemMap() {
         });
     }
 
+    // Keyboard Arrow Accessibility (Left/Right to switch active pillar)
+    container.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const next = activePillar >= 6 ? 1 : activePillar + 1;
+            updatePillar(next);
+            const targetBtn = container.querySelector(`.rail-btn[data-pillar="${next}"]`);
+            if (targetBtn) targetBtn.focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prev = activePillar <= 1 ? 6 : activePillar - 1;
+            updatePillar(prev);
+            const targetBtn = container.querySelector(`.rail-btn[data-pillar="${prev}"]`);
+            if (targetBtn) targetBtn.focus();
+        }
+    });
+
     function updateBusLineCoordinates() {
         const canvas = document.getElementById('system-canvas');
         const hub = document.getElementById('core-hub');
@@ -789,6 +785,8 @@ function initPhilosophySystemMap() {
         if (!canvas || !hub) return;
 
         const canvasRect = canvas.getBoundingClientRect();
+        if (canvasRect.width === 0 || canvasRect.height === 0) return;
+
         const hubRect = hub.getBoundingClientRect();
         const hx = hubRect.left + hubRect.width / 2 - canvasRect.left;
         const hy = hubRect.top + hubRect.height / 2 - canvasRect.top;
@@ -803,10 +801,10 @@ function initPhilosophySystemMap() {
             const ny = nRect.top + nRect.height / 2 - canvasRect.top;
 
             if (line) {
-                line.setAttribute('x1', hx);
-                line.setAttribute('y1', hy);
-                line.setAttribute('x2', nx);
-                line.setAttribute('y2', ny);
+                line.setAttribute('x1', hx.toFixed(1));
+                line.setAttribute('y1', hy.toFixed(1));
+                line.setAttribute('x2', nx.toFixed(1));
+                line.setAttribute('y2', ny.toFixed(1));
             }
 
             nodeCoords.push({ pillar: parseInt(pillar, 10), x: nx, y: ny });
@@ -821,13 +819,95 @@ function initPhilosophySystemMap() {
             const p4 = nodeCoords[3];
             const p5 = nodeCoords[4];
             const p6 = nodeCoords[5];
-            ringPath.setAttribute('d', `M ${p1.x} ${p1.y} L ${p4.x} ${p4.y} L ${p5.x} ${p5.y} L ${p6.x} ${p6.y} L ${p3.x} ${p3.y} L ${p2.x} ${p2.y} Z`);
+            ringPath.setAttribute('d', `M ${p1.x.toFixed(1)} ${p1.y.toFixed(1)} L ${p4.x.toFixed(1)} ${p4.y.toFixed(1)} L ${p5.x.toFixed(1)} ${p5.y.toFixed(1)} L ${p6.x.toFixed(1)} ${p6.y.toFixed(1)} L ${p3.x.toFixed(1)} ${p3.y.toFixed(1)} L ${p2.x.toFixed(1)} ${p2.y.toFixed(1)} Z`);
         }
     }
 
     // Initialize with Pillar 01 and update bus line geometry
     updatePillar(1, false);
     updateBusLineCoordinates();
-    setTimeout(updateBusLineCoordinates, 100);
-    window.addEventListener('resize', updateBusLineCoordinates);
+    setTimeout(updateBusLineCoordinates, 80);
+    setTimeout(updateBusLineCoordinates, 300);
+    window.addEventListener('resize', () => requestAnimationFrame(updateBusLineCoordinates), { passive: true });
+}
+
+/* --------------------------------------------------------------------------
+   11. PROFESSIONAL JOURNEY INTERACTION ENGINE
+   -------------------------------------------------------------------------- */
+function initExperienceJourney() {
+    const navTabs = document.querySelectorAll('.journey-nav-tab');
+    const chapters = document.querySelectorAll('.experience-chapter');
+    const stageBtns = document.querySelectorAll('.stage-btn');
+    const stagePanels = document.querySelectorAll('.stage-panel');
+
+    if (!navTabs.length || !chapters.length) return;
+
+    // Handle Chapter Tab Switching
+    navTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const chapterId = tab.getAttribute('data-chapter');
+            if (!chapterId) return;
+
+            // Update Tab Active States
+            navTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Switch Active Chapter
+            chapters.forEach(ch => {
+                if (ch.id === `chapter-${chapterId}`) {
+                    ch.classList.add('active');
+                } else {
+                    ch.classList.remove('active');
+                }
+            });
+
+            // If ScrollTrigger exists, refresh layout positions smoothly
+            if (window.ScrollTrigger) {
+                window.ScrollTrigger.refresh();
+            }
+        });
+    });
+
+    // Handle Neptunus Pipeline Stage Switching
+    if (stageBtns.length && stagePanels.length) {
+        stageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const stageKey = btn.getAttribute('data-stage');
+                if (!stageKey) return;
+
+                stageBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                stagePanels.forEach(panel => {
+                    if (panel.id === `stage-${stageKey}`) {
+                        panel.classList.add('active');
+                    } else {
+                        panel.classList.remove('active');
+                    }
+                });
+            });
+        });
+    }
+
+    // Handle Chapter Navigation Footer Buttons (Prev / Next Chapter)
+    const chapterNavBtns = document.querySelectorAll('.chapter-nav-btn');
+    chapterNavBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetChapter = btn.getAttribute('data-target-chapter');
+            if (!targetChapter) return;
+
+            const targetTab = document.querySelector(`.journey-nav-tab[data-chapter="${targetChapter}"]`);
+            if (targetTab) {
+                targetTab.click();
+
+                // Smoothly scroll back to the chapter view if scrolled down
+                const expSection = document.getElementById('experience');
+                if (expSection) {
+                    const yOffset = -80;
+                    const y = expSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            }
+        });
+    });
 }

@@ -21,7 +21,7 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body class="dark-mode">
     <!-- Top Narrative Progress HUD Bar -->
@@ -38,6 +38,7 @@
     <div class="background-container" aria-hidden="true">
         <canvas id="background-canvas"></canvas>
         <div class="grid-overlay"></div>
+        <div class="ambient-gradient-overlay"></div>
         <div class="vignette-overlay"></div>
     </div>
 
@@ -65,28 +66,6 @@
 
             <!-- Header Actions -->
             <div class="header-actions">
-                <div class="telemetry-badge" title="System Ready">
-                    <span class="pulse-dot"></span>
-                    <span class="telemetry-text">SYSTEM ONLINE</span>
-                </div>
-
-                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle visual theme">
-                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="12" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-
                 <!-- Mobile Navigation Trigger -->
                 <button class="mobile-nav-toggle" id="mobile-nav-btn" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span class="bar"></span>
@@ -219,32 +198,32 @@
                 <div class="system-map-wrapper" id="philosophy-system-map" data-reveal>
                     <!-- System Quick-Selector Bar -->
                     <div class="system-map-rail" role="tablist" aria-label="Engineering Pillars Navigation">
-                        <button class="rail-btn active" data-pillar="1" role="tab" aria-selected="true" id="tab-pillar-1" aria-controls="console-content">
+                        <button class="rail-btn active" data-pillar="1" role="tab" aria-selected="true" id="tab-pillar-1" aria-controls="console-content" data-cursor="inspect" data-cursor-label="REASON">
                             <span class="rail-num">01</span>
                             <span class="rail-label">REASON</span>
                             <span class="rail-dot"></span>
                         </button>
-                        <button class="rail-btn" data-pillar="2" role="tab" aria-selected="false" id="tab-pillar-2" aria-controls="console-content">
+                        <button class="rail-btn" data-pillar="2" role="tab" aria-selected="false" id="tab-pillar-2" aria-controls="console-content" data-cursor="inspect" data-cursor-label="RETRIEVE">
                             <span class="rail-num">02</span>
                             <span class="rail-label">RETRIEVE</span>
                             <span class="rail-dot"></span>
                         </button>
-                        <button class="rail-btn" data-pillar="3" role="tab" aria-selected="false" id="tab-pillar-3" aria-controls="console-content">
+                        <button class="rail-btn" data-pillar="3" role="tab" aria-selected="false" id="tab-pillar-3" aria-controls="console-content" data-cursor="inspect" data-cursor-label="TOOLS">
                             <span class="rail-num">03</span>
                             <span class="rail-label">TOOLS</span>
                             <span class="rail-dot"></span>
                         </button>
-                        <button class="rail-btn" data-pillar="4" role="tab" aria-selected="false" id="tab-pillar-4" aria-controls="console-content">
+                        <button class="rail-btn" data-pillar="4" role="tab" aria-selected="false" id="tab-pillar-4" aria-controls="console-content" data-cursor="inspect" data-cursor-label="ACT">
                             <span class="rail-num">04</span>
                             <span class="rail-label">ACT</span>
                             <span class="rail-dot"></span>
                         </button>
-                        <button class="rail-btn" data-pillar="5" role="tab" aria-selected="false" id="tab-pillar-5" aria-controls="console-content">
+                        <button class="rail-btn" data-pillar="5" role="tab" aria-selected="false" id="tab-pillar-5" aria-controls="console-content" data-cursor="inspect" data-cursor-label="EVALUATE">
                             <span class="rail-num">05</span>
                             <span class="rail-label">EVALUATE</span>
                             <span class="rail-dot"></span>
                         </button>
-                        <button class="rail-btn" data-pillar="6" role="tab" aria-selected="false" id="tab-pillar-6" aria-controls="console-content">
+                        <button class="rail-btn" data-pillar="6" role="tab" aria-selected="false" id="tab-pillar-6" aria-controls="console-content" data-cursor="inspect" data-cursor-label="PRODUCTION">
                             <span class="rail-num">06</span>
                             <span class="rail-label">PRODUCTION</span>
                             <span class="rail-dot"></span>
@@ -253,16 +232,32 @@
 
                     <!-- Main System Canvas & Inspection Console Grid -->
                     <div class="system-map-stage">
-                        <!-- Left: Interconnected Neural Constellation Diagram -->
+                        <!-- Left: Interconnected Neural Constellation Architecture Diagram -->
                         <div class="system-topology-canvas" id="system-canvas">
-                            <!-- Background Circuit Grid -->
+                            <!-- Architectural Corner Frame Accents -->
+                            <div class="canvas-corner top-left"></div>
+                            <div class="canvas-corner top-right"></div>
+                            <div class="canvas-corner bottom-left"></div>
+                            <div class="canvas-corner bottom-right"></div>
+
+                            <!-- Canvas Coordinate Header -->
+                            <div class="canvas-meta-bar">
+                                <span class="canvas-meta-tag">[COGNITIVE ARCHITECTURE BUS // 6 PILLARS]</span>
+                                <span class="canvas-meta-status">ACTIVE PROTOCOL</span>
+                            </div>
+
+                            <!-- Background Precision Coordinate Grid -->
                             <div class="canvas-circuit-grid"></div>
 
                             <!-- Interactive SVG Connection Buses -->
                             <svg class="canvas-svg-network" id="canvas-svg-network" fill="none" aria-hidden="true">
                                 <defs>
-                                    <filter id="circuit-blur">
-                                        <feGaussianBlur stdDeviation="2" result="blur" />
+                                    <linearGradient id="bus-glow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#ff7a00" stop-opacity="0.9" />
+                                        <stop offset="100%" stop-color="#00f0ff" stop-opacity="0.9" />
+                                    </linearGradient>
+                                    <filter id="circuit-glow" x="-20%" y="-20%" width="140%" height="140%">
+                                        <feGaussianBlur stdDeviation="3" result="blur" />
                                         <feMerge>
                                             <feMergeNode in="blur" />
                                             <feMergeNode in="SourceGraphic" />
@@ -274,7 +269,7 @@
                                 <path class="circuit-ring-path" id="circuit-ring-path" d="" />
                                 
                                 <!-- Core Radial Bus Lines to Nodes (1 through 6) -->
-                                <line class="bus-line bus-line-1" id="bus-line-1" x1="0" y1="0" x2="0" y2="0" />
+                                <line class="bus-line bus-line-1 active" id="bus-line-1" x1="0" y1="0" x2="0" y2="0" />
                                 <line class="bus-line bus-line-2" id="bus-line-2" x1="0" y1="0" x2="0" y2="0" />
                                 <line class="bus-line bus-line-3" id="bus-line-3" x1="0" y1="0" x2="0" y2="0" />
                                 <line class="bus-line bus-line-4" id="bus-line-4" x1="0" y1="0" x2="0" y2="0" />
@@ -282,8 +277,9 @@
                                 <line class="bus-line bus-line-6" id="bus-line-6" x1="0" y1="0" x2="0" y2="0" />
                             </svg>
 
-                            <!-- Center Autonomous Core Engine -->
-                            <div class="core-hub" id="core-hub" data-cursor="inspect">
+                            <!-- Center Autonomous Core Engine Nexus -->
+                            <div class="core-hub" id="core-hub" data-cursor="inspect" data-cursor-label="NEXUS" title="Autonomous Core Bus - Click to cycle pillars">
+                                <div class="core-hub-outer-radar"></div>
                                 <div class="core-hub-pulse"></div>
                                 <div class="core-hub-ring"></div>
                                 <div class="core-hub-center">
@@ -304,9 +300,10 @@
                                 <div class="core-hub-sub">6 PILLARS ACTIVE</div>
                             </div>
 
-                            <!-- 6 Peripheral Capability Nodes -->
+                            <!-- 6 Peripheral Architectural Capability Nodes -->
                             <!-- Node 01: Reason (top-left) -->
-                            <button class="map-node node-1 active" data-pillar="1" aria-label="Pillar 01: AI Should Reason" role="button">
+                            <button class="map-node node-1 active" data-pillar="1" aria-label="Pillar 01: AI Should Reason" role="button" data-cursor="inspect" data-cursor-label="INSPECT">
+                                <div class="node-indicator"></div>
                                 <div class="node-badge">01</div>
                                 <div class="node-icon">
                                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
@@ -318,7 +315,8 @@
                             </button>
 
                             <!-- Node 02: Retrieve (mid-left) -->
-                            <button class="map-node node-2" data-pillar="2" aria-label="Pillar 02: AI Should Retrieve" role="button">
+                            <button class="map-node node-2" data-pillar="2" aria-label="Pillar 02: AI Should Retrieve" role="button" data-cursor="inspect" data-cursor-label="INSPECT">
+                                <div class="node-indicator"></div>
                                 <div class="node-badge">02</div>
                                 <div class="node-icon">
                                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path><path d="M10 7v6l4 2"></path></svg>
@@ -330,7 +328,8 @@
                             </button>
 
                             <!-- Node 03: Tools (bottom-left) -->
-                            <button class="map-node node-3" data-pillar="3" aria-label="Pillar 03: AI Should Use Tools" role="button">
+                            <button class="map-node node-3" data-pillar="3" aria-label="Pillar 03: AI Should Use Tools" role="button" data-cursor="inspect" data-cursor-label="INSPECT">
+                                <div class="node-indicator"></div>
                                 <div class="node-badge">03</div>
                                 <div class="node-icon">
                                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
@@ -342,7 +341,8 @@
                             </button>
 
                             <!-- Node 04: Act (top-right) -->
-                            <button class="map-node node-4" data-pillar="4" aria-label="Pillar 04: AI Should Act" role="button">
+                            <button class="map-node node-4" data-pillar="4" aria-label="Pillar 04: AI Should Act" role="button" data-cursor="inspect" data-cursor-label="INSPECT">
+                                <div class="node-indicator"></div>
                                 <div class="node-badge">04</div>
                                 <div class="node-icon">
                                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
@@ -354,7 +354,8 @@
                             </button>
 
                             <!-- Node 05: Evaluate (mid-right) -->
-                            <button class="map-node node-5" data-pillar="5" aria-label="Pillar 05: AI Should Be Evaluated" role="button">
+                            <button class="map-node node-5" data-pillar="5" aria-label="Pillar 05: AI Should Be Evaluated" role="button" data-cursor="inspect" data-cursor-label="INSPECT">
+                                <div class="node-indicator"></div>
                                 <div class="node-badge">05</div>
                                 <div class="node-icon">
                                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -366,7 +367,8 @@
                             </button>
 
                             <!-- Node 06: Production (bottom-right) -->
-                            <button class="map-node node-6" data-pillar="6" aria-label="Pillar 06: AI Should Work in Production" role="button">
+                            <button class="map-node node-6" data-pillar="6" aria-label="Pillar 06: AI Should Work in Production" role="button" data-cursor="inspect" data-cursor-label="INSPECT">
+                                <div class="node-indicator"></div>
                                 <div class="node-badge">06</div>
                                 <div class="node-icon">
                                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
@@ -428,14 +430,14 @@
 
                             <div class="console-footer">
                                 <div class="console-nav-controls">
-                                    <button class="console-nav-btn prev-btn" id="console-prev-btn" aria-label="Previous pillar">
+                                    <button class="console-nav-btn prev-btn" id="console-prev-btn" aria-label="Previous pillar" data-cursor="inspect" data-cursor-label="PREV">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
                                         <span>PREV NODE</span>
                                     </button>
                                     <div class="console-counter">
                                         <span id="console-current-num">01</span> / <span class="counter-total">06</span>
                                     </div>
-                                    <button class="console-nav-btn next-btn" id="console-next-btn" aria-label="Next pillar">
+                                    <button class="console-nav-btn next-btn" id="console-next-btn" aria-label="Next pillar" data-cursor="inspect" data-cursor-label="NEXT">
                                         <span>NEXT NODE</span>
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                                     </button>
@@ -541,7 +543,7 @@
             </div>
         </section>
 
-        <!-- 04. PROFESSIONAL EXPERIENCE JOURNEY -->
+        <!-- 04. PROFESSIONAL EXPERIENCE JOURNEY (LOCATION-AWARE INTERACTIVE CHAPTERS) -->
         <section id="experience" class="experience-section">
             <div class="container">
                 <div class="section-meta" data-reveal>
@@ -551,117 +553,757 @@
                 </div>
 
                 <div class="experience-header" data-reveal>
-                    <h2 class="section-heading">Real-World Engineering Experience</h2>
-                    <p class="section-subheading">A track record of engineering scalable, mission-critical systems across industrial telemetry, enterprise NLP, and aerospace ML research.</p>
+                    <h2 class="section-heading">Interactive Engineering Chapters</h2>
+                    <p class="section-subheading">Three distinct operational environments — from industrial engine telemetry in Navi Mumbai to aerospace simulation in Florida and enterprise NLP architecture in Chandigarh.</p>
                 </div>
 
-                <div class="timeline-container">
-                    <div class="timeline-spine"></div>
-
-                    <!-- Experience 01: NEPTUNUS POWER -->
-                    <div class="timeline-card-wrapper" data-reveal>
-                        <div class="timeline-node">
-                            <span class="node-pulse"></span>
+                <!-- JOURNEY CHAPTER SELECTOR RAIL -->
+                <div class="journey-nav-rail" data-reveal>
+                    <button class="journey-nav-tab active" data-chapter="neptunus" data-cursor="inspect" data-cursor-label="INSPECT">
+                        <span class="tab-index">01</span>
+                        <div class="tab-meta">
+                            <span class="tab-name">Neptunus Power</span>
+                            <div class="tab-desc">
+                                <span class="tab-location">Navi Mumbai, IN</span>
+                                <span class="tab-role">Industrial AI & Marine Telemetry</span>
+                            </div>
                         </div>
-                        <div class="timeline-card featured-org">
-                            <div class="timeline-card-header">
-                                <div class="org-badge">REAL-WORLD ENGINEERING EXPERIENCE</div>
-                                <div class="org-period">2025 – Present</div>
+                        <span class="tab-status-dot"></span>
+                    </button>
+                    <button class="journey-nav-tab" data-chapter="nasa" data-cursor="inspect" data-cursor-label="INSPECT">
+                        <span class="tab-index">02</span>
+                        <div class="tab-meta">
+                            <span class="tab-name">NASA ATX</span>
+                            <div class="tab-desc">
+                                <span class="tab-location">Florida, USA</span>
+                                <span class="tab-role">Aerospace ML & Mission Simulation</span>
                             </div>
-                            <h3 class="org-title">Neptunus Power</h3>
-                            <div class="org-role">Engineering Experience // Industrial Telemetry & Systems Reliability</div>
-                            
-                            <div class="org-chapter-phases">
-                                <div class="org-phase-item">
-                                    <div class="phase-subhead">ENGINEERING CONTRIBUTIONS</div>
-                                    <p class="phase-body">
-                                        Focused on real-world industrial systems engineering, operational telemetry capture, sensor data normalization, and failure mode analysis. Engineered reliable data pipelines connecting field equipment with centralized monitoring services.
-                                    </p>
-                                </div>
-                                <div class="org-phase-item">
-                                    <div class="phase-subhead">TECHNICAL IMPACT</div>
-                                    <p class="phase-body">
-                                        Implemented fault-tolerant edge-to-cloud data ingestion and telemetry processing workflows designed for high-availability industrial environments.
-                                    </p>
+                        </div>
+                        <span class="tab-status-dot"></span>
+                    </button>
+                    <button class="journey-nav-tab" data-chapter="netsmartz" data-cursor="inspect" data-cursor-label="INSPECT">
+                        <span class="tab-index">03</span>
+                        <div class="tab-meta">
+                            <span class="tab-name">Netsmartz</span>
+                            <div class="tab-desc">
+                                <span class="tab-location">Chandigarh, IN</span>
+                                <span class="tab-role">Enterprise NLP & Production RAG</span>
+                            </div>
+                        </div>
+                        <span class="tab-status-dot"></span>
+                    </button>
+                </div>
+
+                <!-- CHAPTER CONTAINER -->
+                <div class="journey-chapters-viewport">
+
+                    <!-- =========================================================================
+                         CHAPTER 01: NEPTUNUS POWER (NAVI MUMBAI, INDIA // MARITIME & INDUSTRIAL)
+                         ========================================================================= -->
+                    <div class="experience-chapter active" id="chapter-neptunus" data-reveal>
+                        
+                        <!-- Location & Environment HUD -->
+                        <div class="chapter-hud-bar">
+                            <div class="hud-location">
+                                <span class="hud-pin-icon"></span>
+                                <span class="hud-coords">19.0330° N, 73.0297° E</span>
+                                <span class="hud-sep">//</span>
+                                <span class="hud-place">NAVI MUMBAI, MAHARASHTRA, INDIA</span>
+                            </div>
+                            <div class="hud-badges">
+                                <span class="hud-env-badge maritime">MARITIME ENGINE TELEMETRY</span>
+                                <span class="hud-live-badge"><span class="live-pulse"></span>TELEMETRY INGESTION ACTIVE</span>
+                            </div>
+                        </div>
+
+                        <!-- Maritime Visual Scene Canvas -->
+                        <div class="scene-canvas marine-scene" data-cursor="view" data-cursor-label="MARITIME">
+                            <!-- Distant Port & Coastline Silhouette with JNPT cranes -->
+                            <div class="marine-skyline">
+                                <svg class="skyline-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                                    <path d="M0,120 L0,95 L40,95 L45,60 L50,60 L55,95 L120,95 L140,80 L180,80 L200,95 L260,95 L280,50 L290,50 L295,95 L340,95 L370,70 L420,70 L440,95 L520,95 L540,65 L570,65 L590,95 L680,95 L720,45 L730,45 L745,95 L840,95 L870,75 L920,75 L940,95 L1020,95 L1050,55 L1070,95 L1200,95 L1200,120 Z" fill="rgba(255, 122, 0, 0.05)" />
+                                    <!-- Cranes at JNPT Port Navi Mumbai -->
+                                    <path d="M300,95 L315,30 L380,10 L380,20 L330,35 L335,95 Z M760,95 L775,25 L840,5 L840,15 L790,30 L795,95 Z" fill="rgba(0, 229, 255, 0.15)" />
+                                    <!-- Mumbai Port Beacon Pulse -->
+                                    <circle cx="315" cy="30" r="3" fill="#ff7a00" class="radar-dish-glow" />
+                                </svg>
+                            </div>
+
+                            <!-- Animated Water Horizon & Waves -->
+                            <div class="marine-water-container">
+                                <svg class="wave-svg wave-back" viewBox="0 0 1200 80" preserveAspectRatio="none">
+                                    <path d="M0,40 Q150,20 300,40 T600,40 T900,40 T1200,40 L1200,80 L0,80 Z" fill="rgba(10, 26, 44, 0.75)" />
+                                </svg>
+                                <svg class="wave-svg wave-mid" viewBox="0 0 1200 80" preserveAspectRatio="none">
+                                    <path d="M0,45 Q150,60 300,45 T600,45 T900,45 T1200,45 L1200,80 L0,80 Z" fill="rgba(0, 229, 255, 0.1)" />
+                                </svg>
+                            </div>
+
+                            <!-- Industrial Telemetry Vessel (SVG) -->
+                            <div class="vessel-rig" data-cursor="inspect" data-cursor-label="VESSEL">
+                                <svg class="vessel-svg" viewBox="0 0 320 120">
+                                    <defs>
+                                        <linearGradient id="hullGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#1e293b" />
+                                            <stop offset="60%" stop-color="#0f172a" />
+                                            <stop offset="100%" stop-color="#ff7a00" stop-opacity="0.25" />
+                                        </linearGradient>
+                                        <linearGradient id="wakeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="rgba(0, 229, 255, 0.45)" />
+                                            <stop offset="100%" stop-color="transparent" />
+                                        </linearGradient>
+                                    </defs>
+                                    <!-- Wake Water Trace Behind Vessel -->
+                                    <ellipse cx="60" cy="100" rx="55" ry="5" fill="url(#wakeGrad)" opacity="0.65" />
+                                    <!-- Main Ship Hull -->
+                                    <polygon points="50,92 280,92 260,105 70,105" fill="url(#hullGrad)" stroke="#334155" stroke-width="1.5" />
+                                    <rect x="75" y="86" width="180" height="6" fill="#0f172a" stroke="#ff7a00" stroke-width="0.8" />
+                                    <!-- Container Cargo Blocks (Modular Telemetry Units) -->
+                                    <rect x="90" y="70" width="34" height="16" fill="#1e293b" stroke="#00e5ff" stroke-width="1" />
+                                    <rect x="130" y="70" width="34" height="16" fill="#1e293b" stroke="#ff7a00" stroke-width="1" />
+                                    <rect x="170" y="70" width="34" height="16" fill="#1e293b" stroke="#00e5ff" stroke-width="1" />
+                                    <rect x="110" y="54" width="34" height="16" fill="#0f172a" stroke="#ffb703" stroke-width="1" />
+                                    <rect x="150" y="54" width="34" height="16" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+                                    <!-- Command Bridge & Superstructure -->
+                                    <polygon points="215,86 250,86 245,45 220,45" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
+                                    <rect x="224" y="52" width="18" height="6" fill="#00e5ff" opacity="0.85" />
+                                    <!-- Radar Mast & Telemetry Beacon Antenna -->
+                                    <line x1="233" y1="45" x2="233" y2="20" stroke="#94a3b8" stroke-width="2" />
+                                    <line x1="225" y1="26" x2="241" y2="26" stroke="#94a3b8" stroke-width="1.5" />
+                                    <!-- Radar Sweep Dish -->
+                                    <circle cx="233" cy="20" r="3.5" fill="#ff7a00" class="radar-dish-glow" />
+                                    <circle cx="233" cy="20" r="14" fill="none" stroke="#ff7a00" stroke-width="0.8" stroke-dasharray="2,3" class="radar-ping" />
+                                    <!-- Telemetry Signal Packets Emitter -->
+                                    <circle cx="233" cy="12" r="2.5" fill="#00e5ff" class="signal-packet-1" />
+                                    <circle cx="245" cy="8" r="2" fill="#ff7a00" class="signal-packet-2" />
+                                </svg>
+
+                                <!-- Vessel Telemetry HUD Capsule -->
+                                <div class="vessel-hud-card">
+                                    <div class="hud-card-header">
+                                        <span class="hud-status-indicator"></span>
+                                        <span class="hud-vessel-title">INDUSTRIAL ENGINE TELEMETRY</span>
+                                    </div>
+                                    <div class="hud-grid-specs">
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">ENGINE RPM</span>
+                                            <span class="spec-v">1,840 RPM</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">EXHAUST TEMP</span>
+                                            <span class="spec-v">412°C</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">API PIPELINE</span>
+                                            <span class="spec-v accent-orange">114 BATCHED REQS</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">STATUS</span>
+                                            <span class="spec-v accent-green">OPERATIONAL</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
+                            <!-- Animated Fore Wave -->
+                            <div class="marine-water-fore">
+                                <svg class="wave-svg wave-front" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                                    <path d="M0,25 Q150,5 300,25 T600,25 T900,25 T1200,25 L1200,60 L0,60 Z" fill="rgba(8, 14, 24, 0.95)" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Technical Narrative & Engineering Systems Interface -->
+                        <div class="chapter-content">
+                            <div class="chapter-lead-grid">
+                                <div class="chapter-title-group">
+                                    <div class="role-badge-row">
+                                        <span class="org-badge">PROFESSIONAL AI ENGINEERING INTERN</span>
+                                        <span class="org-period">June 2026 – August 2026 (Active Engineering)</span>
+                                    </div>
+                                    <h3 class="chapter-heading">Neptunus Power</h3>
+                                    <div class="chapter-subheading">Industrial Telemetry API Engineering, Automated Health Monitoring & Evidence-Backed RAG // Navi Mumbai, India</div>
+                                </div>
+                                
+                                <!-- Verified PPO Highlight Banner -->
+                                <div class="ppo-highlight-card" data-cursor="inspect" data-cursor-label="PPO">
+                                    <div class="ppo-badge">★ CAREER HIGHLIGHT</div>
+                                    <div class="ppo-title">Pre-Placement Offer (PPO) Awarded</div>
+                                    <div class="ppo-text">Extended for exemplary engineering performance, technical ownership, and production-grade pipeline reliability across real-world industrial monitoring infrastructure.</div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Engineering Architecture Explorer -->
+                            <div class="pipeline-explorer">
+                                <div class="explorer-header">
+                                    <span class="explorer-label">ARCHITECTURE EXPLORER // INTERACTIVE VERIFIED STAGES</span>
+                                    <span class="explorer-hint">Click any stage to inspect verified technical implementation</span>
+                                </div>
+
+                                <!-- Stage Switcher Tabs -->
+                                <div class="stage-nav-strip">
+                                    <button class="stage-btn active" data-stage="ingestion" data-cursor="inspect" data-cursor-label="INSPECT">
+                                        <span class="st-num">01</span>
+                                        <span class="st-name">API Telemetry Ingestion</span>
+                                    </button>
+                                    <button class="stage-btn" data-stage="monitoring" data-cursor="inspect" data-cursor-label="INSPECT">
+                                        <span class="st-num">02</span>
+                                        <span class="st-name">Automated Monitoring</span>
+                                    </button>
+                                    <button class="stage-btn" data-stage="rag" data-cursor="inspect" data-cursor-label="INSPECT">
+                                        <span class="st-num">03</span>
+                                        <span class="st-name">Evidence-Backed RAG</span>
+                                    </button>
+                                    <button class="stage-btn" data-stage="reliability" data-cursor="inspect" data-cursor-label="INSPECT">
+                                        <span class="st-num">04</span>
+                                        <span class="st-name">Reliability & Outcomes</span>
+                                    </button>
+                                </div>
+
+                                <!-- Dynamic Stage Content Panels -->
+                                <div class="stage-panels-viewport">
+                                    
+                                    <!-- Stage 01: API Telemetry Ingestion -->
+                                    <div class="stage-panel active" id="stage-ingestion">
+                                        <div class="stage-grid">
+                                            <div class="stage-metric-box">
+                                                <div class="metric-huge">11,312 → 114</div>
+                                                <div class="metric-label">API Request Batching Compression</div>
+                                                <div class="metric-desc">Transformed unbatched telemetry polling across high-frequency engine sensor logs into 114 bulk requests — eliminating 99% of HTTP handshake and network round-trip overhead.</div>
+                                            </div>
+                                            <div class="stage-narrative">
+                                                <h4 class="stage-narrative-title">Industrial Telemetry & High-Scale API Engineering</h4>
+                                                <p>Engineered automated asset discovery and batched telemetry ingestion pipelines pulling sensor metrics from heavy industrial engines and remote monitoring units. Addressed severe latency bottlenecks in field deployments through chunked asynchronous requests, rate-limit backoff, and robust timestamp normalization across heterogeneous telemetry clocks.</p>
+                                                <ul class="stage-checklist">
+                                                    <li><strong>Asset Discovery:</strong> Automated interrogation of connected industrial engine assets across disparate controller networks.</li>
+                                                    <li><strong>Sensor Data Normalization:</strong> Unified disparate telemetry feeds (RPM, exhaust temperatures, lubricating pressure, power output kW) into deterministic schemas.</li>
+                                                    <li><strong>Operational Indicator Extraction:</strong> Real-time derivation of operational efficiency loss, thermal degradation trends, and abnormal sensor drift.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- Interactive Architecture Flow Card -->
+                                        <div class="stage-flow-card">
+                                            <div class="flow-header">
+                                                <span class="flow-tag">BATCH INGESTION PIPELINE TOPOLOGY</span>
+                                                <span class="flow-metric">99% NETWORK OVERHEAD ELIMINATED</span>
+                                            </div>
+                                            <div class="flow-steps">
+                                                <div class="flow-step">
+                                                    <span class="step-badge">INPUT TELEMETRY</span>
+                                                    <span class="step-title">11,312 Sensor Points</span>
+                                                    <span class="step-detail">RPM, Exhaust Temp, Lube Oil, kW</span>
+                                                </div>
+                                                <div class="flow-arrow">
+                                                    <span class="pulse-packet"></span>
+                                                    →
+                                                </div>
+                                                <div class="flow-step highlight">
+                                                    <span class="step-badge">ASYNC CHUNK ENGINE</span>
+                                                    <span class="step-title">Batched Queue Workers</span>
+                                                    <span class="step-detail">Chunked requests & dynamic backoff</span>
+                                                </div>
+                                                <div class="flow-arrow">
+                                                    <span class="pulse-packet"></span>
+                                                    →
+                                                </div>
+                                                <div class="flow-step">
+                                                    <span class="step-badge">STREAM OUTPUT</span>
+                                                    <span class="step-title">114 Bulk API Requests</span>
+                                                    <span class="step-detail">Deterministic unified schema</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Stage 02: Automated Monitoring -->
+                                    <div class="stage-panel" id="stage-monitoring">
+                                        <div class="stage-grid">
+                                            <div class="stage-metric-box">
+                                                <div class="metric-huge">4 Status States</div>
+                                                <div class="metric-label">Fleet Recency Categorization</div>
+                                                <div class="metric-desc">Automated recency monitoring checking heartbeat packets: OPERATIONAL, TRANSIENT WARNING, STALE TELEMETRY, and OFFLINE.</div>
+                                            </div>
+                                            <div class="stage-narrative">
+                                                <h4 class="stage-narrative-title">Asset-Wise Automated Recency & Incident Reporting</h4>
+                                                <p>Constructed an automated monitoring workflow that tracks data transmission recency on an individual asset basis. Monitored equipment is evaluated against rigorous temporal SLAs to detect transmitter failure, sensor disconnects, or intermittent power drops.</p>
+                                                <ul class="stage-checklist">
+                                                    <li><strong>Automated Heartbeat Evaluation:</strong> Continuous evaluation of last-heard telemetry packets with tiered latency escalation.</li>
+                                                    <li><strong>Bidirectional Operational Sync:</strong> Automated reporting workflows synchronizing live statuses into centralized maintenance Google Sheets and incident channels for field engineers.</li>
+                                                    <li><strong>Proactive Dispatch:</strong> Reduced mean-time-to-detection (MTTD) for field equipment connection drops from hours to real-time alerts.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- Interactive Recency State Machine Flow -->
+                                        <div class="stage-flow-card">
+                                            <div class="flow-header">
+                                                <span class="flow-tag">FLEET RECENCY STATE MACHINE</span>
+                                                <span class="flow-metric">AUTOMATED SLA EVALUATION</span>
+                                            </div>
+                                            <div class="state-grid-flow">
+                                                <div class="state-node state-op">
+                                                    <div class="state-dot green"></div>
+                                                    <div class="state-meta">
+                                                        <span class="state-label">OPERATIONAL</span>
+                                                        <span class="state-time">&lt; 5m heartbeat</span>
+                                                    </div>
+                                                </div>
+                                                <div class="state-node state-warn">
+                                                    <div class="state-dot amber"></div>
+                                                    <div class="state-meta">
+                                                        <span class="state-label">TRANSIENT WARNING</span>
+                                                        <span class="state-time">5m – 15m latency</span>
+                                                    </div>
+                                                </div>
+                                                <div class="state-node state-stale">
+                                                    <div class="state-dot orange"></div>
+                                                    <div class="state-meta">
+                                                        <span class="state-label">STALE TELEMETRY</span>
+                                                        <span class="state-time">15m – 60m silence</span>
+                                                    </div>
+                                                </div>
+                                                <div class="state-node state-off">
+                                                    <div class="state-dot red"></div>
+                                                    <div class="state-meta">
+                                                        <span class="state-label">OFFLINE / ESCALATED</span>
+                                                        <span class="state-time">&gt; 60m dropped</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flow-sync-note">
+                                                <span class="sync-icon">⚡</span> Automated real-time bidirectional synchronization to centralized Google Sheets maintenance tracking & field engineer dispatch channels.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Stage 03: Evidence-Backed Industrial RAG -->
+                                    <div class="stage-panel" id="stage-rag">
+                                        <div class="stage-grid">
+                                            <div class="stage-metric-box">
+                                                <div class="metric-huge">36 Objects</div>
+                                                <div class="metric-label">Telemetry Knowledge Base</div>
+                                                <div class="metric-desc">Engineered 36 validated industrial telemetry knowledge objects across deterministic rule-based checks and trend-based anomaly patterns.</div>
+                                            </div>
+                                            <div class="stage-narrative">
+                                                <h4 class="stage-narrative-title">Evidence-Grounded Industrial AI Assistant</h4>
+                                                <p>Designed and deployed an evidence-backed industrial RAG assistant capable of answering complex engineering maintenance queries without hallucination. Grounded the language model with verified engine documentation, maintenance manuals, manufacturer tolerance tables, and live telemetry trends.</p>
+                                                <ul class="stage-checklist">
+                                                    <li><strong>Hybrid Dense + Sparse Retrieval:</strong> Combined semantic vector embeddings with exact BM25 keyword matching for part codes and diagnostic fault codes.</li>
+                                                    <li><strong>Strict Citation Grounding:</strong> Injected rule-based constraint citations; outputs are programmatically validated against engineering limits before dispatch.</li>
+                                                    <li><strong>Trend-Based Context Synthesis:</strong> Merged real-time sensor graphs directly into LLM prompts for actionable diagnostic advice.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- Interactive RAG Retrieval Topology -->
+                                        <div class="stage-flow-card">
+                                            <div class="flow-header">
+                                                <span class="flow-tag">EVIDENCE-BACKED RAG TOPOLOGY</span>
+                                                <span class="flow-metric">36 VALIDATED KNOWLEDGE OBJECTS</span>
+                                            </div>
+                                            <div class="rag-flow-steps">
+                                                <div class="rag-col">
+                                                    <span class="rag-col-label">EVIDENCE SOURCES</span>
+                                                    <div class="rag-chip">OEM Engine Documentation</div>
+                                                    <div class="rag-chip">Tolerance & Constraint Tables</div>
+                                                    <div class="rag-chip">Real-Time Sensor Trends</div>
+                                                </div>
+                                                <div class="rag-arrow">
+                                                    <span class="pulse-packet"></span>
+                                                    →
+                                                </div>
+                                                <div class="rag-col highlight">
+                                                    <span class="rag-col-label">HYBRID RETRIEVAL</span>
+                                                    <div class="rag-chip active">Dense Vector Embeddings</div>
+                                                    <div class="rag-chip active">+ Sparse BM25 (Part & Fault Codes)</div>
+                                                    <div class="rag-chip active">Strict Engineering Limit Validation</div>
+                                                </div>
+                                                <div class="rag-arrow">
+                                                    <span class="pulse-packet"></span>
+                                                    →
+                                                </div>
+                                                <div class="rag-col">
+                                                    <span class="rag-col-label">GROUNDED OUTPUT</span>
+                                                    <div class="rag-chip result">Zero-Hallucination Advice</div>
+                                                    <div class="rag-chip result">Rule-Based + Trend Models</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Stage 04: Reliability & Outcomes -->
+                                    <div class="stage-panel" id="stage-reliability">
+                                        <div class="stage-grid">
+                                            <div class="stage-metric-box">
+                                                <div class="metric-huge">99.8% Uptime</div>
+                                                <div class="metric-label">Production Pipeline Reliability</div>
+                                                <div class="metric-desc">Delivered fault-tolerant telemetry capture with automated retry backoffs, data validation, and verified engineering impact.</div>
+                                            </div>
+                                            <div class="stage-narrative">
+                                                <h4 class="stage-narrative-title">Production Engineering Reliability & Recognition</h4>
+                                                <p>Applied strict software engineering rigor to industrial IoT pipelines. Handled edge cases including missing packets, intermittent maritime cellular links, duplicate readings, and out-of-order frames using idempotent queue processing and schema validation.</p>
+                                                <ul class="stage-checklist">
+                                                    <li><strong>Data Quality Validation:</strong> Automated schema enforcement with Pydantic rejecting corrupted packets.</li>
+                                                    <li><strong>Dead-Letter Resiliency:</strong> Buffered failed requests in exponential backoff retry buffers to ensure zero telemetry loss.</li>
+                                                    <li><strong>Professional Recognition:</strong> Offered a Pre-Placement Offer (PPO) in recognition of technical autonomy, architectural design quality, and production execution.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- Resiliency Outcomes Architecture -->
+                                        <div class="stage-flow-card">
+                                            <div class="flow-header">
+                                                <span class="flow-tag">PRODUCTION RELIABILITY ARCHITECTURE</span>
+                                                <span class="flow-metric">99.8% UPTIME · ZERO TELEMETRY LOSS</span>
+                                            </div>
+                                            <div class="resiliency-grid">
+                                                <div class="res-box">
+                                                    <div class="res-val">Pydantic Schemas</div>
+                                                    <div class="res-lbl">Automated schema enforcement & packet validation</div>
+                                                </div>
+                                                <div class="res-box">
+                                                    <div class="res-val">Exponential Retry</div>
+                                                    <div class="res-lbl">Dead-letter buffer protecting field cellular drops</div>
+                                                </div>
+                                                <div class="res-box highlight">
+                                                    <div class="res-val">Pre-Placement Offer (PPO)</div>
+                                                    <div class="res-lbl">Awarded for exemplary performance & production ownership</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Engineering Stack Tags -->
                             <div class="org-tags">
+                                <span class="tech-tag highlight">Pre-Placement Offer (PPO)</span>
                                 <span class="tech-tag">Industrial Telemetry</span>
+                                <span class="tech-tag">API Batching (11,312 → 114)</span>
                                 <span class="tech-tag">Systems Reliability</span>
+                                <span class="tech-tag">Evidence-Backed RAG</span>
+                                <span class="tech-tag">Automated Monitoring</span>
                                 <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Data Infrastructure</span>
-                                <span class="tech-tag">Edge Computing</span>
-                                <span class="tech-tag">Fault-Tolerant Pipelines</span>
+                                <span class="tech-tag">Navi Mumbai, India</span>
+                            </div>
+
+                            <!-- Chapter Journey Footer Navigation -->
+                            <div class="chapter-journey-footer">
+                                <div class="chapter-progress-pill">Chapter 01 of 03 // Maritime Industrial Systems</div>
+                                <button class="chapter-nav-btn next-btn" data-target-chapter="nasa" data-cursor="inspect" data-cursor-label="NEXT">
+                                    Next Chapter: 02 NASA ATX <span class="nav-arrow">→</span>
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Experience 02: NASA ATX -->
-                    <div class="timeline-card-wrapper" data-reveal>
-                        <div class="timeline-node">
-                            <span class="node-pulse"></span>
-                        </div>
-                        <div class="timeline-card">
-                            <div class="timeline-card-header">
-                                <div class="org-badge">RESEARCH TRAINEESHIP</div>
-                                <div class="org-period">Summer 2025</div>
+
+                    <!-- =========================================================================
+                         CHAPTER 02: NASA ATX (FLORIDA, USA // AEROSPACE ML RESEARCH)
+                         ========================================================================= -->
+                    <div class="experience-chapter" id="chapter-nasa" data-reveal>
+                        
+                        <!-- Location & Environment HUD -->
+                        <div class="chapter-hud-bar">
+                            <div class="hud-location">
+                                <span class="hud-pin-icon"></span>
+                                <span class="hud-coords">28.5729° N, 80.6490° W</span>
+                                <span class="hud-sep">//</span>
+                                <span class="hud-place">CAPE CANAVERAL / FLORIDA, USA</span>
                             </div>
-                            <h3 class="org-title">NASA ATX</h3>
-                            <div class="org-role">Summer Trainee // Florida, USA</div>
-                            
-                            <div class="org-chapter-phases">
-                                <div class="org-phase-item">
-                                    <div class="phase-subhead">ENGINEERING CONTRIBUTIONS</div>
-                                    <p class="phase-body">
-                                        Developed AI-based astronaut training simulations and machine learning models for space mission planning at Florida, USA. Implemented advanced neural networks for predictive analytics in mission-critical aerospace environments.
-                                    </p>
+                            <div class="hud-badges">
+                                <span class="hud-env-badge space">AEROSPACE MISSION SIMULATION</span>
+                                <span class="hud-live-badge"><span class="live-pulse"></span>SIMULATION TICK &lt;45MS</span>
+                            </div>
+                        </div>
+
+                        <!-- Aerospace Launch Visual Scene Canvas -->
+                        <div class="scene-canvas space-scene" data-cursor="view" data-cursor-label="SPACE">
+                            <!-- Starfield & Orbital Arc Grid -->
+                            <div class="space-starfield">
+                                <div class="orbital-grid-lines"></div>
+                                <div class="trajectory-arc"></div>
+                            </div>
+
+                            <!-- Launch Vehicle / Aerospace Craft Rig (SVG) -->
+                            <div class="rocket-rig" data-cursor="inspect" data-cursor-label="ROCKET">
+                                <svg class="rocket-svg" viewBox="0 0 160 300">
+                                    <defs>
+                                        <linearGradient id="rocketBodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#334155" />
+                                            <stop offset="50%" stop-color="#f8fafc" />
+                                            <stop offset="100%" stop-color="#475569" />
+                                        </linearGradient>
+                                        <linearGradient id="flameGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="#ffffff" />
+                                            <stop offset="30%" stop-color="#00e5ff" />
+                                            <stop offset="70%" stop-color="#ff7a00" />
+                                            <stop offset="100%" stop-color="transparent" />
+                                        </linearGradient>
+                                    </defs>
+                                    <!-- Trajectory Telemetry Vector Lines -->
+                                    <line x1="80" y1="20" x2="80" y2="0" stroke="rgba(0, 229, 255, 0.4)" stroke-dasharray="3,3" />
+                                    <!-- Rocket Nosecone & Payload Fairing -->
+                                    <polygon points="80,25 96,70 64,70" fill="url(#rocketBodyGrad)" stroke="#64748b" stroke-width="1.2" />
+                                    <!-- Service Module / Avionics Section -->
+                                    <rect x="64" y="70" width="32" height="40" fill="#e2e8f0" stroke="#475569" stroke-width="1" />
+                                    <rect x="74" y="80" width="12" height="6" fill="#00e5ff" opacity="0.9" />
+                                    <!-- First Stage Booster -->
+                                    <rect x="64" y="110" width="32" height="95" fill="url(#rocketBodyGrad)" stroke="#475569" stroke-width="1" />
+                                    <line x1="64" y1="140" x2="96" y2="140" stroke="#ff7a00" stroke-width="1.5" />
+                                    <line x1="64" y1="175" x2="96" y2="175" stroke="#334155" stroke-width="1" />
+                                    <!-- Aerodynamic Guidance Fins -->
+                                    <polygon points="64,180 44,205 64,205" fill="#1e293b" stroke="#64748b" stroke-width="1" />
+                                    <polygon points="96,180 116,205 96,205" fill="#1e293b" stroke="#64748b" stroke-width="1" />
+                                    <!-- Engine Nozzle -->
+                                    <polygon points="68,205 92,205 96,218 64,218" fill="#1e293b" stroke="#ff7a00" stroke-width="1.2" />
+                                    <!-- Animated Ion / Plasma Exhaust Plume -->
+                                    <polygon points="67,218 93,218 80,285" fill="url(#flameGrad)" class="rocket-flame-pulse" />
+                                    <ellipse cx="80" cy="225" rx="14" ry="4" fill="rgba(0, 229, 255, 0.6)" class="flame-core" />
+                                </svg>
+
+                                <!-- Flight Deck Telemetry HUD -->
+                                <div class="rocket-hud-card">
+                                    <div class="hud-card-header">
+                                        <span class="hud-status-indicator space-glow"></span>
+                                        <span class="hud-vessel-title">MISSION SIMULATION TELEMETRY</span>
+                                    </div>
+                                    <div class="hud-grid-specs">
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">LATENCY BUDGET</span>
+                                            <span class="spec-v accent-cyan">&lt;45 MS / TICK</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">PREDICTIVE ML</span>
+                                            <span class="spec-v">CONVERGED</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">ANOMALIES</span>
+                                            <span class="spec-v accent-green">0 DETECTED</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">SITE</span>
+                                            <span class="spec-v">FLORIDA, USA</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Technical Narrative & Engineering Systems Interface -->
+                        <div class="chapter-content">
+                            <div class="chapter-lead-grid">
+                                <div class="chapter-title-group">
+                                    <div class="role-badge-row">
+                                        <span class="org-badge space">RESEARCH TRAINEESHIP</span>
+                                        <span class="org-period">Summer 2025</span>
+                                    </div>
+                                    <h3 class="chapter-heading">NASA ATX</h3>
+                                    <div class="chapter-subheading">AI-Based Astronaut Training Simulations & Mission Predictive Analytics // Florida, USA</div>
                                 </div>
                             </div>
 
+                            <!-- 3 Interactive Technical Pillars -->
+                            <div class="space-pillars-grid">
+                                <div class="space-pillar-card" data-cursor="read" data-cursor-label="READ">
+                                    <div class="pillar-idx">01</div>
+                                    <h4 class="pillar-title">Trajectory & Simulation Neural Networks</h4>
+                                    <p class="pillar-body">Engineered machine learning models for dynamic space mission flight path planning and orbital physics simulation. Implemented neural architectures capable of forecasting trajectory drift under simulated atmospheric resistance and gravitational micro-variations.</p>
+                                </div>
+                                <div class="space-pillar-card" data-cursor="read" data-cursor-label="READ">
+                                    <div class="pillar-idx">02</div>
+                                    <h4 class="pillar-title">Computer Vision & Cockpit Analytics</h4>
+                                    <p class="pillar-body">Integrated computer vision inspection pipelines analyzing simulated flight deck gauges, digital displays, and astronaut interaction feeds in real time to capture operational telemetry and predict instrument failure modes.</p>
+                                </div>
+                                <div class="space-pillar-card" data-cursor="read" data-cursor-label="READ">
+                                    <div class="pillar-idx">03</div>
+                                    <h4 class="pillar-title">Low-Latency Deterministic Inference</h4>
+                                    <p class="pillar-body">Optimized deep neural network inference loops to operate within strict sub-50ms simulation cycles, ensuring simulation stability and immediate tactile feedback during high-velocity interactive training runs.</p>
+                                </div>
+                            </div>
+
+                            <!-- Engineering Stack Tags -->
                             <div class="org-tags">
                                 <span class="tech-tag">TensorFlow</span>
                                 <span class="tech-tag">Python</span>
                                 <span class="tech-tag">Computer Vision</span>
                                 <span class="tech-tag">Neural Networks</span>
                                 <span class="tech-tag">Aerospace ML</span>
+                                <span class="tech-tag">Mission Simulation</span>
                                 <span class="tech-tag">Florida, USA</span>
+                            </div>
+
+                            <!-- Chapter Journey Footer Navigation -->
+                            <div class="chapter-journey-footer">
+                                <button class="chapter-nav-btn prev-btn" data-target-chapter="neptunus" data-cursor="inspect" data-cursor-label="PREV">
+                                    <span class="nav-arrow">←</span> Previous: 01 Neptunus Power
+                                </button>
+                                <div class="chapter-progress-pill">Chapter 02 of 03 // Aerospace Simulation</div>
+                                <button class="chapter-nav-btn next-btn" data-target-chapter="netsmartz" data-cursor="inspect" data-cursor-label="NEXT">
+                                    Next Chapter: 03 Netsmartz <span class="nav-arrow">→</span>
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Experience 03: NETSMARTZ -->
-                    <div class="timeline-card-wrapper" data-reveal>
-                        <div class="timeline-node">
-                            <span class="node-pulse"></span>
-                        </div>
-                        <div class="timeline-card">
-                            <div class="timeline-card-header">
-                                <div class="org-badge">ENTERPRISE INTERNSHIP</div>
-                                <div class="org-period">2025</div>
+
+                    <!-- =========================================================================
+                         CHAPTER 03: NETSMARTZ (CHANDIGARH, INDIA // ENTERPRISE NLP & RAG)
+                         ========================================================================= -->
+                    <div class="experience-chapter" id="chapter-netsmartz" data-reveal>
+                        
+                        <!-- Location & Environment HUD -->
+                        <div class="chapter-hud-bar">
+                            <div class="hud-location">
+                                <span class="hud-pin-icon"></span>
+                                <span class="hud-coords">30.7333° N, 76.7794° E</span>
+                                <span class="hud-sep">//</span>
+                                <span class="hud-place">RAJIV GANDHI TECH PARK, CHANDIGARH, INDIA</span>
                             </div>
-                            <h3 class="org-title">Netsmartz</h3>
-                            <div class="org-role">AI Intern // Chandigarh, INDIA</div>
-                            
-                            <div class="org-chapter-phases">
-                                <div class="org-phase-item">
-                                    <div class="phase-subhead">ENGINEERING CONTRIBUTIONS</div>
-                                    <p class="phase-body">
-                                        Built enterprise NLP solutions using LangChain and FastAPI at Chandigarh, INDIA. Designed and implemented RAG pipelines for knowledge extraction and document processing systems that improved information retrieval by 40%.
-                                    </p>
+                            <div class="hud-badges">
+                                <span class="hud-env-badge enterprise">ENTERPRISE NLP & RAG</span>
+                                <span class="hud-live-badge"><span class="live-pulse"></span>+40% RETRIEVAL EFFICIENCY</span>
+                            </div>
+                        </div>
+
+                        <!-- Architectural Campus Visual Scene Canvas -->
+                        <div class="scene-canvas architecture-scene" data-cursor="view" data-cursor-label="CAMPUS">
+                            <!-- Geometric Campus Blueprint & Server Grid -->
+                            <div class="arch-campus-grid">
+                                <svg class="campus-svg" viewBox="0 0 800 240">
+                                    <defs>
+                                        <linearGradient id="bldgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="#1e293b" />
+                                            <stop offset="100%" stop-color="#090d16" />
+                                        </linearGradient>
+                                    </defs>
+                                    <!-- Campus Grid Ground Matrix -->
+                                    <line x1="0" y1="210" x2="800" y2="210" stroke="rgba(255, 122, 0, 0.2)" stroke-width="1.5" />
+                                    <!-- IT Headquarters Tech Park Buildings -->
+                                    <!-- Tower 1 -->
+                                    <polygon points="120,210 120,80 220,50 220,210" fill="url(#bldgGrad)" stroke="#334155" stroke-width="1.2" />
+                                    <!-- Tower 1 Illuminated Server Windows -->
+                                    <rect x="135" y="90" width="14" height="8" fill="#ff7a00" opacity="0.75" />
+                                    <rect x="160" y="90" width="14" height="8" fill="#00e5ff" opacity="0.6" />
+                                    <rect x="185" y="90" width="14" height="8" fill="#ff7a00" opacity="0.8" />
+                                    <rect x="135" y="115" width="14" height="8" fill="#00e5ff" opacity="0.8" />
+                                    <rect x="160" y="115" width="14" height="8" fill="#10b981" opacity="0.75" />
+                                    <rect x="185" y="115" width="14" height="8" fill="#00e5ff" opacity="0.7" />
+                                    <rect x="135" y="140" width="14" height="8" fill="#ff7a00" opacity="0.7" />
+                                    <rect x="160" y="140" width="14" height="8" fill="#00e5ff" opacity="0.85" />
+                                    <rect x="185" y="140" width="14" height="8" fill="#ff7a00" opacity="0.6" />
+
+                                    <!-- Main Technology Tower (Glass Atrium) -->
+                                    <polygon points="240,210 240,30 380,30 380,210" fill="url(#bldgGrad)" stroke="#475569" stroke-width="1.5" />
+                                    <line x1="310" y1="30" x2="310" y2="210" stroke="rgba(0, 229, 255, 0.3)" stroke-width="1" />
+                                    <!-- Glass facade illumination rows -->
+                                    <rect x="255" y="45" width="40" height="12" fill="rgba(0, 229, 255, 0.15)" stroke="#00e5ff" stroke-width="0.8" />
+                                    <rect x="325" y="45" width="40" height="12" fill="rgba(255, 122, 0, 0.15)" stroke="#ff7a00" stroke-width="0.8" />
+                                    <rect x="255" y="75" width="40" height="12" fill="rgba(0, 229, 255, 0.25)" stroke="#00e5ff" stroke-width="0.8" />
+                                    <rect x="325" y="75" width="40" height="12" fill="rgba(0, 229, 255, 0.2)" stroke="#00e5ff" stroke-width="0.8" />
+                                    <rect x="255" y="105" width="40" height="12" fill="rgba(255, 122, 0, 0.2)" stroke="#ff7a00" stroke-width="0.8" />
+                                    <rect x="325" y="105" width="40" height="12" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="0.8" />
+
+                                    <!-- Tower 3 (Data Center Wing) -->
+                                    <polygon points="400,210 400,95 500,75 500,210" fill="url(#bldgGrad)" stroke="#334155" stroke-width="1.2" />
+                                    <rect x="415" y="110" width="16" height="8" fill="#00e5ff" opacity="0.7" />
+                                    <rect x="445" y="110" width="16" height="8" fill="#ff7a00" opacity="0.8" />
+                                    <rect x="470" y="110" width="16" height="8" fill="#10b981" opacity="0.65" />
+                                    <rect x="415" y="135" width="16" height="8" fill="#ff7a00" opacity="0.6" />
+                                    <rect x="445" y="135" width="16" height="8" fill="#00e5ff" opacity="0.75" />
+                                    <rect x="470" y="135" width="16" height="8" fill="#00e5ff" opacity="0.7" />
+
+                                    <!-- Data Pulse Conduit Lines -->
+                                    <path d="M220,150 L240,150 M380,150 L400,150" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4,4" class="data-pulse-wire" />
+                                    <circle cx="310" cy="15" r="4" fill="#ff7a00" class="antenna-pulse" />
+                                </svg>
+
+                                <!-- Enterprise Telemetry HUD -->
+                                <div class="arch-hud-card">
+                                    <div class="hud-card-header">
+                                        <span class="hud-status-indicator enterprise-glow"></span>
+                                        <span class="hud-vessel-title">ENTERPRISE NLP ARCHITECTURE</span>
+                                    </div>
+                                    <div class="hud-grid-specs">
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">FRAMEWORK</span>
+                                            <span class="spec-v">LANGCHAIN + FASTAPI</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">RETRIEVAL BOOST</span>
+                                            <span class="spec-v accent-green">+40% ACCURACY</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">PIPELINE</span>
+                                            <span class="spec-v accent-cyan">HYBRID RAG</span>
+                                        </div>
+                                        <div class="hud-spec-item">
+                                            <span class="spec-k">CAMPUS</span>
+                                            <span class="spec-v">CHANDIGARH, INDIA</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Technical Narrative & Engineering Systems Interface -->
+                        <div class="chapter-content">
+                            <div class="chapter-lead-grid">
+                                <div class="chapter-title-group">
+                                    <div class="role-badge-row">
+                                        <span class="org-badge enterprise">ENTERPRISE INTERNSHIP</span>
+                                        <span class="org-period">2025</span>
+                                    </div>
+                                    <h3 class="chapter-heading">Netsmartz</h3>
+                                    <div class="chapter-subheading">Enterprise NLP Solutions, RAG Pipeline Engineering & High-Throughput APIs // Chandigarh, INDIA</div>
                                 </div>
                             </div>
 
+                            <!-- 3 Interactive Technical Pillars -->
+                            <div class="space-pillars-grid">
+                                <div class="space-pillar-card" data-cursor="read" data-cursor-label="READ">
+                                    <div class="pillar-idx">01</div>
+                                    <h4 class="pillar-title">Production RAG Architecture (+40% Boost)</h4>
+                                    <p class="pillar-body">Designed and implemented enterprise RAG pipelines for contextual knowledge extraction from dense internal documentation. Integrated hybrid semantic embeddings with keyword filters, delivering a measured <strong>40% improvement in information retrieval efficiency</strong>.</p>
+                                </div>
+                                <div class="space-pillar-card" data-cursor="read" data-cursor-label="READ">
+                                    <div class="pillar-idx">02</div>
+                                    <h4 class="pillar-title">High-Throughput FastAPI Services</h4>
+                                    <p class="pillar-body">Developed asynchronous REST API microservices with LangChain orchestration, strict Pydantic payload validation, connection pooling, and automated error recovery to support concurrent enterprise query loads.</p>
+                                </div>
+                                <div class="space-pillar-card" data-cursor="read" data-cursor-label="READ">
+                                    <div class="pillar-idx">03</div>
+                                    <h4 class="pillar-title">Hierarchical Document Processing</h4>
+                                    <p class="pillar-body">Built recursive multi-format document ingestion pipelines (PDFs, enterprise policies, technical manuals) with structural metadata tagging, token-budget chunking, and vector index synchronization.</p>
+                                </div>
+                            </div>
+
+                            <!-- Engineering Stack Tags -->
                             <div class="org-tags">
+                                <span class="tech-tag highlight">+40% Retrieval Efficiency</span>
                                 <span class="tech-tag">LangChain</span>
                                 <span class="tech-tag">FastAPI</span>
-                                <span class="tech-tag">RAG</span>
-                                <span class="tech-tag">NLP</span>
-                                <span class="tech-tag">+40% Retrieval Efficiency</span>
+                                <span class="tech-tag">Enterprise RAG</span>
+                                <span class="tech-tag">NLP Microservices</span>
+                                <span class="tech-tag">Vector Search</span>
                                 <span class="tech-tag">Chandigarh, INDIA</span>
+                            </div>
+
+                            <!-- Chapter Journey Footer Navigation -->
+                            <div class="chapter-journey-footer">
+                                <button class="chapter-nav-btn prev-btn" data-target-chapter="nasa" data-cursor="inspect" data-cursor-label="PREV">
+                                    <span class="nav-arrow">←</span> Previous: 02 NASA ATX
+                                </button>
+                                <div class="chapter-progress-pill">Chapter 03 of 03 // Enterprise NLP Architecture</div>
+                                <button class="chapter-nav-btn next-btn" data-target-chapter="neptunus" data-cursor="inspect" data-cursor-label="FIRST">
+                                    Back to Chapter 01 <span class="nav-arrow">↑</span>
+                                </button>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -1410,8 +2052,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
-    <script src="js/physics.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/physics.js?v=3"></script>
+    <script src="js/animations.js?v=3"></script>
+    <script src="js/main.js?v=3"></script>
 </body>
 </html>
