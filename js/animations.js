@@ -334,10 +334,10 @@ function initScrollReveal() {
 
     const revealElements = document.querySelectorAll('[data-reveal]');
     revealElements.forEach((el) => {
-        gsap.fromTo(el, 
-            { 
-                opacity: 0, 
-                y: 35 
+        gsap.fromTo(el,
+            {
+                opacity: 0,
+                y: 35
             },
             {
                 opacity: 1,
@@ -352,30 +352,6 @@ function initScrollReveal() {
             }
         );
     });
-
-    // Deliberate architectural entry sequence for Philosophy 6-pillar system
-    initPhilosophyScrollSequence();
-}
-
-function initPhilosophyScrollSequence() {
-    const stage = document.getElementById('philosophy-system-map');
-    const nodes = document.querySelectorAll('#philosophy-system-map .map-node');
-    const busLines = document.querySelectorAll('#philosophy-system-map .bus-line');
-    const hub = document.getElementById('core-hub');
-
-    if (!stage || !nodes.length) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    ScrollTrigger.create({
-        trigger: stage,
-        start: 'top 90%',
-        once: true,
-        onEnter: () => {
-            if (hub) gsap.fromTo(hub, { scale: 0.88, opacity: 0.8 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' });
-            if (nodes.length) gsap.fromTo(nodes, { scale: 0.94 }, { scale: 1, duration: 0.4, stagger: 0.04, ease: 'power2.out' });
-            if (busLines.length) gsap.fromTo(busLines, { opacity: 0.3 }, { opacity: 1, duration: 0.35, stagger: 0.03, ease: 'power2.out' });
-        }
-    });
 }
 
 /* --------------------------------------------------------------------------
@@ -387,13 +363,13 @@ class TextScrambleEffect {
         this.chars = '!<>-_\\/[]{}—=+*^?#________';
         this.update = this.update.bind(this);
     }
-    
+
     setText(newText) {
         const oldText = this.el.innerText;
         const length = Math.max(oldText.length, newText.length);
         const promise = new Promise(resolve => this.resolve = resolve);
         this.queue = [];
-        
+
         for (let i = 0; i < length; i++) {
             const from = oldText[i] || '';
             const to = newText[i] || '';
@@ -401,20 +377,20 @@ class TextScrambleEffect {
             const end = start + Math.floor(Math.random() * 25);
             this.queue.push({ from, to, start, end });
         }
-        
+
         cancelAnimationFrame(this.frameRequest);
         this.frame = 0;
         this.update();
         return promise;
     }
-    
+
     update() {
         let output = '';
         let complete = 0;
-        
+
         for (let i = 0, n = this.queue.length; i < n; i++) {
             let { from, to, start, end, char } = this.queue[i];
-            
+
             if (this.frame >= end) {
                 complete++;
                 output += to;
@@ -428,9 +404,9 @@ class TextScrambleEffect {
                 output += from;
             }
         }
-        
+
         this.el.innerHTML = output;
-        
+
         if (complete === this.queue.length) {
             this.resolve();
         } else {
@@ -438,7 +414,7 @@ class TextScrambleEffect {
             this.frame++;
         }
     }
-    
+
     randomChar() {
         return this.chars[Math.floor(Math.random() * this.chars.length)];
     }

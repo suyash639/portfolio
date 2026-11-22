@@ -119,41 +119,22 @@ const getDistance = (x1, y1, x2, y2) => {
   return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
 };
 
-/**
- * Get the angle between two points
- * @param {number} x1 - The x coordinate of the first point
- * @param {number} y1 - The y coordinate of the first point
- * @param {number} x2 - The x coordinate of the second point
- * @param {number} y2 - The y coordinate of the second point
- * @returns {number} - The angle between the two points in radians
- */
+
 const getAngle = (x1, y1, x2, y2) => {
   return Math.atan2(y2 - y1, x2 - x1);
 };
 
-/**
- * Convert radians to degrees
- * @param {number} radians - The angle in radians
- * @returns {number} - The angle in degrees
- */
+
 const radiansToDegrees = (radians) => {
   return radians * (180 / Math.PI);
 };
 
-/**
- * Convert degrees to radians
- * @param {number} degrees - The angle in degrees
- * @returns {number} - The angle in radians
- */
+
 const degreesToRadians = (degrees) => {
   return degrees * (Math.PI / 180);
 };
 
-/**
- * Preload images
- * @param {Array} images - An array of image URLs to preload
- * @returns {Promise} - A promise that resolves when all images are loaded
- */
+
 const preloadImages = (images) => {
   return Promise.all(images.map(src => {
     return new Promise((resolve, reject) => {
@@ -165,11 +146,7 @@ const preloadImages = (images) => {
   }));
 };
 
-/**
- * Wait for a specified amount of time
- * @param {number} ms - The time to wait in milliseconds
- * @returns {Promise} - A promise that resolves after the specified time
- */
+
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Export all utility functions
