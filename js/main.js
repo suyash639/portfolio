@@ -6,11 +6,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 01. Core Systems Initialization
     initTheme();
-    initNavigation();
     initISTClock();
     initModalSystem();
     initContactForm();
-    initSkillsControls();
 });
 
 /* --------------------------------------------------------------------------
@@ -50,70 +48,8 @@ function initTheme() {
 }
 
 /* --------------------------------------------------------------------------
-   02. NAVIGATION & HUD SCROLL STATE
+   02. NAVIGATION → see js/nav.js
    -------------------------------------------------------------------------- */
-function initNavigation() {
-    const header = document.getElementById('main-header');
-    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-    const mobileNavBtn = document.getElementById('mobile-nav-btn');
-    const mobileDrawer = document.getElementById('mobile-nav-drawer');
-    const sections = document.querySelectorAll('section[id]');
-
-    // Header glass blur on scroll
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 40) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-
-        // Section awareness
-        let activeId = '';
-        const scrollPos = window.scrollY + 200;
-
-        sections.forEach(section => {
-            const top = section.offsetTop;
-            const height = section.offsetHeight;
-            if (scrollPos >= top && scrollPos < top + height) {
-                activeId = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${activeId}`) {
-                link.classList.add('active');
-            }
-        });
-    }, { passive: true });
-
-    // Smooth scroll for nav links
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    if (mobileDrawer) mobileDrawer.classList.remove('open');
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    });
-
-    // Mobile drawer toggle
-    if (mobileNavBtn && mobileDrawer) {
-        mobileNavBtn.addEventListener('click', () => {
-            const isOpen = mobileDrawer.classList.contains('open');
-            mobileDrawer.classList.toggle('open');
-            mobileNavBtn.setAttribute('aria-expanded', !isOpen);
-        });
-    }
-}
 
 /* --------------------------------------------------------------------------
    03. LIVE IST CLOCK (UTC+5:30)
@@ -194,31 +130,34 @@ const PROJECT_SPECS = {
     },
     'vscode-debug-agent': {
         title: 'VSCode Debug Agent',
-        tagline: 'Intelligent Autonomous Assistant Automating Code Debugging in Visual Studio Code',
-        description: 'An intelligent IDE assistant extension that automates runtime code debugging in Visual Studio Code by analyzing compiler errors, inspecting stack traces, and proposing validated code patches.',
+        tagline: 'An AI debugging agent inside VS Code, built on the open-source Blinky agent',
+        description: 'A VS Code extension that runs an AI agent against a failing case: it navigates the codebase through language-server tools and code search, edits files, and re-runs a verification step until the fix holds. Built on the open-source Blinky agent (github.com/seahyinghang8/blinky).',
         features: [
-            'Real-time runtime error analysis and contextual suggestion synthesis',
-            'Deep integration with VSCode Debugging API and language servers',
-            'AI-powered code fix recommendations with syntax validation',
-            'Multi-language support for TypeScript, Python, and JavaScript'
+            'Code navigation tools: ReadFile, GetFileSymbols, GoToDefinition, GetAllReferences',
+            'Search with ripgrep (FindTextInFiles, FindFiles) and endpoint-aware entry discovery (GetFilesRelevantToEndpoint)',
+            'Editing tools: ReplaceText, CreateFile, RenameFile, DeleteFile',
+            'Verify tool re-runs the check after each fix; Backtrack restores an earlier state to try another path',
+            'OpenAI or Azure OpenAI models with a cap on model calls',
+            'Sidebar chat UI as a React webview (Vite, VS Code webview UI toolkit)'
         ],
-        tech: ['TypeScript', 'VSCode API', 'Node.js', 'AI Models'],
+        tech: ['TypeScript', 'VS Code Extension API', 'OpenAI / Azure OpenAI', 'React webview', 'ripgrep'],
         links: [
-            { label: 'GitHub Repository', url: 'https://github.com/suyash639/vscodedebug' }
+            { label: 'GitHub Repository', url: 'https://github.com/suyash639/vscodedebug' },
+            { label: 'Original Blinky project', url: 'https://github.com/seahyinghang8/blinky' }
         ]
     },
     'email-push-system': {
         title: 'Email & Push Notification System',
-        tagline: 'High-Concurrency Event-Driven Notification Engine Built with FastAPI & AWS',
-        description: 'A robust backend service for delivering high-throughput email and push notifications at scale. Engineered with FastAPI, AWS SES, Firebase Cloud Messaging, and Amazon SQS/SNS for decoupled queuing.',
+        tagline: 'FastAPI notification backend with AWS SES, Firebase Cloud Messaging and an inbound email pipeline',
+        description: 'A FastAPI backend that sends email through AWS SES and push notifications through Firebase Cloud Messaging, and processes inbound email: SES stores raw messages in S3, SNS calls a webhook, and a background task parses each message into a MongoDB inbox.',
         features: [
-            'High-throughput scalable email delivery via AWS SES',
-            'Push notification broadcast and targeted delivery through Firebase FCM',
-            'Decoupled message queueing and dead-letter handling with AWS SQS & SNS',
-            'Dynamic template management and personalization engine',
-            'Delivery analytics, bounce tracking, and telemetry logging'
+            'Outbound email via AWS SES, recorded in MongoDB with its SES message id',
+            'Push notifications via Firebase FCM to a single device, multiple devices or a topic',
+            'Inbound email: SES → S3 (raw .eml) → SNS → /webhook/ses → parser → MongoDB inbox, with failures logged to an error collection',
+            'Inbox, email detail, delete and per-sender stats endpoints',
+            'SQS service for queue messaging and S3 file management routes'
         ],
-        tech: ['FastAPI', 'AWS SES/SNS/SQS/S3', 'Firebase FCM', 'MongoDB', 'Python'],
+        tech: ['FastAPI', 'AWS SES / SNS / SQS / S3', 'Firebase FCM', 'MongoDB (Motor)', 'Python'],
         links: [
             { label: 'GitHub Repository', url: 'https://github.com/suyash639/notification_services' }
         ]
@@ -240,17 +179,19 @@ const PROJECT_SPECS = {
         ]
     },
     'soyeahlink': {
-        title: 'SoYeahLink — Outreach Automation Pipeline',
-        tagline: 'AI Automation Pipeline for Contextual Outreach & Message Generation',
-        description: 'An AI-powered automation tool that analyzes professional profiles, crafts personalized conversational outreach, and manages scheduling pipelines.',
+        title: 'SoYeahLink — LinkedIn Outreach Automation',
+        tagline: 'AI profile analysis and personalized outreach, organised into campaigns',
+        description: 'A Next.js platform for LinkedIn outreach: it analyzes prospect profiles, generates personalized messages with Groq, and organises outreach into campaigns with engagement analytics.',
         features: [
-            'Contextual profile analysis and classification',
-            'Personalized conversational message generation using LLM prompting',
-            'Outreach campaign management, rate-limiting, and scheduling',
-            'Engagement tracking, response analytics, and conversion metrics'
+            'AI profile analysis, single and batch, per prospect and per campaign',
+            'Personalized message generation and a reusable message library',
+            'Campaigns, automation activity and prospect bulk import / enrichment',
+            'LinkedIn account connection and profile search',
+            'Engagement analytics dashboards and data export'
         ],
-        tech: ['FastAPI', 'AI Models', 'Automation Pipelines', 'React', 'Python'],
+        tech: ['Next.js', 'TypeScript', 'Supabase', 'Groq', 'Tailwind / Radix UI'],
         links: [
+            { label: 'Live App', url: 'https://soyeahlink.vercel.app' },
             { label: 'GitHub Repository', url: 'https://github.com/suyash639/soyeahlink' }
         ]
     }
@@ -381,73 +322,6 @@ function initContactForm() {
 /* --------------------------------------------------------------------------
    09. SKILLS CONTROLS (CATEGORY FILTERS & SHORTCUTS)
    -------------------------------------------------------------------------- */
-function initSkillsControls() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const shuffleBtn = document.getElementById('skills-shuffle');
-    const explodeBtn = document.getElementById('skills-explode');
-    const groupBtn = document.getElementById('skills-group');
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const filter = btn.getAttribute('data-filter');
-            const bubbles = document.querySelectorAll('.skill-bubble');
-
-            bubbles.forEach(bubble => {
-                const cat = bubble.getAttribute('data-category');
-                if (filter === 'all' || cat === filter) {
-                    bubble.classList.remove('filtered-out');
-                } else {
-                    bubble.classList.add('filtered-out');
-                }
-            });
-        });
-    });
-
-    if (shuffleBtn) {
-        shuffleBtn.addEventListener('click', () => {
-            if (window.skillPhysics && window.skillPhysics.resetPositions) {
-                window.skillPhysics.resetPositions();
-            }
-        });
-    }
-
-    if (explodeBtn) {
-        explodeBtn.addEventListener('click', () => {
-            if (window.skillPhysics && window.skillPhysics.applyExplosion) {
-                window.skillPhysics.applyExplosion();
-            }
-        });
-    }
-
-    if (groupBtn) {
-        groupBtn.addEventListener('click', () => {
-            if (window.skillPhysics && window.skillPhysics.groupByCategory) {
-                window.skillPhysics.groupByCategory();
-            }
-        });
-    }
-
-    // Keyboard controls for skills
-    document.addEventListener('keydown', (e) => {
-        const skillsSection = document.getElementById('skills');
-        if (!skillsSection) return;
-        const rect = skillsSection.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-        if (!inView) return;
-
-        if (e.code === 'Space') {
-            e.preventDefault();
-            if (explodeBtn) explodeBtn.click();
-        } else if (e.code === 'KeyS' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-            if (shuffleBtn) shuffleBtn.click();
-        } else if (e.code === 'KeyG' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-            if (groupBtn) groupBtn.click();
-        }
-    });
-}
 
 /* --------------------------------------------------------------------------
    10. MODERN AI SYSTEMS MAP → see js/ai-systems.js

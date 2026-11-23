@@ -1,0 +1,586 @@
+/* ==========================================================================
+   NAVIGATION (#main-header) — pairs with js/nav.js
+   Top of page: borderless, integrated with the hero.
+   Scrolled: a compact floating graphite surface (opacity/transform only).
+   ========================================================================== */
+
+.nv {
+    --nv-ink: #f3f1ec;
+    --nv-ink-2: rgba(243, 241, 236, 0.62);
+    --nv-ink-3: rgba(243, 241, 236, 0.4);
+    --nv-line: rgba(243, 241, 236, 0.1);
+    --nv-surface: rgba(14, 15, 18, 0.72);
+    --nv-solid: #070708;
+    --nv-acc: #ff7a00;
+    --nv-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --nv-spring: cubic-bezier(0.34, 1.5, 0.64, 1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* sized to the viewport, not the document: if any content overflows horizontally on a
+       phone, the bar (and its Menu button) still spans exactly the visible screen */
+    width: 100vw;
+    max-width: 100%;
+    z-index: var(--z-header, 100);
+    letter-spacing: normal;
+}
+
+body.light-mode .nv {
+    --nv-ink: #141416;
+    --nv-ink-2: rgba(20, 20, 22, 0.62);
+    --nv-ink-3: rgba(20, 20, 22, 0.42);
+    --nv-line: rgba(20, 20, 22, 0.1);
+    --nv-surface: rgba(250, 249, 246, 0.78);
+    --nv-solid: #f6f5f2;
+}
+
+/* sections land below the compact bar for native / keyboard anchor jumps too */
+#main-content > section[id] {
+    scroll-margin-top: 72px;
+}
+
+.nv__bar {
+    position: relative;
+    z-index: 2;
+    max-width: 128rem;
+    margin: 0 auto;
+    padding: 1.6rem 2.4rem 0;
+    transition: padding 0.55s var(--nv-ease);
+}
+
+.nv__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+    height: 64px;
+    transition: height 0.55s var(--nv-ease), padding 0.55s var(--nv-ease);
+}
+
+/* the floating surface fades in rather than the bar "switching" designs */
+.nv__inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 14px;
+    border: 1px solid var(--nv-line);
+    background: var(--nv-surface);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    transform: scale(0.985) translateY(-4px);
+    transition: opacity 0.45s ease, transform 0.6s var(--nv-ease);
+    pointer-events: none;
+}
+
+body.light-mode .nv__inner::before {
+    box-shadow: 0 14px 34px -22px rgba(15, 23, 42, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.nv.is-scrolled .nv__bar {
+    padding-top: 1rem;
+}
+
+.nv.is-scrolled .nv__inner {
+    height: 54px;
+    padding: 0 0.9rem 0 1.6rem;
+}
+
+.nv.is-scrolled .nv__inner::before {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---------- brand: "ST." wordmark ---------- */
+.nv__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex: none;
+    height: 40px;
+    padding-right: 0.4rem;
+    color: var(--nv-ink);
+    transition: transform 0.45s var(--nv-spring);
+}
+
+.nv__mark {
+    width: 46px;
+    height: 26px;
+    overflow: visible;
+}
+
+.nv__mark-s,
+.nv__mark-t {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3.2;
+    stroke-linecap: butt;
+}
+
+.nv__mark-dot {
+    fill: var(--nv-acc);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.5s var(--nv-spring);
+}
+
+.nv__brand-name {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 1.02rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--nv-ink-3);
+    opacity: 0;
+    transition: max-width 0.5s var(--nv-ease), opacity 0.3s ease;
+}
+
+.nv__brand:hover .nv__mark-dot,
+.nv__brand:focus-visible .nv__mark-dot {
+    transform: translateX(3px) scale(1.15);
+}
+
+.nv__brand:hover .nv__brand-name,
+.nv__brand:focus-visible .nv__brand-name {
+    max-width: 16rem;
+    opacity: 1;
+}
+
+/* ---------- centre navigation ---------- */
+.nv__nav {
+    position: relative;
+    margin: 0 auto;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+}
+
+.nv__list {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nv__link {
+    display: block;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-family: var(--font-main);
+    font-size: 1.36rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    color: var(--nv-ink-2);
+    transition: color 0.25s ease;
+}
+
+.nv__link:hover,
+.nv__link:focus-visible,
+.nv__link[aria-current="true"] {
+    color: var(--nv-ink);
+}
+
+/* hover illumination glides between items */
+.nv__hover {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 34px;
+    margin-top: -17px;
+    width: 0;
+    border-radius: 8px;
+    background: rgba(243, 241, 236, 0.06);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.4s var(--nv-ease), width 0.4s var(--nv-ease);
+}
+
+body.light-mode .nv__hover {
+    background: rgba(20, 20, 22, 0.06);
+}
+
+.nv__nav.is-hovering .nv__hover {
+    opacity: 1;
+}
+
+/* active indicator: a short precise rule, positioned by a spring in js/nav.js */
+.nv__ind {
+    position: absolute;
+    left: 0;
+    bottom: 9px;
+    height: 2px;
+    width: 0;
+    border-radius: 2px;
+    background: var(--nv-acc);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    will-change: transform, width;
+}
+
+.nv.is-scrolled .nv__ind {
+    bottom: 6px;
+}
+
+.nv__nav.has-active .nv__ind {
+    opacity: 1;
+}
+
+/* ---------- actions ---------- */
+.nv__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: none;
+}
+
+.nv__theme {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--nv-ink-2);
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.nv__theme:hover {
+    background: rgba(243, 241, 236, 0.06);
+    color: var(--nv-ink);
+}
+
+body.light-mode .nv__theme:hover {
+    background: rgba(20, 20, 22, 0.06);
+}
+
+body.dark-mode .nv .sun-icon,
+body:not(.light-mode) .nv .sun-icon { display: block; }
+body.dark-mode .nv .moon-icon,
+body:not(.light-mode) .nv .moon-icon { display: none; }
+body.light-mode .nv .sun-icon { display: none; }
+body.light-mode .nv .moon-icon { display: block; }
+
+.nv__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    height: 36px;
+    padding: 0 1.4rem;
+    border-radius: 9px;
+    border: 1px solid rgba(243, 241, 236, 0.18);
+    font-family: var(--font-main);
+    font-size: 1.32rem;
+    font-weight: 600;
+    color: var(--nv-ink);
+    white-space: nowrap;
+    transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.45s var(--nv-spring);
+}
+
+body.light-mode .nv__cta {
+    border-color: rgba(20, 20, 22, 0.2);
+}
+
+.nv__cta-arrow {
+    color: var(--nv-acc);
+    transition: transform 0.45s var(--nv-ease);
+}
+
+.nv__cta:hover,
+.nv__cta:focus-visible,
+.nv__cta[aria-current="true"] {
+    border-color: rgba(255, 122, 0, 0.6);
+    background: rgba(255, 122, 0, 0.08);
+}
+
+.nv__cta:hover .nv__cta-arrow,
+.nv__cta:focus-visible .nv__cta-arrow {
+    transform: translate(2px, -2px);
+}
+
+.nv a:focus-visible,
+.nv button:focus-visible {
+    outline: 2px solid var(--nv-acc);
+    outline-offset: 3px;
+}
+
+/* ---------- menu trigger (compact layouts) ---------- */
+.nv__menu-btn {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    height: 38px;
+    padding: 0 1.2rem 0 1.4rem;
+    border-radius: 9px;
+    border: 1px solid var(--nv-line);
+    background: transparent;
+    font-family: var(--font-main);
+    font-size: 1.32rem;
+    font-weight: 500;
+    color: var(--nv-ink);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.nv__menu-icon {
+    position: relative;
+    width: 16px;
+    height: 10px;
+}
+
+.nv__menu-icon i {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.6px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.45s var(--nv-ease), top 0.45s var(--nv-ease);
+}
+
+.nv__menu-icon i:first-child { top: 1px; }
+.nv__menu-icon i:last-child { top: 7.4px; }
+
+.nv.menu-open .nv__menu-icon i:first-child { top: 4.2px; transform: rotate(45deg); }
+.nv.menu-open .nv__menu-icon i:last-child { top: 4.2px; transform: rotate(-45deg); }
+
+/* ---------- mobile menu ---------- */
+.nv-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3.2rem;
+    padding: 10.4rem 2.4rem 3.2rem;
+    background: var(--nv-solid);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.55s var(--nv-ease);
+}
+
+.nv-menu[hidden] {
+    display: none;
+}
+
+.nv.menu-open .nv-menu {
+    clip-path: inset(0 0 0 0);
+}
+
+/* while open, the bar sits on the menu's solid surface */
+.nv.menu-open .nv__inner::before {
+    opacity: 0;
+}
+
+.nv-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nv-menu__list li {
+    border-top: 1px solid var(--nv-line);
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    transition: opacity 0.4s ease, transform 0.6s var(--nv-ease);
+    transition-delay: calc(var(--i, 0) * 35ms + 120ms);
+}
+
+.nv-menu__list li:last-child {
+    border-bottom: 1px solid var(--nv-line);
+}
+
+.nv.menu-open .nv-menu__list li {
+    opacity: 1;
+    transform: none;
+}
+
+.nv-menu__link {
+    display: flex;
+    align-items: baseline;
+    gap: 1.6rem;
+    padding: 1.3rem 0.2rem;
+    font-family: var(--font-heading);
+    font-size: clamp(2.6rem, 7.4vw, 3.6rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    color: var(--nv-ink-2);
+    transition: color 0.25s ease;
+}
+
+.nv-menu__link span {
+    min-width: 2.4rem;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--nv-ink-3);
+}
+
+.nv-menu__link:hover,
+.nv-menu__link:focus-visible,
+.nv-menu__link[aria-current="true"] {
+    color: var(--nv-ink);
+}
+
+.nv-menu__link[aria-current="true"] span {
+    color: var(--nv-acc);
+}
+
+.nv-menu__link[aria-current="true"]::after {
+    content: '';
+    align-self: center;
+    width: 7px;
+    height: 7px;
+    margin-left: auto;
+    border-radius: 50%;
+    background: var(--nv-acc);
+}
+
+.nv-menu__foot {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    opacity: 0;
+    transition: opacity 0.4s ease 0.35s;
+}
+
+.nv.menu-open .nv-menu__foot {
+    opacity: 1;
+}
+
+.nv-menu__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+    padding: 0 2rem;
+    border-radius: 12px;
+    background: var(--nv-ink);
+    color: var(--nv-solid);
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.nv-menu__cta span {
+    color: var(--nv-acc);
+}
+
+.nv-menu__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    font-family: var(--font-mono);
+    font-size: 1.02rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--nv-ink-3);
+}
+
+.nv-menu__meta > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.nv-menu__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #34d399;
+}
+
+.nv-menu__theme {
+    min-height: 40px;
+    padding: 0 1.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--nv-line);
+    background: transparent;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: var(--nv-ink-2);
+    cursor: pointer;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1180px) {
+    .nv__link {
+        padding: 0.8rem 0.9rem;
+        font-size: 1.3rem;
+    }
+
+    .nv__inner {
+        gap: 1.6rem;
+    }
+}
+
+@media (max-width: 1060px) {
+    .nv__nav,
+    .nv__theme {
+        display: none;
+    }
+
+    .nv__menu-btn {
+        display: inline-flex;
+    }
+
+    .nv__actions {
+        margin-left: auto;
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .nv__bar {
+        padding: 1.2rem 1.6rem 0;
+    }
+
+    .nv.is-scrolled .nv__bar {
+        padding-top: 0.8rem;
+    }
+
+    .nv__inner {
+        height: 52px;
+    }
+
+    .nv.is-scrolled .nv__inner {
+        height: 52px;
+        padding: 0 0.6rem 0 1.2rem;
+    }
+
+    .nv__actions .nv__cta {
+        display: none;
+    }
+
+    .nv-menu {
+        padding: 9.2rem 1.6rem 2.4rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nv *,
+    .nv *::before,
+    .nv-menu,
+    .nv__inner::before {
+        transition: none !important;
+    }
+}

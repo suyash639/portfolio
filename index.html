@@ -27,12 +27,15 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/style.css?v=3">
     <link rel="stylesheet" href="css/ai-systems.css?v=1">
     <link rel="stylesheet" href="css/journey.css?v=1">
     <link rel="stylesheet" href="css/hero.css?v=1">
     <link rel="stylesheet" href="css/profile.css?v=1">
     <link rel="stylesheet" href="css/flagship.css?v=1">
+    <link rel="stylesheet" href="css/nav.css?v=1">
+    <link rel="stylesheet" href="css/systems.css?v=1">
+    <link rel="stylesheet" href="css/gravity-lab.css?v=1">
 </head>
 
 <body class="dark-mode">
@@ -53,91 +56,82 @@
         <div class="vignette-overlay"></div>
     </div>
 
-    <!-- Floating HUD Header -->
-    <header class="header" id="main-header">
-        <div class="container header-container">
-            <a href="#hero" class="logo" aria-label="Suyash Tiwari Home">
-                <span class="logo-symbol">◈</span>
-                <span class="logo-text">SUYASH<span class="logo-accent">.AI</span></span>
-            </a>
+    <!-- Global navigation (js/nav.js · css/nav.css) -->
+    <header class="header nv" id="main-header">
+        <div class="nv__bar">
+            <div class="nv__inner">
+                <a href="#hero" class="nv__brand" aria-label="Suyash Tiwari — back to top">
+                    <svg class="nv__mark" viewBox="0 0 56 32" aria-hidden="true">
+                        <path class="nv__mark-s" d="M17.6 7.4 A6 6 0 1 0 12 16 A6 6 0 1 1 6.4 24.6" />
+                        <path class="nv__mark-t" d="M23 5.5 H37 M30 5.5 V26.5" />
+                        <circle class="nv__mark-dot" cx="44" cy="24.4" r="2.6" />
+                    </svg>
+                    <span class="nv__brand-name">Suyash Tiwari</span>
+                </a>
 
-            <!-- Desktop HUD Navigation -->
-            <nav class="nav" aria-label="Main Navigation">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="#philosophy" class="nav-link"><span
-                                class="nav-idx">01</span>Philosophy</a></li>
-                    <li class="nav-item"><a href="#about" class="nav-link"><span class="nav-idx">02</span>Profile</a>
-                    </li>
-                    <li class="nav-item"><a href="#experience" class="nav-link"><span
-                                class="nav-idx">03</span>Experience</a></li>
-                    <li class="nav-item"><a href="#flagship" class="nav-link"><span
-                                class="nav-idx">04</span>Flagship</a></li>
-                    <li class="nav-item"><a href="#systems" class="nav-link"><span class="nav-idx">05</span>Systems</a>
-                    </li>
-                    <li class="nav-item"><a href="#capabilities" class="nav-link"><span
-                                class="nav-idx">06</span>Radar</a></li>
-                    <li class="nav-item"><a href="#skills" class="nav-link"><span class="nav-idx">07</span>Physics</a>
-                    </li>
-                    <li class="nav-item"><a href="#contact" class="nav-link"><span class="nav-idx">08</span>Terminal</a>
-                    </li>
-                </ul>
-            </nav>
+                <nav class="nv__nav" aria-label="Main">
+                    <ul class="nv__list">
+                        <li><a href="#philosophy" class="nv__link">Philosophy</a></li>
+                        <li><a href="#about" class="nv__link">Profile</a></li>
+                        <li><a href="#experience" class="nv__link">Experience</a></li>
+                        <li><a href="#flagship" class="nv__link">Flagship</a></li>
+                        <li><a href="#systems" class="nv__link">Systems</a></li>
+                        <li><a href="#capabilities" class="nv__link">Capabilities</a></li>
+                        <li><a href="#skills" class="nv__link">Skills</a></li>
+                    </ul>
+                    <span class="nv__hover" aria-hidden="true"></span>
+                    <span class="nv__ind" aria-hidden="true"></span>
+                </nav>
 
-            <!-- Header Actions -->
-            <div class="header-actions">
-                <div class="telemetry-badge" title="System Ready">
-                    <span class="pulse-dot"></span>
-                    <span class="telemetry-text">SYSTEM ONLINE</span>
+                <div class="nv__actions">
+                    <button class="nv__theme" id="theme-toggle-btn" type="button" aria-label="Toggle colour theme">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="4.5" />
+                            <path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4" />
+                        </svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+                        </svg>
+                    </button>
+                    <a href="#contact" class="nv__cta" data-cursor="link">
+                        <span>Let's connect</span>
+                        <svg class="nv__cta-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            aria-hidden="true">
+                            <path d="M7 17L17 7M8 7h9v9" />
+                        </svg>
+                    </a>
+                    <button class="nv__menu-btn" type="button" aria-expanded="false" aria-controls="nv-menu">
+                        <span class="nv__menu-label">Menu</span>
+                        <span class="nv__menu-icon" aria-hidden="true"><i></i><i></i></span>
+                    </button>
                 </div>
-
-                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle visual theme">
-                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="12" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-
-                <!-- Mobile Navigation Trigger -->
-                <button class="mobile-nav-toggle" id="mobile-nav-btn" aria-label="Toggle navigation menu"
-                    aria-expanded="false">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
             </div>
         </div>
 
-        <!-- Mobile Drawer -->
-        <div class="mobile-nav-drawer" id="mobile-nav-drawer">
-            <ul class="mobile-nav-list">
-                <li><a href="#philosophy" class="mobile-nav-link"><span class="nav-idx">01</span> Philosophy</a></li>
-                <li><a href="#about" class="mobile-nav-link"><span class="nav-idx">02</span> Profile</a></li>
-                <li><a href="#experience" class="mobile-nav-link"><span class="nav-idx">03</span> Professional
-                        Journey</a></li>
-                <li><a href="#flagship" class="mobile-nav-link"><span class="nav-idx">04</span> Flagship Projects</a>
-                </li>
-                <li><a href="#systems" class="mobile-nav-link"><span class="nav-idx">05</span> Production Systems</a>
-                </li>
-                <li><a href="#capabilities" class="mobile-nav-link"><span class="nav-idx">06</span> Engineering
-                        Radar</a></li>
-                <li><a href="#skills" class="mobile-nav-link"><span class="nav-idx">07</span> Physics Playground</a>
-                </li>
-                <li><a href="#contact" class="mobile-nav-link"><span class="nav-idx">08</span> Contact Terminal</a></li>
-            </ul>
+        <!-- Mobile menu -->
+        <div class="nv-menu" id="nv-menu" role="dialog" aria-modal="true" aria-label="Site navigation" hidden>
+            <nav class="nv-menu__nav" aria-label="Main">
+                <ol class="nv-menu__list">
+                    <li><a href="#philosophy" class="nv-menu__link"><span>01</span>Philosophy</a></li>
+                    <li><a href="#about" class="nv-menu__link"><span>02</span>Profile</a></li>
+                    <li><a href="#experience" class="nv-menu__link"><span>03</span>Experience</a></li>
+                    <li><a href="#flagship" class="nv-menu__link"><span>04</span>Flagship</a></li>
+                    <li><a href="#systems" class="nv-menu__link"><span>05</span>Systems</a></li>
+                    <li><a href="#capabilities" class="nv-menu__link"><span>06</span>Capabilities</a></li>
+                    <li><a href="#skills" class="nv-menu__link"><span>07</span>Skills</a></li>
+                    <li><a href="#contact" class="nv-menu__link"><span>08</span>Contact</a></li>
+                </ol>
+            </nav>
+            <div class="nv-menu__foot">
+                <a href="#contact" class="nv-menu__cta">Let's connect <span aria-hidden="true">↗</span></a>
+                <div class="nv-menu__meta">
+                    <span><i class="nv-menu__dot" aria-hidden="true"></i>India · Available worldwide</span>
+                    <button type="button" class="nv-menu__theme" data-theme-proxy>Toggle theme</button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -968,179 +962,188 @@
         </section>
 
         <!-- 06. FEATURED & SUPPORTING PRODUCTION SYSTEMS (ALL PRESERVED) -->
-        <section id="systems" class="systems-section">
+        <section id="systems" class="systems-section ps" aria-labelledby="ps-title">
             <div class="container">
                 <div class="section-meta" data-reveal>
                     <span class="meta-number">05</span>
-                    <span class="meta-title">PRODUCTION SYSTEMS & OPEN SOURCE</span>
+                    <span class="meta-title">PRODUCTION SYSTEMS &amp; OPEN SOURCE</span>
                     <div class="meta-line"></div>
                 </div>
+                <header class="ps__head">
+                    <h2 class="ps__title" id="ps-title">Featured &amp; Supporting Engineering Systems</h2>
+                    <p class="ps__lede">Developer tooling, notification infrastructure, agent frameworks and outreach
+                        automation.</p>
+                </header>
 
-                <div class="systems-header" data-reveal>
-                    <h2 class="section-heading">Featured & Supporting Engineering Systems</h2>
-                    <p class="section-subheading">Full-stack applications, developer tooling, multi-agent frameworks,
-                        and distributed notification architectures.</p>
+                <p class="ps__tier"><span>Featured</span></p>
+                <div class="ps-feat">
+                    <!-- ===================== 01 · VSCODE DEBUG AGENT ===================== -->
+                    <article class="ps-f" data-ps="debug" tabindex="-1" aria-labelledby="ps-debug-t">
+                        <div class="ps-f__preview" aria-hidden="true">
+                            <div class="ide">
+                                <div class="ide__bar"><i></i><i></i><i></i><span>auth/routes.ts</span></div>
+                                <div class="ide__body">
+                                    <div class="ide__rail"><b></b><b></b><b class="is-on"></b><b></b></div>
+                                    <div class="ide__code">
+                                        <p><span class="n">14</span><span class="k">export async</span> <span class="f">login</span>(req, res) {</p>
+                                        <p><span class="n">15</span>&nbsp;&nbsp;<span class="k">const</span> user = <span class="k">await</span> findUser(req.body.email)</p>
+                                        <p class="ide__err"><span class="n">16</span>&nbsp;&nbsp;<span class="k">const</span> ok = verify(user.password, req.body.pw)</p>
+                                        <p class="ide__fix"><span class="n">16</span>&nbsp;&nbsp;<span class="k">if</span> (!user) <span class="k">return</span> res.status(<span class="v">401</span>).end()</p>
+                                        <p><span class="n">17</span>&nbsp;&nbsp;<span class="k">return</span> ok ? issueToken(user) : res.status(<span class="v">401</span>)</p>
+                                        <p><span class="n">18</span>}</p>
+                                        <div class="ide__trace">
+                                            <span class="ide__trace-h">TypeError: Cannot read properties of undefined (reading 'password')</span>
+                                            <span>at login (auth/routes.ts:16)</span>
+                                        </div>
+                                    </div>
+                                    <div class="ide__agent">
+                                        <p class="ide__agent-h"><span class="ide__ghost"></span>AI Debugging Agent</p>
+                                        <ol class="ide__steps">
+                                            <li><b>FindTextInFiles</b> "/auth/login"</li>
+                                            <li><b>GoToDefinition</b> findUser</li>
+                                            <li><b>ReadFile</b> auth/routes.ts</li>
+                                            <li><b>ReplaceText</b> guard missing user</li>
+                                            <li class="is-ok"><b>Verify</b> request passes</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="ps-f__note">Illustrative session · real tool names</span>
+                        </div>
+                        <div class="ps-f__meta">
+                            <p class="ps-f__k"><span>01</span>Developer tooling · AI debugging</p>
+                            <h3 class="ps-f__t" id="ps-debug-t">VSCode Debug Agent</h3>
+                            <p class="ps-f__d">An AI debugging agent inside VS Code: it traces a failure through the
+                                codebase with language-server navigation and code search, proposes edits, and
+                                verifies each fix by re-running the check.</p>
+                            <p class="ps-f__credit">Built on the open-source <a
+                                    href="https://github.com/seahyinghang8/blinky" target="_blank"
+                                    rel="noopener noreferrer">Blinky agent <span aria-hidden="true">↗</span></a></p>
+                            <ul class="ps-tags" aria-label="Technology">
+                                <li>TypeScript</li><li>VS Code Extension API</li><li>OpenAI / Azure OpenAI</li><li>React webview</li>
+                            </ul>
+                            <div class="ps-act">
+                                <a class="ps-act__primary" href="https://github.com/suyash639/vscodedebug" target="_blank"
+                                    rel="noopener noreferrer" data-cursor="link">GitHub <span aria-hidden="true">↗</span></a>
+                                <button type="button" class="ps-act__more" data-project="vscode-debug-agent">Details</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===================== 02 · NOTIFICATION SYSTEM ===================== -->
+                    <article class="ps-f" data-ps="notify" tabindex="-1" aria-labelledby="ps-notify-t">
+                        <div class="ps-f__preview">
+                            <svg class="nfy" viewBox="0 0 420 236" role="img"
+                                aria-label="Two pipelines. Outbound: API request to FastAPI, then AWS SES email or Firebase push, recorded in MongoDB. Inbound: SES receives mail, raw message stored in S3, SNS notifies a webhook, the email is parsed into a MongoDB inbox.">
+                                <defs>
+                                    <path id="nfy-mail" d="M58 66 H114 C134 66 136 42 156 42 H262 C282 42 288 66 308 66 H352" />
+                                    <path id="nfy-push" d="M58 66 H114 C134 66 136 90 156 90 H262 C282 90 288 66 308 66 H352" />
+                                    <path id="nfy-in" d="M30 186 H392" />
+                                </defs>
+                                <text class="nfy__lane" x="12" y="18">OUTBOUND DELIVERY</text>
+                                <text class="nfy__lane" x="12" y="146">INBOUND EMAIL</text>
+                                <use href="#nfy-mail" class="nfy__wire" />
+                                <use href="#nfy-push" class="nfy__wire" />
+                                <use href="#nfy-in" class="nfy__wire" />
+                                <g class="nfy__node" data-stage="api"><rect x="12" y="54" width="46" height="24" rx="6" /><text x="35" y="70">API</text></g>
+                                <g class="nfy__node nfy__node--core" data-stage="fastapi"><rect x="88" y="52" width="60" height="28" rx="7" /><text x="118" y="70">FastAPI</text></g>
+                                <g class="nfy__node" data-stage="ses"><rect x="176" y="30" width="72" height="24" rx="6" /><text x="212" y="46">SES · email</text></g>
+                                <g class="nfy__node" data-stage="fcm"><rect x="176" y="78" width="72" height="24" rx="6" /><text x="212" y="94">FCM · push</text></g>
+                                <g class="nfy__node nfy__node--db" data-stage="record"><rect x="320" y="52" width="88" height="28" rx="7" /><text x="364" y="70">MongoDB record</text></g>
+                                <text class="nfy__status" x="364" y="96">sent · message id</text>
+                                <g class="nfy__node" data-stage="inbound"><rect x="12" y="174" width="52" height="24" rx="6" /><text x="38" y="190">SES in</text></g>
+                                <g class="nfy__node" data-stage="s3"><rect x="84" y="174" width="56" height="24" rx="6" /><text x="112" y="190">S3 .eml</text></g>
+                                <g class="nfy__node" data-stage="sns"><rect x="160" y="174" width="44" height="24" rx="6" /><text x="182" y="190">SNS</text></g>
+                                <g class="nfy__node nfy__node--core" data-stage="webhook"><rect x="224" y="172" width="76" height="28" rx="7" /><text x="262" y="190">/webhook/ses</text></g>
+                                <g class="nfy__node nfy__node--db" data-stage="inbox"><rect x="320" y="172" width="88" height="28" rx="7" /><text x="364" y="190">parsed → inbox</text></g>
+                                <text class="nfy__fan" x="212" y="118">device · multicast · topic</text>
+                                <g class="nfy__pk">
+                                    <circle r="3.2"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#nfy-mail" /></animateMotion></circle>
+                                    <circle r="3.2" class="nfy__pk--push"><animateMotion dur="2.6s" begin="-1.3s" repeatCount="indefinite"><mpath href="#nfy-push" /></animateMotion></circle>
+                                    <circle r="3.2" class="nfy__pk--in"><animateMotion dur="3.4s" begin="-0.8s" repeatCount="indefinite"><mpath href="#nfy-in" /></animateMotion></circle>
+                                </g>
+                            </svg>
+                            <p class="nfy__cap" aria-live="polite">Hover a stage to inspect it.</p>
+                        </div>
+                        <div class="ps-f__meta">
+                            <p class="ps-f__k"><span>02</span>Backend infrastructure · notifications</p>
+                            <h3 class="ps-f__t" id="ps-notify-t">Email &amp; Push Notification System</h3>
+                            <p class="ps-f__d">A FastAPI notification backend: email through AWS SES, push through
+                                Firebase Cloud Messaging, and an inbound pipeline where SES mail lands in S3, SNS calls a
+                                webhook, and messages are parsed into a MongoDB inbox.</p>
+                            <ul class="ps-tags" aria-label="Technology">
+                                <li>FastAPI</li><li>AWS SES · SNS · SQS · S3</li><li>Firebase FCM</li><li>MongoDB</li>
+                            </ul>
+                            <div class="ps-act">
+                                <a class="ps-act__primary" href="https://github.com/suyash639/notification_services"
+                                    target="_blank" rel="noopener noreferrer" data-cursor="link">GitHub <span
+                                        aria-hidden="true">↗</span></a>
+                                <button type="button" class="ps-act__more" data-project="email-push-system">Details</button>
+                            </div>
+                        </div>
+                    </article>
                 </div>
 
-                <!-- Featured Tier Grid -->
-                <div class="projects-tier-label" data-reveal>FEATURED SYSTEMS</div>
-                <div class="projects-grid featured-tier-grid">
-                    <!-- Project 01: VSCode Debug Agent -->
-                    <div class="project-card" data-project="vscode-debug-agent" data-reveal>
-                        <div class="project-card-header">
-                            <div class="project-icon-box">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="1.8">
-                                    <path
-                                        d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0 3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z">
-                                    </path>
-                                </svg>
+                <p class="ps__tier"><span>Supporting</span></p>
+                <div class="ps-sup">
+                    <!-- ===================== 03 · MULTI-AGENT TASKFORCE ===================== -->
+                    <article class="ps-s" data-ps="taskforce" aria-labelledby="ps-task-t">
+                        <svg class="ps-s__viz tf" viewBox="0 0 200 128" aria-hidden="true">
+                            <defs>
+                                <path id="tf-a" d="M100 26 L40 70" /><path id="tf-b" d="M100 26 L100 70" /><path id="tf-c" d="M100 26 L160 70" />
+                                <path id="tf-ra" d="M40 78 L88 110" /><path id="tf-rb" d="M100 78 L100 104" /><path id="tf-rc" d="M160 78 L112 110" />
+                            </defs>
+                            <g class="tf__edges"><path d="M100 26 L40 70M100 26 L100 70M100 26 L160 70" /><path class="tf__mem-e" d="M40 78 L88 110M100 78 L100 104M160 78 L112 110" /></g>
+                            <g class="tf__coord"><rect x="72" y="12" width="56" height="20" rx="10" /><text x="100" y="25">coordinator</text></g>
+                            <g class="tf__agent"><circle cx="40" cy="74" r="9" /><text x="40" y="96">planner</text></g>
+                            <g class="tf__agent"><circle cx="100" cy="74" r="9" /><text x="62" y="62" class="tf__tool">tools</text></g>
+                            <g class="tf__agent"><circle cx="160" cy="74" r="9" /><text x="160" y="96">executor</text></g>
+                            <g class="tf__mem"><path d="M84 106 C84 100 116 100 116 106 V118 C116 124 84 124 84 118 Z" /><path d="M84 106 C84 112 116 112 116 106" /><text x="152" y="118">shared state</text></g>
+                            <g class="tf__pk">
+                                <circle r="2.6"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#tf-a" /></animateMotion></circle>
+                                <circle r="2.6"><animateMotion dur="1.8s" begin="-0.6s" repeatCount="indefinite"><mpath href="#tf-b" /></animateMotion></circle>
+                                <circle r="2.6"><animateMotion dur="1.8s" begin="-1.2s" repeatCount="indefinite"><mpath href="#tf-c" /></animateMotion></circle>
+                                <circle r="2.2" class="tf__pk--r"><animateMotion dur="1.8s" begin="-0.9s" repeatCount="indefinite"><mpath href="#tf-ra" /></animateMotion></circle>
+                                <circle r="2.2" class="tf__pk--r"><animateMotion dur="1.8s" begin="-0.3s" repeatCount="indefinite"><mpath href="#tf-rc" /></animateMotion></circle>
+                            </g>
+                        </svg>
+                        <div class="ps-s__meta">
+                            <p class="ps-s__k"><span>03</span>Agentic AI</p>
+                            <h3 class="ps-s__t" id="ps-task-t">Multi-Agent Taskforce</h3>
+                            <p class="ps-s__d">LLaMA-powered agents decompose a task, execute tool actions and
+                                coordinate shared state through ChromaDB.</p>
+                            <ul class="ps-tags ps-tags--sm" aria-label="Technology"><li>LLaMA</li><li>FastAPI</li><li>ChromaDB</li><li>React</li></ul>
+                            <div class="ps-act ps-act--sm">
+                                <button type="button" class="ps-act__primary" data-project="multi-agent-taskforce">Inspect
+                                    architecture</button>
                             </div>
-                            <span class="project-badge">DEVTOOL</span>
                         </div>
-                        <h3 class="project-title">VSCode Debug Agent</h3>
-                        <p class="project-description">
-                            Intelligent assistant that automates code debugging inside Visual Studio Code. Utilizes AI
-                            models to analyze runtime errors, inspect stack traces, and synthesize corrective code
-                            fixes.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">VSCode API</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">AI Models</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/suyash639/vscodedebug" class="project-link" data-cursor="link"
-                                target="_blank" rel="noopener noreferrer">
-                                <span>View GitHub Repository</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
+                    </article>
 
-                    <!-- Project 02: Email & Push Notification System -->
-                    <div class="project-card" data-project="email-push-system" data-reveal>
-                        <div class="project-card-header">
-                            <div class="project-icon-box">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="1.8">
-                                    <path
-                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                    </path>
-                                    <polyline points="22,6 12,13 2,6"></polyline>
-                                </svg>
+                    <!-- ===================== 04 · SOYEAHLINK ===================== -->
+                    <article class="ps-s" data-ps="soyeahlink" aria-labelledby="ps-link-t">
+                        <svg class="ps-s__viz sl" viewBox="0 0 200 128" aria-hidden="true">
+                            <g class="sl__card"><rect x="8" y="22" width="48" height="62" rx="6" /><circle cx="32" cy="40" r="8" /><path d="M18 58H46M20 66H44M22 74H42" /><text x="32" y="100">profile</text></g>
+                            <path class="sl__wire" d="M58 53 H76" /><path class="sl__wire" d="M118 53 H136" />
+                            <g class="sl__ai"><rect x="78" y="38" width="38" height="30" rx="15" /><text x="97" y="57">Groq</text><text x="97" y="100">analysis</text></g>
+                            <g class="sl__msg"><rect x="138" y="22" width="54" height="62" rx="6" /><path class="sl__line sl__line--1" d="M146 36H184" /><path class="sl__line sl__line--2" d="M146 46H180" /><path class="sl__line sl__line--3" d="M146 56H184" /><path class="sl__line sl__line--4" d="M146 66H170" /><text x="165" y="100">message</text></g>
+                            <g class="sl__chart"><rect x="20" y="112" width="6" height="8" /><rect x="30" y="108" width="6" height="12" /><rect x="40" y="110" width="6" height="10" /><rect x="50" y="104" width="6" height="16" /><text x="120" y="119">campaign analytics</text></g>
+                        </svg>
+                        <div class="ps-s__meta">
+                            <p class="ps-s__k"><span>04</span>AI outreach automation</p>
+                            <h3 class="ps-s__t" id="ps-link-t">SoYeahLink</h3>
+                            <p class="ps-s__d">A LinkedIn outreach platform: AI profile analysis and personalized
+                                message generation with Groq, organised into campaigns with engagement analytics.</p>
+                            <ul class="ps-tags ps-tags--sm" aria-label="Technology"><li>Next.js</li><li>TypeScript</li><li>Supabase</li><li>Groq</li></ul>
+                            <div class="ps-act ps-act--sm">
+                                <a class="ps-act__primary" href="https://soyeahlink.vercel.app" target="_blank"
+                                    rel="noopener noreferrer" data-cursor="link">Live app <span aria-hidden="true">↗</span></a>
+                                <a class="ps-act__more" href="https://github.com/suyash639/soyeahlink" target="_blank"
+                                    rel="noopener noreferrer" data-cursor="link">GitHub <span aria-hidden="true">↗</span></a>
+                                <button type="button" class="ps-act__more" data-project="soyeahlink">Details</button>
                             </div>
-                            <span class="project-badge">INFRASTRUCTURE</span>
                         </div>
-                        <h3 class="project-title">Email & Push Notification System</h3>
-                        <p class="project-description">
-                            High-scale backend service built with FastAPI, integrating AWS SES for email delivery,
-                            Firebase FCM for push notifications, and SQS/SNS for decoupled queueing.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">AWS SES/SNS/SQS/S3</span>
-                            <span class="tech-tag">Firebase FCM</span>
-                            <span class="tech-tag">MongoDB</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/suyash639/notification_services" class="project-link"
-                                data-cursor="link" target="_blank" rel="noopener noreferrer">
-                                <span>View GitHub Repository</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Supporting Tier Grid -->
-                <div class="projects-tier-label supporting-tier-header" data-reveal>SUPPORTING SYSTEMS</div>
-                <div class="projects-grid supporting-tier-grid">
-                    <!-- Project 03: Multi-Agent Taskforce -->
-                    <div class="project-card" data-project="multi-agent-taskforce" data-reveal>
-                        <div class="project-card-header">
-                            <div class="project-icon-box">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="1.8">
-                                    <path d="M12 2a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"></path>
-                                    <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 0 0-10-10"></path>
-                                    <path d="M8 8v5a3 3 0 0 1-6 0v-1a10 10 0 0 1 10-10"></path>
-                                    <path d="M12 18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"></path>
-                                </svg>
-                            </div>
-                            <span class="project-badge">AGENTIC AI</span>
-                        </div>
-                        <h3 class="project-title">Multi-Agent Taskforce</h3>
-                        <p class="project-description">
-                            Collaborative multi-agent reasoning architecture where autonomous LLaMA-powered nodes
-                            decompose complex user tasks, execute tool actions, and coordinate state via ChromaDB.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">LLaMA</span>
-                            <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">ChromaDB</span>
-                            <span class="tech-tag">React</span>
-                        </div>
-                        <div class="project-links">
-                            <button class="project-link open-modal-btn" data-project="multi-agent-taskforce"
-                                data-cursor="link">
-                                <span>Inspect Architecture</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Project 04: SoYeahLink -->
-                    <div class="project-card" data-project="soyeahlink" data-reveal>
-                        <div class="project-card-header">
-                            <div class="project-icon-box">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="1.8">
-                                    <path
-                                        d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
-                                    </path>
-                                    <rect x="2" y="9" width="4" height="12"></rect>
-                                    <circle cx="4" cy="4" r="2"></circle>
-                                </svg>
-                            </div>
-                            <span class="project-badge">AUTOMATION</span>
-                        </div>
-                        <h3 class="project-title">SoYeahLink</h3>
-                        <p class="project-description">
-                            AI-driven automation pipeline for professional outreach. Analyzes profile context, generates
-                            personalized conversational copy, and tracks engagement metrics.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">AI Models</span>
-                            <span class="tech-tag">Automation</span>
-                            <span class="tech-tag">React</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/suyash639/soyeahlink" class="project-link" data-cursor="link"
-                                target="_blank" rel="noopener noreferrer">
-                                <span>View GitHub Repository</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
@@ -1263,74 +1266,78 @@
         </section>
 
         <!-- 08. INTERACTIVE PHYSICS SKILLS PLAYGROUND (MATTER.JS + THREE.JS) -->
-        <section id="skills" class="skills-section">
+        <section id="skills" class="skills-section gl" aria-labelledby="gl-title">
             <div class="container">
                 <div class="section-meta" data-reveal>
                     <span class="meta-number">07</span>
-                    <span class="meta-title">PHYSICS PLAYGROUND</span>
+                    <span class="meta-title">INTERACTIVE ENGINEERING PLAYGROUND</span>
                     <div class="meta-line"></div>
                 </div>
-
-                <div class="skills-header" data-reveal>
-                    <h2 class="section-heading">Interactive Physics Skill Bubbles</h2>
-                    <p class="section-subheading">Matter.js rigid-body physics simulation. Drag, collide, group, or
-                        explode skill nodes in real time.</p>
-                </div>
-
-                <div class="skills-interactive-controls" data-reveal>
-                    <div class="skills-filter">
-                        <button class="filter-btn active" data-filter="all" data-cursor="link">All (30)</button>
-                        <button class="filter-btn" data-filter="ai" data-cursor="link">AI / ML</button>
-                        <button class="filter-btn" data-filter="language" data-cursor="link">Languages</button>
-                        <button class="filter-btn" data-filter="backend" data-cursor="link">Backend</button>
-                        <button class="filter-btn" data-filter="frontend" data-cursor="link">Frontend</button>
-                        <button class="filter-btn" data-filter="database" data-cursor="link">Database</button>
-                        <button class="filter-btn" data-filter="cloud" data-cursor="link">Cloud / DevOps</button>
+                <header class="gl__head">
+                    <div>
+                        <h2 class="gl__title" id="gl-title">Gravity Lab</h2>
+                        <p class="gl__tag">Play with my engineering stack.</p>
                     </div>
+                    <p class="gl__verbs" aria-hidden="true">Grab · Throw · Attract · Connect</p>
+                </header>
 
-                    <div class="skills-actions">
-                        <button class="action-btn" id="skills-shuffle" data-cursor="link">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="16 3 21 3 21 8"></polyline>
-                                <line x1="4" y1="20" x2="21" y2="3"></line>
-                                <polyline points="21 16 21 21 16 21"></polyline>
-                                <line x1="15" y1="15" x2="21" y2="21"></line>
-                                <line x1="4" y1="4" x2="9" y2="9"></line>
-                            </svg>
-                            <span>Shuffle (S)</span>
-                        </button>
-                        <button class="action-btn" id="skills-explode" data-cursor="link">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="12" y1="8" x2="12" y2="12"></line>
-                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                            </svg>
-                            <span>Explode (Space)</span>
-                        </button>
-                        <button class="action-btn" id="skills-group" data-cursor="link">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <rect x="3" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="14" width="7" height="7"></rect>
-                                <rect x="3" y="14" width="7" height="7"></rect>
-                            </svg>
-                            <span>Group (G)</span>
+                <div class="gl-bar" role="toolbar" aria-label="Gravity Lab controls">
+                    <div class="gl-modes" role="radiogroup" aria-label="Gravity mode">
+                        <button type="button" class="gl-mode" role="radio" aria-checked="false" data-mode="normal"><i class="gl-mode__ic gl-mode__ic--normal"></i><span>Gravity</span></button>
+                        <button type="button" class="gl-mode" role="radio" aria-checked="true" data-mode="zero"><i class="gl-mode__ic gl-mode__ic--zero"></i><span>Zero-G</span></button>
+                        <button type="button" class="gl-mode" role="radio" aria-checked="false" data-mode="attract"><i class="gl-mode__ic gl-mode__ic--attract"></i><span>Attract</span></button>
+                        <button type="button" class="gl-mode" role="radio" aria-checked="false" data-mode="repel"><i class="gl-mode__ic gl-mode__ic--repel"></i><span>Repel</span></button>
+                        <button type="button" class="gl-mode" role="radio" aria-checked="false" data-mode="orbit"><i class="gl-mode__ic gl-mode__ic--orbit"></i><span>Orbit</span></button>
+                    </div>
+                    <div class="gl-acts">
+                        <button type="button" class="gl-btn gl-btn--chaos" data-act="chaos">Chaos</button>
+                        <button type="button" class="gl-btn gl-btn--build" data-act="build" aria-expanded="false" aria-controls="gl-build">Build an AI system</button>
+                        <button type="button" class="gl-btn gl-btn--icon" data-act="reset" aria-label="Reset the lab" title="Reset">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /></svg>
                         </button>
                     </div>
                 </div>
 
-                <div class="skills-container-wrapper" data-reveal data-cursor="drag">
-                    <div class="skills-container" id="matter-skills-container">
-                        <!-- Skill bubbles dynamically injected and controlled via Matter.js -->
+                <div class="gl-stage" data-cursor="drag">
+                    <canvas class="gl-canvas" aria-hidden="true"></canvas>
+                    <p class="gl-status" aria-live="polite"></p>
+                    <div class="gl-intro" aria-hidden="true">
+                        <span class="gl-intro__dot"></span>
+                        <strong>Grab a bubble to start</strong>
+                        <span>Drag · Throw · Connect</span>
                     </div>
-                    <div class="skills-playground-hint">
-                        <span class="hint-pulse"></span>
-                        <span>Drag with mouse • Double click to pulse • Keyboard shortcuts: [Space] Explode, [S]
-                            Shuffle, [G] Group</span>
+                    <p class="gl-modehint" aria-hidden="true"></p>
+                    <aside class="gl-insp" id="gl-insp" hidden aria-label="Skill inspector">
+                        <button type="button" class="gl-insp__x" data-act="close-insp" aria-label="Close inspector">×</button>
+                        <p class="gl-insp__cat"></p>
+                        <h3 class="gl-insp__name"></h3>
+                        <p class="gl-insp__desc"></p>
+                        <p class="gl-insp__role"></p>
+                        <div class="gl-insp__used"><span>Used in</span><ul></ul></div>
+                        <div class="gl-insp__acts">
+                            <button type="button" class="gl-chip" data-act="toggle-stack">Add to stack</button>
+                            <button type="button" class="gl-chip" data-act="anchor">Make orbit anchor</button>
+                        </div>
+                    </aside>
+                    <!-- keyboard / screen-reader access to every skill: one tab stop, arrow keys move -->
+                    <ul class="gl-keys" role="listbox" aria-label="Skills in the lab. Arrow keys move, Enter inspects, Space throws." tabindex="0"></ul>
+                    <ul class="gl-fallback" aria-label="Engineering skills"></ul>
+                </div>
+
+                <div class="gl-build" id="gl-build" hidden>
+                    <div class="gl-build__top">
+                        <p class="gl-build__title">Build your own AI system</p>
+                        <div class="gl-build__tabs" role="tablist" aria-label="Challenges">
+                            <button type="button" role="tab" class="gl-tab" data-ch="agent" aria-selected="true"><b>01</b> AI agent</button>
+                            <button type="button" role="tab" class="gl-tab" data-ch="rag" aria-selected="false"><b>02</b> RAG system</button>
+                            <button type="button" role="tab" class="gl-tab" data-ch="infer" aria-selected="false"><b>03</b> Inference engine</button>
+                            <button type="button" role="tab" class="gl-tab" data-ch="free" aria-selected="false">Free build</button>
+                        </div>
+                        <button type="button" class="gl-chip" data-act="clear">Clear stack</button>
                     </div>
+                    <p class="gl-build__brief"></p>
+                    <ol class="gl-build__slots"></ol>
+                    <div class="gl-build__evidence" aria-live="polite"></div>
                 </div>
             </div>
         </section>
@@ -1515,18 +1522,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
-    <script src="js/physics.js"></script>
+    <script src="js/physics.js?v=2"></script>
     <script src="js/animations.js?v=2"></script>
     <script src="js/hero.js?v=1"></script>
     <script src="js/profile.js?v=1"></script>
     <script src="js/flagship.js?v=1"></script>
+    <script src="js/systems.js?v=1"></script>
+    <script src="js/gravity-lab.js?v=1"></script>
     <script src="js/ai-systems.js?v=1"></script>
     <script src="js/journey/kit.js?v=1"></script>
     <script src="js/journey/lab-neptunus.js?v=1"></script>
     <script src="js/journey/lab-nasa.js?v=1"></script>
     <script src="js/journey/lab-netsmartz.js?v=1"></script>
     <script src="js/journey/journey.js?v=1"></script>
-    <script src="js/main.js?v=2"></script>
+    <script src="js/nav.js?v=1"></script>
+    <script src="js/main.js?v=3"></script>
 </body>
 
 </html>

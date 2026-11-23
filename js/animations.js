@@ -63,13 +63,16 @@ function initLenisSmoothScroll(prefersReducedMotion) {
 
         // Anchor link smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            // header links are owned by js/nav.js (offset from the live header height, menu handling)
+            if (anchor.closest('#main-header')) return;
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
                 if (targetId && targetId !== '#') {
                     const targetEl = document.querySelector(targetId);
                     if (targetEl) {
                         e.preventDefault();
-                        lenis.scrollTo(targetEl, { offset: -60, duration: 1.2 });
+                        // land below the compact navbar (js/nav.js owns the measurement)
+                        lenis.scrollTo(targetEl, { offset: -(window.navOffset ? window.navOffset() : 72), duration: 1.2 });
                     }
                 }
             });
