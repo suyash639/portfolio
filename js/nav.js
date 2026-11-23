@@ -229,14 +229,6 @@
             else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); first.focus(); }
         });
 
-        const themeProxy = header.querySelector('[data-theme-proxy]');
-        if (themeProxy) {
-            themeProxy.addEventListener('click', () => {
-                const t = document.getElementById('theme-toggle-btn');
-                if (t) t.click();
-            });
-        }
-
         /* ---------- layout changes ---------- */
         const relayout = () => {
             if (!mqCompact.matches && header.classList.contains('menu-open')) closeMenu(false);

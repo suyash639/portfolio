@@ -12,39 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   01. THEME TOGGLE SYSTEM
+   01. THEME — dark only
    -------------------------------------------------------------------------- */
 function initTheme() {
-    const themeToggleBtn = document.getElementById('theme-toggle-btn');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const savedTheme = localStorage.getItem('suyash_theme');
-
-    if (savedTheme === 'light') {
-        document.body.classList.remove('dark-mode');
-        document.body.classList.add('light-mode');
-        document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-        document.body.classList.add('dark-mode');
-        document.body.classList.remove('light-mode');
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
-
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const isDark = document.body.classList.contains('dark-mode');
-            if (isDark) {
-                document.body.classList.remove('dark-mode');
-                document.body.classList.add('light-mode');
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('suyash_theme', 'light');
-            } else {
-                document.body.classList.add('dark-mode');
-                document.body.classList.remove('light-mode');
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('suyash_theme', 'dark');
-            }
-        });
-    }
+    document.body.classList.add('dark-mode');
+    document.body.classList.remove('light-mode');
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.removeItem('suyash_theme'); } catch (e) { /* storage unavailable */ }
 }
 
 /* --------------------------------------------------------------------------
